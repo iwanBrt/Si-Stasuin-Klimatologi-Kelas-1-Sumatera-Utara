@@ -107,4 +107,24 @@ class ApplicationController extends Controller
             'application' => $application
         ]);
     }
+
+    public function downloadLetter(Application $application)
+    {
+        // Make sure user can only see their own applications
+        if ($application->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        // Ensure application is approved
+        if ($application->status !== 'approved') {
+            abort(403, 'Permohonan belum disetujui.');
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('documents.acceptance_letter', [
+            'application' => $application,
+            'user' => $application->user
+        ]);
+
+        return $pdf->download('Surat_Penerimaan_' . str_replace(' ', '_', $application->title) . '.pdf');
+    }
 }

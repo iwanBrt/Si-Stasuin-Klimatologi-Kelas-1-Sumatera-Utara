@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-applications', [App\Http\Controllers\ApplicationController::class, 'index'])->name('applicant.applications');
     Route::get('/application/new', [App\Http\Controllers\ApplicationController::class, 'create'])->name('applicant.create');
     Route::post('/application', [App\Http\Controllers\ApplicationController::class, 'store'])->name('application.store');
+    Route::get('/application/{application}/download-letter', [App\Http\Controllers\ApplicationController::class, 'downloadLetter'])->name('applicant.download-letter');
 });
 
 // Admin Routes

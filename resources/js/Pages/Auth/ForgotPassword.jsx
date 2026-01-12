@@ -1,7 +1,12 @@
-import { Head, Link, useForm } from '@inertiajs/react';
-import { Mail, ArrowLeft, Send, AlertCircle } from 'lucide-react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Mail, ArrowLeft, Send, AlertCircle, Copy, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
 
 export default function ForgotPassword({ status }) {
+    const { props } = usePage();
+    const resetUrl = props.reset_url;
+    const [copied, setCopied] = useState(false);
+
     const { data, setData, post, processing, errors } = useForm({
         email: '',
     });
@@ -11,20 +16,26 @@ export default function ForgotPassword({ status }) {
         post(route('password.email'));
     };
 
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(resetUrl);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
     return (
         <>
             <Head title="Lupa Password" />
 
             {/* Background Image Full Screen */}
             <div className="flex min-h-screen w-full items-center justify-center bg-slate-900 bg-cover bg-center"
-                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=2565&auto=format&fit=crop')" }}>
-                
+                style={{ backgroundImage: "url('/bgSI.jpg')" }}>
+
                 {/* Overlay Gelap */}
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
 
                 {/* Glassy Container */}
                 <div className="relative z-10 w-full max-w-md p-8 mx-4 overflow-hidden rounded-2xl border border-white/10 bg-white/10 shadow-2xl backdrop-blur-md sm:px-10 text-center">
-                    
+
                     {/* Header Icon */}
                     <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/20 ring-1 ring-blue-400/30 backdrop-blur-sm shadow-lg shadow-blue-900/20">
                         <Mail className="h-8 w-8 text-blue-400" />
@@ -44,6 +55,39 @@ export default function ForgotPassword({ status }) {
                         <div className="mb-6 rounded-xl border border-green-400/30 bg-green-500/20 p-4 text-sm font-medium text-green-300 backdrop-blur-sm flex items-start gap-3 text-left">
                             <Send className="h-5 w-5 mt-0.5 flex-shrink-0" />
                             <span>{status}</span>
+                        </div>
+                    )}
+
+                    {/* Reset URL Display (DEBUG MODE ONLY) */}
+                    {resetUrl && (
+                        <div className="mb-6 rounded-xl border border-blue-400/30 bg-blue-500/20 p-4 text-left backdrop-blur-sm">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Mail className="h-5 w-5 text-blue-300" />
+                                <span className="text-sm font-semibold text-blue-200">Link Reset Password (Testing Mode)</span>
+                            </div>
+                            <div className="bg-black/30 rounded-lg p-3 mb-3 break-all text-xs text-blue-100 font-mono">
+                                {resetUrl}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={copyToClipboard}
+                                className="w-full bg-blue-600/80 hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors flex items-center justify-center gap-2"
+                            >
+                                {copied ? (
+                                    <>
+                                        <CheckCircle className="h-4 w-4" />
+                                        Berhasil Dicopy!
+                                    </>
+                                ) : (
+                                    <>
+                                        <Copy className="h-4 w-4" />
+                                        Copy Link
+                                    </>
+                                )}
+                            </button>
+                            <p className="mt-2 text-xs text-blue-200/70">
+                                ℹ️ Klik link di atas atau copy untuk test reset password
+                            </p>
                         </div>
                     )}
 

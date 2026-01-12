@@ -96,14 +96,14 @@ export default function VerifyOtp({ email, type = 'registration' }) {
 
             {/* Background Image Full Screen */}
             <div className="flex min-h-screen w-full items-center justify-center bg-slate-900 bg-cover bg-center"
-                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=2565&auto=format&fit=crop')" }}>
-                
+                style={{ backgroundImage: "url('/bgSI.jpg')" }}>
+
                 {/* Overlay Gelap */}
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
 
                 {/* Glassy Container */}
                 <div className="relative z-10 w-full max-w-md p-8 mx-4 overflow-hidden rounded-2xl border border-white/10 bg-white/10 shadow-2xl backdrop-blur-md sm:px-10 text-center">
-                    
+
                     {/* Icon Header */}
                     <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/20 ring-1 ring-blue-400/30 backdrop-blur-sm">
                         <Mail className="h-8 w-8 text-blue-400" />
@@ -121,11 +121,10 @@ export default function VerifyOtp({ email, type = 'registration' }) {
 
                     {/* Timer Badge */}
                     <div className="mb-6 flex justify-center">
-                        <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium backdrop-blur-sm border ${
-                            timeLeft > 60 
-                                ? 'bg-green-500/10 text-green-300 border-green-500/20' 
+                        <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium backdrop-blur-sm border ${timeLeft > 60
+                                ? 'bg-green-500/10 text-green-300 border-green-500/20'
                                 : 'bg-red-500/10 text-red-300 border-red-500/20'
-                        }`}>
+                            }`}>
                             <Clock className="h-3 w-3" />
                             <span>{timeLeft > 0 ? formatTime(timeLeft) : 'Kode Kedaluwarsa'}</span>
                         </div>
@@ -146,10 +145,10 @@ export default function VerifyOtp({ email, type = 'registration' }) {
                                     onKeyDown={(e) => handleKeyDown(index, e)}
                                     onPaste={handlePaste}
                                     className={`h-12 w-10 sm:h-14 sm:w-12 rounded-xl border text-center text-xl font-bold transition-all duration-200 focus:outline-none focus:ring-0 backdrop-blur-sm
-                                        ${errors.otp 
-                                            ? 'border-red-400/50 bg-red-500/10 text-red-300' 
-                                            : value 
-                                                ? 'border-blue-400 bg-blue-500/20 text-white' 
+                                        ${errors.otp
+                                            ? 'border-red-400/50 bg-red-500/10 text-red-300'
+                                            : value
+                                                ? 'border-blue-400 bg-blue-500/20 text-white'
                                                 : 'border-white/10 bg-black/20 text-white'
                                         }
                                         focus:border-blue-400 focus:bg-black/40

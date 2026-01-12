@@ -60,10 +60,12 @@ export default function Welcome({ auth, latestNews = [] }) {
                         <div className="flex h-20 items-center justify-between">
                             {/* Logo & Title */}
                             <div className="flex items-center gap-3">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-lg">
-                                    <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                                    </svg>
+                                <div className="h-14 w-14 overflow-hidden rounded-full border-2 border-white shadow-lg">
+                                    <img
+                                        src="/assets/logo.png"
+                                        alt="Logo"
+                                        className="h-full w-full object-cover"
+                                    />
                                 </div>
                                 <div>
                                     <h1 className="text-lg font-bold text-gray-900">SI Magang</h1>
@@ -119,7 +121,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                             <h1 className="mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
                                 Sistem Magang & Penelitian
                                 <span className="mt-2 block bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-200 bg-clip-text text-transparent">
-                                    UPT Stasiun Klimatologi
+                                    UPT Stasiun Klimatologi Sumatera Utara
                                 </span>
                             </h1>
 
@@ -365,8 +367,8 @@ export default function Welcome({ auth, latestNews = [] }) {
                                             </div>
                                             <div>
                                                 <div className="font-semibold text-white">Email</div>
-                                                <a href="mailto:magang@klimatologi.bmkg.go.id" className="text-blue-200 hover:text-white">
-                                                    magang@klimatologi.bmkg.go.id
+                                                <a href="mailto:staklim.sumut.bmkg.go.id" className="text-blue-200 hover:text-white">
+                                                    staklim.sumut@bmkg.go.id
                                                 </a>
                                             </div>
                                         </div>
@@ -378,7 +380,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                                             <div>
                                                 <div className="font-semibold text-white">Telepon</div>
                                                 <a href="tel:+622112345678" className="text-blue-200 hover:text-white">
-                                                    (021) 1234-5678
+                                                    (061)-6614631
                                                 </a>
                                             </div>
                                         </div>
@@ -390,8 +392,8 @@ export default function Welcome({ auth, latestNews = [] }) {
                                             <div>
                                                 <div className="font-semibold text-white">Alamat</div>
                                                 <p className="text-blue-200">
-                                                    Jl. Angkasa I No.2, Kemayoran<br />
-                                                    Jakarta Pusat 10720
+                                                    Jl. Meteorologi Raya No. 17 Sempali,Deli Serdang<br />
+                                                    Medan Sumatera Utara
                                                 </p>
                                             </div>
                                         </div>

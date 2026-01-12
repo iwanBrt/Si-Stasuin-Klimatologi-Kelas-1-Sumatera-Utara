@@ -240,10 +240,13 @@ export default function MyApplications({ applications }) {
                                     Lihat Detail
                                 </button>
                                 {application.status === 'approved' && (
-                                    <button className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100">
+                                    <a
+                                        href={route('applicant.download-letter', application.id)}
+                                        className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100"
+                                    >
                                         <Download className="h-4 w-4" />
                                         Download Surat Penerimaan
-                                    </button>
+                                    </a>
                                 )}
                             </div>
                         </div>

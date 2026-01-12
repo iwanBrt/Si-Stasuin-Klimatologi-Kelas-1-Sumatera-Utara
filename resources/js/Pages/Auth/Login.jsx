@@ -24,7 +24,7 @@ export default function Login({ status, canResetPassword }) {
 
             {/* Background Image Full Screen */}
             <div className="flex min-h-screen w-full items-center justify-center bg-slate-900 bg-cover bg-center"
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=2565&auto=format&fit=crop')" }}>
+                style={{ backgroundImage: "url('/bgSI.jpg')" }}>
 
                 {/* Overlay Gelap supaya tulisan terbaca */}
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>

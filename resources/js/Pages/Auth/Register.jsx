@@ -26,14 +26,14 @@ export default function Register() {
 
             {/* Background Image Full Screen */}
             <div className="flex min-h-screen w-full items-center justify-center bg-slate-900 bg-cover bg-center"
-                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=2565&auto=format&fit=crop')" }}>
-                
+                style={{ backgroundImage: "url('/bgSI.jpg')" }}>
+
                 {/* Overlay Gelap */}
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
 
                 {/* Glassy Container (Sedikit lebih lebar untuk register) */}
                 <div className="relative z-10 w-full max-w-lg p-8 mx-4 overflow-hidden rounded-2xl border border-white/10 bg-white/10 shadow-2xl backdrop-blur-md sm:px-10">
-                    
+
                     {/* Header */}
                     <div className="mb-8 text-center">
                         <h1 className="text-3xl font-bold tracking-tight text-white drop-shadow-md">
@@ -45,7 +45,7 @@ export default function Register() {
                     </div>
 
                     <form onSubmit={submit} className="space-y-5">
-                        
+
                         {/* Name Input */}
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-slate-200">Nama Lengkap</label>
@@ -148,7 +148,7 @@ export default function Register() {
                         </p>
                     </form>
                 </div>
-                
+
                 {/* Footer Copyright */}
                 <div className="absolute bottom-6 text-xs text-white/40">
                     &copy; {new Date().getFullYear()} UPT Stasiun Klimatologi Sumatera Utara.
