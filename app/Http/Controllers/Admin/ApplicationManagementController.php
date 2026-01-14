@@ -38,8 +38,8 @@ class ApplicationManagementController extends Controller
                 'institution_name' => $app->institution_name,
                 'department' => $app->department,
                 'status' => $app->status,
-                'start_date' => $app->start_date->format('d M Y'),
-                'end_date' => $app->end_date->format('d M Y'),
+                'start_date' => $app->start_date?->format('d M Y') ?? $app->data_period_start?->format('d M Y'),
+                'end_date' => $app->end_date?->format('d M Y') ?? $app->data_period_end?->format('d M Y'),
                 'created_at' => $app->created_at->format('d M Y H:i'),
                 'reviewed_at' => $app->reviewed_at?->format('d M Y H:i'),
             ];
@@ -75,6 +75,8 @@ class ApplicationManagementController extends Controller
                 ],
                 'title' => $application->title,
                 'application_type' => $application->application_type,
+                'applicant_type' => $application->applicant_type, // Added
+                'position' => $application->position, // Added
                 'status' => $application->status,
                 'institution_name' => $application->institution_name,
                 'institution_address' => $application->institution_address,
@@ -82,8 +84,12 @@ class ApplicationManagementController extends Controller
                 'study_program' => $application->study_program,
                 'student_id' => $application->student_id,
                 'phone' => $application->phone,
-                'start_date' => $application->start_date->format('d M Y'),
-                'end_date' => $application->end_date->format('d M Y'),
+                'start_date' => $application->start_date?->format('d M Y'),
+                'end_date' => $application->end_date?->format('d M Y'),
+                'data_period_start' => $application->data_period_start?->format('d M Y'), // Added
+                'data_period_end' => $application->data_period_end?->format('d M Y'), // Added
+                'data_type' => $application->data_type, // Added
+                'data_category' => $application->data_category, // Added
                 'research_field' => $application->research_field,
                 'research_objective' => $application->research_objective,
                 'supervisor_name' => $application->supervisor_name,
@@ -108,11 +114,22 @@ class ApplicationManagementController extends Controller
     {
         $validated = $request->validate([
             'notes' => 'nullable|string|max:1000',
+            'confirmation_letter' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ], [
+            'confirmation_letter.required' => 'Surat konfirmasi wajib diupload.',
+            'confirmation_letter.mimes' => 'Format file harus PDF, JPG, JPEG, atau PNG.',
+            'confirmation_letter.max' => 'Ukuran file maksimal 2MB.',
         ]);
+
+        $path = null;
+        if ($request->hasFile('confirmation_letter')) {
+            $path = $request->file('confirmation_letter')->store('confirmation_letters', 'public');
+        }
 
         $application->update([
             'status' => 'approved',
             'admin_notes' => $validated['notes'] ?? null,
+            'confirmation_letter' => $path,
             'reviewed_at' => now(),
             'reviewed_by' => auth()->id(),
         ]);

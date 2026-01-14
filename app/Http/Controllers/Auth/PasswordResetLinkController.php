@@ -33,10 +33,11 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email', 'exists:users,email'],
         ], [
             'email.exists' => 'Email ini tidak terdaftar dalam sistem kami.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
         ]);
 
         // FOR TESTING: Get the token and create URL manually
-        // Uncomment baris di bawah untuk melihat URL reset password di response
         if (config('app.debug')) {
             $user = \App\Models\User::where('email', $request->email)->first();
             $token = Password::createToken($user);
@@ -49,17 +50,17 @@ class PasswordResetLinkController extends Controller
             session()->flash('reset_url', $resetUrl);
         }
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
+        // Send reset link via email
         $status = Password::sendResetLink(
             $request->only('email')
         );
 
+        // Handle success
         if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+            return back()->with('status', 'Link reset password telah dikirim ke email Anda! Silakan cek inbox atau folder spam.');
         }
 
+        // Handle any other errors
         throw ValidationException::withMessages([
             'email' => [trans($status)],
         ]);

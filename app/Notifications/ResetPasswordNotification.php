@@ -61,15 +61,19 @@ class ResetPasswordNotification extends Notification
         }
 
         $url = $this->resetUrl($notifiable);
+        $expireMinutes = config('auth.passwords.'.config('auth.defaults.passwords').'.expire');
 
         return (new MailMessage)
-            ->subject('Reset Password - ' . config('app.name'))
-            ->greeting('Halo!')
+            ->subject('🔐 Reset Password - ' . config('app.name'))
+            ->greeting('Halo, ' . $notifiable->name . '!')
             ->line('Anda menerima email ini karena kami menerima permintaan reset password untuk akun Anda.')
-            ->action('Reset Password', $url)
-            ->line('Link reset password ini akan kadaluarsa dalam ' . config('auth.passwords.'.config('auth.defaults.passwords').'.expire') . ' menit.')
-            ->line('Jika Anda tidak meminta reset password, abaikan email ini.')
-            ->salutation('Salam, ' . config('app.name'));
+            ->line('Klik tombol di bawah ini untuk membuat password baru:')
+            ->action('Reset Password Sekarang', $url)
+            ->line('Link reset password ini akan **kadaluarsa dalam ' . $expireMinutes . ' menit**.')
+            ->line('Jika Anda tidak meminta reset password, **abaikan email ini**. Tidak ada perubahan yang akan dilakukan pada akun Anda.')
+            ->line('---')
+            ->line('⚠️ **Catatan Keamanan:** Jangan bagikan link ini kepada siapapun!')
+            ->salutation('Salam hormat, Tim ' . config('app.name'));
     }
 
     /**

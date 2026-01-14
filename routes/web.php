@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     
     // Applicant routes
     Route::get('/my-applications', [App\Http\Controllers\ApplicationController::class, 'index'])->name('applicant.applications');
-    Route::get('/application/new', [App\Http\Controllers\ApplicationController::class, 'create'])->name('applicant.create');
+    Route::get('/application/create', [App\Http\Controllers\ApplicationController::class, 'create'])->name('applicant.create');
     Route::post('/application', [App\Http\Controllers\ApplicationController::class, 'store'])->name('application.store');
     Route::get('/application/{application}/download-letter', [App\Http\Controllers\ApplicationController::class, 'downloadLetter'])->name('applicant.download-letter');
 });
@@ -74,18 +74,15 @@ Route::post('/email/verify', [EmailVerificationController::class, 'verifyRegistr
 Route::post('/email/resend', [EmailVerificationController::class, 'resendOtp'])
     ->name('verification.resend');
 
-// Password Reset Routes (OTP)
-Route::get('/forgot-password', [EmailVerificationController::class, 'showForgotPasswordForm'])
+// Password Reset Routes (Link-based via Email)
+Route::get('/forgot-password', [App\Http\Controllers\Auth\PasswordResetLinkController::class, 'create'])
     ->name('password.request');
-Route::post('/forgot-password', [EmailVerificationController::class, 'sendPasswordResetOtp'])
+Route::post('/forgot-password', [App\Http\Controllers\Auth\PasswordResetLinkController::class, 'store'])
     ->name('password.email');
-Route::get('/reset-password/verify', [EmailVerificationController::class, 'showPasswordResetVerifyForm'])
-    ->name('password.verify');
-Route::post('/reset-password/verify', [EmailVerificationController::class, 'verifyPasswordResetOtp'])
-    ->name('password.verify.check');
-Route::get('/reset-password', [EmailVerificationController::class, 'showResetPasswordForm'])
+Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\NewPasswordController::class, 'create'])
     ->name('password.reset');
-Route::post('/reset-password', [EmailVerificationController::class, 'resetPassword'])
-    ->name('password.update');
+Route::post('/reset-password', [App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
+    ->name('password.store');
+
 
 require __DIR__.'/auth.php';

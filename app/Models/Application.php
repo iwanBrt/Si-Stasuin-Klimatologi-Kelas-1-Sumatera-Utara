@@ -9,7 +9,12 @@ class Application extends Model
 {
     protected $fillable = [
         'user_id',
+        'applicant_type',
         'application_type',
+        'data_type',
+        'data_category',
+        'data_period_start',
+        'data_period_end',
         'status',
         'title',
         'institution_name',
@@ -17,6 +22,7 @@ class Application extends Model
         'department',
         'study_program',
         'student_id',
+        'position',
         'phone',
         'start_date',
         'end_date',
@@ -33,11 +39,14 @@ class Application extends Model
         'admin_notes',
         'reviewed_at',
         'reviewed_by',
+        'confirmation_letter',
     ];
 
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'data_period_start' => 'date',
+        'data_period_end' => 'date',
         'reviewed_at' => 'datetime',
     ];
 

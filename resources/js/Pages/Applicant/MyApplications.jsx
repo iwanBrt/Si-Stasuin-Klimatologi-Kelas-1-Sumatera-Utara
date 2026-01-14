@@ -235,17 +235,23 @@ export default function MyApplications({ applications }) {
 
                             {/* Actions */}
                             <div className="mt-4 flex gap-3 border-t border-gray-200 pt-4">
-                                <button className="flex items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-600">
+                                <Link
+                                    href={route('applicant.applications.show', application.id)}
+                                    className="flex items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-600"
+                                >
                                     <Eye className="h-4 w-4" />
                                     Lihat Detail
-                                </button>
+                                </Link>
                                 {application.status === 'approved' && (
                                     <a
                                         href={route('applicant.download-letter', application.id)}
                                         className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100"
+                                        target="_blank"
                                     >
                                         <Download className="h-4 w-4" />
-                                        Download Surat Penerimaan
+                                        {application.position === 'permohonan_data'
+                                            ? 'Download Hasil Permohonan'
+                                            : 'Download Surat Penerimaan'}
                                     </a>
                                 )}
                             </div>

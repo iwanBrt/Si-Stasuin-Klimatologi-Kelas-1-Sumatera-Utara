@@ -79,14 +79,14 @@ export default function Onboarding() {
                                         Selamat Datang! 👋
                                     </h1>
                                     <p className="mb-6 max-w-2xl text-lg text-blue-100">
-                                        Anda belum memiliki aplikasi magang. Mulai permohonan Anda sekarang untuk bergabung dengan program magang UPT Stasiun Klimatologi.
+                                        Mulai permohonan magang Anda sekarang untuk bergabung dengan program magang UPT Stasiun Klimatologi.
                                     </p>
                                     <Link
                                         href="/application/create"
                                         className="inline-flex items-center gap-3 rounded-xl bg-white px-6 py-3 text-base font-bold text-blue-700 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-yellow-300 hover:text-blue-900"
                                     >
                                         <Plus className="h-5 w-5" />
-                                        Buat Aplikasi Baru
+                                        Ajukan Permohonan Magang
                                     </Link>
                                 </div>
                                 <div className="hidden sm:block">
@@ -140,8 +140,8 @@ export default function Onboarding() {
                                         <div key={index} className="flex gap-4">
                                             <div className="flex flex-col items-center">
                                                 <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${step.status === 'current'
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'bg-gray-200 text-gray-600'
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'bg-gray-200 text-gray-600'
                                                     }`}>
                                                     {step.number}
                                                 </div>
@@ -249,14 +249,14 @@ export default function Onboarding() {
                                     Siap Memulai?
                                 </h4>
                                 <p className="mb-4 text-sm text-blue-100">
-                                    Buat aplikasi magang Anda sekarang dan mulai perjalanan karir di bidang klimatologi.
+                                    Ajukan permohonan magang Anda sekarang dan mulai perjalanan karir di bidang klimatologi.
                                 </p>
                                 <Link
                                     href="/application/create"
                                     className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-blue-700 shadow-lg transition-all duration-300 hover:bg-yellow-300 hover:text-blue-900"
                                 >
                                     <Plus className="h-5 w-5" />
-                                    Buat Aplikasi
+                                    Mulai Permohonan
                                 </Link>
                             </div>
                         </div>

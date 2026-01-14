@@ -7,8 +7,8 @@ export default function ResetPassword({ token, email }) {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const { data, setData, post, processing, errors } = useForm({
-        token: token,
-        email: email,
+        token: token || '',
+        email: email || '',
         password: '',
         password_confirmation: '',
     });

@@ -21,8 +21,8 @@ class ApplicationController extends Controller
                     'title' => $app->title,
                     'position' => $app->application_type,
                     'submittedDate' => $app->created_at->format('Y-m-d'),
-                    'startDate' => $app->start_date->format('Y-m-d'),
-                    'endDate' => $app->end_date->format('Y-m-d'),
+                    'startDate' => $app->start_date?->format('Y-m-d') ?? $app->data_period_start?->format('Y-m-d'),
+                    'endDate' => $app->end_date?->format('Y-m-d') ?? $app->data_period_end?->format('Y-m-d'),
                     'status' => $app->status,
                     'reviewDate' => $app->reviewed_at?->format('Y-m-d'),
                     'notes' => $app->admin_notes,
@@ -42,20 +42,38 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'application_type' => 'required|string|in:magang,penelitian,pkl,observasi,kerja_praktek,tugas_akhir',
+            // Basic fields
+            'applicant_type' => 'required|string|in:student,employee',
+            'application_type' => 'required|string|in:magang,penelitian,pkl,observasi,kerja_praktek,tugas_akhir,permohonan_data',
             'title' => 'required|string|max:255',
             'institution_name' => 'required|string|max:255',
             'institution_address' => 'nullable|string',
-            'department' => 'required|string|max:255',
-            'study_program' => 'required|string|max:255',
-            'student_id' => 'required|string|max:50',
             'phone' => 'required|string|max:20',
-            'start_date' => 'required|date|after_or_equal:today',
-            'end_date' => 'required|date|after:start_date',
-            'research_field' => 'nullable|string|max:255',
-            'research_objective' => 'nullable|string',
+            
+            // Student-specific fields
+            'department' => 'required_if:applicant_type,student|nullable|string|max:255',
+            'study_program' => 'required_if:applicant_type,student|nullable|string|max:255',
+            'student_id' => 'required_if:applicant_type,student|nullable|string|max:50',
             'supervisor_name' => 'nullable|string|max:255',
             'supervisor_contact' => 'nullable|string|max:255',
+            
+            // Employee-specific fields
+            'position' => 'required_if:applicant_type,employee|nullable|string|max:255',
+            
+            // Period fields (not required for permohonan_data)
+            'start_date' => 'required_unless:application_type,permohonan_data|nullable|date|after_or_equal:today',
+            'end_date' => 'required_unless:application_type,permohonan_data|nullable|date|after:start_date',
+            
+            // Research-specific fields
+            'research_field' => 'nullable|string|max:255',
+            'research_objective' => 'nullable|string',
+            
+            // Data request specific fields
+            'data_type' => 'required_if:application_type,permohonan_data|nullable|string|in:00,01',
+            'data_category' => 'required_if:application_type,permohonan_data|nullable|string',
+            'data_period_start' => 'required_if:application_type,permohonan_data|nullable|date',
+            'data_period_end' => 'required_if:application_type,permohonan_data|nullable|date|after:data_period_start',
+            
             'additional_notes' => 'nullable|string',
             
             // File uploads
@@ -67,6 +85,7 @@ class ApplicationController extends Controller
         ], [
             'start_date.after_or_equal' => 'Tanggal mulai tidak boleh kurang dari hari ini.',
             'end_date.after' => 'Tanggal selesai harus setelah tanggal mulai.',
+            'data_period_end.after' => 'Tanggal akhir periode data harus setelah tanggal awal.',
             'recommendation_letter.required' => 'Surat pengantar wajib diunggah.',
             '*.max' => 'Ukuran file maksimal 5MB.',
         ]);
@@ -120,11 +139,14 @@ class ApplicationController extends Controller
             abort(403, 'Permohonan belum disetujui.');
         }
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('documents.acceptance_letter', [
-            'application' => $application,
-            'user' => $application->user
-        ]);
+        if (!$application->confirmation_letter) {
+            abort(404, 'Surat konfirmasi belum tersedia.');
+        }
 
-        return $pdf->download('Surat_Penerimaan_' . str_replace(' ', '_', $application->title) . '.pdf');
+        // Return the stored file
+        $extension = pathinfo($application->confirmation_letter, PATHINFO_EXTENSION);
+        $filename = 'Surat_Penerimaan_' . str_replace(' ', '_', $application->title) . '.' . $extension;
+        
+        return Storage::disk('public')->download($application->confirmation_letter, $filename);
     }
 }

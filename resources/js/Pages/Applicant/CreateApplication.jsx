@@ -6,12 +6,18 @@ import { FileText, Upload, X, AlertCircle, Send, Save } from 'lucide-react';
 export default function CreateApplication() {
     const { data, setData, post, processing, errors, reset } = useForm({
         application_type: 'magang',
+        applicant_type: 'student', // student or employee
+        data_type: '', // For permohonan data: '00' or '01'
+        data_category: '', // Specific data category: climate, rainfall, temperature, etc.
+        data_period_start: '', // Start date for data request
+        data_period_end: '', // End date for data request
         title: '',
         institution_name: '',
         institution_address: '',
         department: '',
         study_program: '',
         student_id: '',
+        position: '', // For company employee
         phone: '',
         start_date: '',
         end_date: '',
@@ -27,6 +33,11 @@ export default function CreateApplication() {
         identity_card: null,
     });
 
+    const applicantTypes = [
+        { value: 'student', label: 'Mahasiswa / Siswa' },
+        { value: 'employee', label: 'Pegawai Perusahaan' },
+    ];
+
     const applicationTypes = [
         { value: 'magang', label: 'Magang / Internship' },
         { value: 'penelitian', label: 'Penelitian / Research' },
@@ -34,6 +45,23 @@ export default function CreateApplication() {
         { value: 'observasi', label: 'Kunjungan Observasi' },
         { value: 'kerja_praktek', label: 'Kerja Praktek' },
         { value: 'tugas_akhir', label: 'Tugas Akhir / Skripsi' },
+        { value: 'permohonan_data', label: 'Permohonan Data' },
+    ];
+
+    const dataTypes = [
+        { value: '00', label: '00 - Data Tarif Nol' },
+        { value: '01', label: '01 - Data PNBP (Penerimaan Negara Non Pajak)' },
+    ];
+
+    const dataCategories = [
+        { value: 'data_iklim', label: 'Data Iklim' },
+        { value: 'data_curah_hujan', label: 'Data Curah Hujan' },
+        { value: 'data_suhu', label: 'Data Suhu' },
+        { value: 'data_kelembaban', label: 'Data Kelembaban' },
+        { value: 'data_tekanan_udara', label: 'Data Tekanan Udara' },
+        { value: 'data_kecepatan_angin', label: 'Data Kecepatan Angin' },
+        { value: 'data_radiasi_matahari', label: 'Data Radiasi Matahari' },
+        { value: 'data_lainnya', label: 'Data Lainnya' },
     ];
 
     const researchFields = [
@@ -138,11 +166,166 @@ export default function CreateApplication() {
                     {errors.application_type && (
                         <p className="mt-2 text-sm text-red-600">{errors.application_type}</p>
                     )}
+
+                    {/* Jenis Data - Show only when Permohonan Data is selected */}
+                    {data.application_type === 'permohonan_data' && (
+                        <div className="mt-4">
+                            <label className="mb-2 block text-sm font-medium text-gray-700">
+                                Jenis Data <span className="text-red-500">*</span>
+                            </label>
+                            <div className="grid gap-3 sm:grid-cols-2">
+                                {dataTypes.map((type) => (
+                                    <label
+                                        key={type.value}
+                                        className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${data.data_type === type.value
+                                            ? 'border-blue-500 bg-blue-50 shadow-md'
+                                            : 'border-gray-200 bg-white hover:border-blue-300'
+                                            }`}
+                                    >
+                                        <input
+                                            type="radio"
+                                            name="data_type"
+                                            value={type.value}
+                                            checked={data.data_type === type.value}
+                                            onChange={(e) => setData('data_type', e.target.value)}
+                                            className="sr-only"
+                                            required={data.application_type === 'permohonan_data'}
+                                        />
+                                        <div className="flex items-center gap-3">
+                                            <div
+                                                className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${data.data_type === type.value
+                                                    ? 'border-blue-500'
+                                                    : 'border-gray-300'
+                                                    }`}
+                                            >
+                                                {data.data_type === type.value && (
+                                                    <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
+                                                )}
+                                            </div>
+                                            <span className="font-medium text-gray-900">{type.label}</span>
+                                        </div>
+                                    </label>
+                                ))}
+                            </div>
+                            {errors.data_type && (
+                                <p className="mt-2 text-sm text-red-600">{errors.data_type}</p>
+                            )}
+
+                            {/* Data Category - Show when data type is selected */}
+                            {data.data_type && (
+                                <div className="mt-4">
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Kategori Data <span className="text-red-500">*</span>
+                                    </label>
+                                    <select
+                                        value={data.data_category}
+                                        onChange={(e) => setData('data_category', e.target.value)}
+                                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                        required
+                                    >
+                                        <option value="">Pilih Kategori Data</option>
+                                        {dataCategories.map((category) => (
+                                            <option key={category.value} value={category.value}>
+                                                {category.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.data_category && (
+                                        <p className="mt-2 text-sm text-red-600">{errors.data_category}</p>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Data Period - Show when data category is selected */}
+                            {data.data_type && data.data_category && (
+                                <div className="mt-4">
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Periode Data yang Dibutuhkan <span className="text-red-500">*</span>
+                                    </label>
+                                    <div className="grid gap-4 sm:grid-cols-2">
+                                        <div>
+                                            <label className="mb-1 block text-xs text-gray-600">Dari Tanggal</label>
+                                            <input
+                                                type="date"
+                                                value={data.data_period_start}
+                                                onChange={(e) => setData('data_period_start', e.target.value)}
+                                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                                required
+                                            />
+                                            {errors.data_period_start && (
+                                                <p className="mt-1 text-sm text-red-600">{errors.data_period_start}</p>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <label className="mb-1 block text-xs text-gray-600">Sampai Tanggal</label>
+                                            <input
+                                                type="date"
+                                                value={data.data_period_end}
+                                                onChange={(e) => setData('data_period_end', e.target.value)}
+                                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                                required
+                                            />
+                                            {errors.data_period_end && (
+                                                <p className="mt-1 text-sm text-red-600">{errors.data_period_end}</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+                {/* Tipe Pemohon Section */}
+                <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
+                    <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
+                        <FileText className="h-5 w-5 text-blue-600" />
+                        Tipe Pemohon
+                    </h3>
+
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        {applicantTypes.map((type) => (
+                            <label
+                                key={type.value}
+                                className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${data.applicant_type === type.value
+                                    ? 'border-blue-500 bg-blue-50 shadow-md'
+                                    : 'border-gray-200 bg-white hover:border-blue-300'
+                                    }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="applicant_type"
+                                    value={type.value}
+                                    checked={data.applicant_type === type.value}
+                                    onChange={(e) => setData('applicant_type', e.target.value)}
+                                    className="sr-only"
+                                />
+                                <div className="flex items-center gap-3">
+                                    <div
+                                        className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${data.applicant_type === type.value
+                                            ? 'border-blue-500'
+                                            : 'border-gray-300'
+                                            }`}
+                                    >
+                                        {data.applicant_type === type.value && (
+                                            <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
+                                        )}
+                                    </div>
+                                    <span className="font-medium text-gray-900">{type.label}</span>
+                                </div>
+                            </label>
+                        ))}
+                    </div>
+                    {errors.applicant_type && (
+                        <p className="mt-2 text-sm text-red-600">{errors.applicant_type}</p>
+                    )}
                 </div>
 
                 {/* Data Diri & Institusi */}
                 <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
-                    <h3 className="mb-4 text-lg font-bold text-gray-900">Data Diri & Institusi</h3>
+                    <h3 className="mb-4 text-lg font-bold text-gray-900">
+                        {data.applicant_type === 'student' ? 'Data Diri & Institusi' : 'Data Diri & Perusahaan'}
+                    </h3>
 
                     <div className="grid gap-4 md:grid-cols-2">
                         {/* Judul Permohonan */}
@@ -155,23 +338,23 @@ export default function CreateApplication() {
                                 value={data.title}
                                 onChange={(e) => setData('title', e.target.value)}
                                 className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                placeholder="Contoh: Magang Analisis Data Iklim"
+                                placeholder={data.applicant_type === 'student' ? "Contoh: Magang Analisis Data Iklim" : "Contoh: Penelitian Pola Cuaca Ekstrem"}
                                 required
                             />
                             {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title}</p>}
                         </div>
 
-                        {/* Nama Institusi */}
+                        {/* Nama Institusi/Perusahaan */}
                         <div>
                             <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Nama Institusi/Universitas <span className="text-red-500">*</span>
+                                {data.applicant_type === 'student' ? 'Nama Institusi/Universitas' : 'Nama Perusahaan'} <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={data.institution_name}
                                 onChange={(e) => setData('institution_name', e.target.value)}
                                 className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                placeholder="Universitas Indonesia"
+                                placeholder={data.applicant_type === 'student' ? "Universitas Indonesia" : "PT. Contoh Perusahaan"}
                                 required
                             />
                             {errors.institution_name && (
@@ -179,59 +362,84 @@ export default function CreateApplication() {
                             )}
                         </div>
 
-                        {/* Fakultas/Jurusan */}
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Fakultas/Jurusan <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                value={data.department}
-                                onChange={(e) => setData('department', e.target.value)}
-                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                placeholder="Fakultas MIPA"
-                                required
-                            />
-                            {errors.department && (
-                                <p className="mt-1 text-sm text-red-600">{errors.department}</p>
-                            )}
-                        </div>
+                        {/* Conditional Fields for Students */}
+                        {data.applicant_type === 'student' ? (
+                            <>
+                                {/* Fakultas/Jurusan */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Fakultas/Jurusan <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.department}
+                                        onChange={(e) => setData('department', e.target.value)}
+                                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                        placeholder="Fakultas MIPA"
+                                        required
+                                    />
+                                    {errors.department && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.department}</p>
+                                    )}
+                                </div>
 
-                        {/* Program Studi */}
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Program Studi <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                value={data.study_program}
-                                onChange={(e) => setData('study_program', e.target.value)}
-                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                placeholder="Geofisika"
-                                required
-                            />
-                            {errors.study_program && (
-                                <p className="mt-1 text-sm text-red-600">{errors.study_program}</p>
-                            )}
-                        </div>
+                                {/* Program Studi */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Program Studi <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.study_program}
+                                        onChange={(e) => setData('study_program', e.target.value)}
+                                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                        placeholder="Geofisika"
+                                        required
+                                    />
+                                    {errors.study_program && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.study_program}</p>
+                                    )}
+                                </div>
 
-                        {/* NIM */}
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                NIM/NIS <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                value={data.student_id}
-                                onChange={(e) => setData('student_id', e.target.value)}
-                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                placeholder="1234567890"
-                                required
-                            />
-                            {errors.student_id && (
-                                <p className="mt-1 text-sm text-red-600">{errors.student_id}</p>
-                            )}
-                        </div>
+                                {/* NIM */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        NIM/NIS <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.student_id}
+                                        onChange={(e) => setData('student_id', e.target.value)}
+                                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                        placeholder="1234567890"
+                                        required
+                                    />
+                                    {errors.student_id && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.student_id}</p>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                {/* Jabatan/Posisi for Employee */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Jabatan/Posisi <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.position}
+                                        onChange={(e) => setData('position', e.target.value)}
+                                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                        placeholder="Peneliti / Analis Data / Manager"
+                                        required
+                                    />
+                                    {errors.position && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.position}</p>
+                                    )}
+                                </div>
+                            </>
+                        )}
 
                         {/* No Telepon */}
                         <div className="md:col-span-2">
@@ -252,14 +460,14 @@ export default function CreateApplication() {
                         {/* Alamat Institusi */}
                         <div className="md:col-span-2">
                             <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Alamat Institusi
+                                {data.applicant_type === 'student' ? 'Alamat Institusi' : 'Alamat Perusahaan'}
                             </label>
                             <textarea
                                 value={data.institution_address}
                                 onChange={(e) => setData('institution_address', e.target.value)}
                                 rows="2"
                                 className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                placeholder="Jl. Margonda Raya, Depok"
+                                placeholder={data.applicant_type === 'student' ? "Jl. Margonda Raya, Depok" : "Jl. Sudirman No. 123, Jakarta"}
                             />
                             {errors.institution_address && (
                                 <p className="mt-1 text-sm text-red-600">{errors.institution_address}</p>
@@ -268,130 +476,136 @@ export default function CreateApplication() {
                     </div>
                 </div>
 
-                {/* Periode & Bidang */}
-                <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
-                    <h3 className="mb-4 text-lg font-bold text-gray-900">
-                        Periode {data.application_type === 'penelitian' ? '& Bidang Penelitian' : ''}
-                    </h3>
 
-                    <div className="grid gap-4 md:grid-cols-2">
-                        {/* Tanggal Mulai */}
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Tanggal Mulai <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="date"
-                                value={data.start_date}
-                                onChange={(e) => setData('start_date', e.target.value)}
-                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                required
-                            />
-                            {errors.start_date && (
-                                <p className="mt-1 text-sm text-red-600">{errors.start_date}</p>
-                            )}
-                        </div>
+                {/* Periode & Bidang - Hide for Permohonan Data */}
+                {data.application_type !== 'permohonan_data' && (
+                    <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
+                        <h3 className="mb-4 text-lg font-bold text-gray-900">
+                            Periode {data.application_type === 'penelitian' ? '& Bidang Penelitian' : ''}
+                        </h3>
 
-                        {/* Tanggal Selesai */}
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Tanggal Selesai <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="date"
-                                value={data.end_date}
-                                onChange={(e) => setData('end_date', e.target.value)}
-                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                required
-                            />
-                            {errors.end_date && (
-                                <p className="mt-1 text-sm text-red-600">{errors.end_date}</p>
-                            )}
-                        </div>
+                        <div className="grid gap-4 md:grid-cols-2">
+                            {/* Tanggal Mulai */}
+                            <div>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">
+                                    Tanggal Mulai <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="date"
+                                    value={data.start_date}
+                                    onChange={(e) => setData('start_date', e.target.value)}
+                                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                    required
+                                />
+                                {errors.start_date && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.start_date}</p>
+                                )}
+                            </div>
 
-                        {/* Bidang Penelitian (jika penelitian) */}
-                        {(data.application_type === 'penelitian' || data.application_type === 'tugas_akhir') && (
-                            <>
-                                <div>
-                                    <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Bidang Penelitian <span className="text-red-500">*</span>
-                                    </label>
-                                    <select
-                                        value={data.research_field}
-                                        onChange={(e) => setData('research_field', e.target.value)}
-                                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                        required
-                                    >
-                                        <option value="">Pilih Bidang</option>
-                                        {researchFields.map((field) => (
-                                            <option key={field} value={field}>
-                                                {field}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {errors.research_field && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.research_field}</p>
-                                    )}
-                                </div>
+                            {/* Tanggal Selesai */}
+                            <div>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">
+                                    Tanggal Selesai <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="date"
+                                    value={data.end_date}
+                                    onChange={(e) => setData('end_date', e.target.value)}
+                                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                    required
+                                />
+                                {errors.end_date && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.end_date}</p>
+                                )}
+                            </div>
 
-                                <div className="md:col-span-2">
-                                    <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Tujuan Penelitian
-                                    </label>
-                                    <textarea
-                                        value={data.research_objective}
-                                        onChange={(e) => setData('research_objective', e.target.value)}
-                                        rows="3"
-                                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                        placeholder="Jelaskan tujuan penelitian Anda..."
-                                    />
-                                    {errors.research_objective && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.research_objective}</p>
-                                    )}
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
+                            {/* Bidang Penelitian (jika penelitian) */}
+                            {(data.application_type === 'penelitian' || data.application_type === 'tugas_akhir') && (
+                                <>
+                                    <div>
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            Bidang Penelitian <span className="text-red-500">*</span>
+                                        </label>
+                                        <select
+                                            value={data.research_field}
+                                            onChange={(e) => setData('research_field', e.target.value)}
+                                            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                            required
+                                        >
+                                            <option value="">Pilih Bidang</option>
+                                            {researchFields.map((field) => (
+                                                <option key={field} value={field}>
+                                                    {field}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        {errors.research_field && (
+                                            <p className="mt-1 text-sm text-red-600">{errors.research_field}</p>
+                                        )}
+                                    </div>
 
-                {/* Dosen Pembimbing */}
-                <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
-                    <h3 className="mb-4 text-lg font-bold text-gray-900">Dosen Pembimbing</h3>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Nama Dosen Pembimbing
-                            </label>
-                            <input
-                                type="text"
-                                value={data.supervisor_name}
-                                onChange={(e) => setData('supervisor_name', e.target.value)}
-                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                placeholder="Dr. Nama Pembimbing"
-                            />
-                            {errors.supervisor_name && (
-                                <p className="mt-1 text-sm text-red-600">{errors.supervisor_name}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Kontak Dosen
-                            </label>
-                            <input
-                                type="text"
-                                value={data.supervisor_contact}
-                                onChange={(e) => setData('supervisor_contact', e.target.value)}
-                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                                placeholder="Email atau No. Telepon"
-                            />
-                            {errors.supervisor_contact && (
-                                <p className="mt-1 text-sm text-red-600">{errors.supervisor_contact}</p>
+                                    <div className="md:col-span-2">
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            Tujuan Penelitian
+                                        </label>
+                                        <textarea
+                                            value={data.research_objective}
+                                            onChange={(e) => setData('research_objective', e.target.value)}
+                                            rows="3"
+                                            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                            placeholder="Jelaskan tujuan penelitian Anda..."
+                                        />
+                                        {errors.research_objective && (
+                                            <p className="mt-1 text-sm text-red-600">{errors.research_objective}</p>
+                                        )}
+                                    </div>
+                                </>
                             )}
                         </div>
                     </div>
-                </div>
+                )}
+
+
+                {/* Dosen Pembimbing - Only for Students */}
+                {data.applicant_type === 'student' && (
+                    <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
+                        <h3 className="mb-4 text-lg font-bold text-gray-900">Dosen Pembimbing</h3>
+
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <div>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">
+                                    Nama Dosen Pembimbing
+                                </label>
+                                <input
+                                    type="text"
+                                    value={data.supervisor_name}
+                                    onChange={(e) => setData('supervisor_name', e.target.value)}
+                                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                    placeholder="Dr. Nama Pembimbing"
+                                />
+                                {errors.supervisor_name && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.supervisor_name}</p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">
+                                    Kontak Dosen
+                                </label>
+                                <input
+                                    type="text"
+                                    value={data.supervisor_contact}
+                                    onChange={(e) => setData('supervisor_contact', e.target.value)}
+                                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                    placeholder="Email atau No. Telepon"
+                                />
+                                {errors.supervisor_contact && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.supervisor_contact}</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Upload Dokumen */}
                 <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">

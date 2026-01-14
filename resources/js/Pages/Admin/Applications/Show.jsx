@@ -15,7 +15,8 @@ import {
     Users,
     Clock,
     Eye,
-    ArrowLeft
+    ArrowLeft,
+    Upload
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -25,6 +26,7 @@ export default function ApplicationShow({ application }) {
 
     const approveForm = useForm({
         notes: '',
+        confirmation_letter: null,
     });
 
     const rejectForm = useForm({
@@ -83,7 +85,7 @@ export default function ApplicationShow({ application }) {
                             <div>
                                 <h1 className="text-2xl font-bold text-gray-900">{application.title}</h1>
                                 <p className="mt-2 text-sm text-gray-600 capitalize">
-                                    Jenis: <span className="font-semibold">{application.application_type}</span>
+                                    Jenis: <span className="font-semibold capitalize">{application.application_type.replace('_', ' ')}</span>
                                 </p>
                             </div>
                             {getStatusBadge()}
@@ -93,18 +95,47 @@ export default function ApplicationShow({ application }) {
                             <div className="flex items-start gap-3">
                                 <Calendar className="h-5 w-5 text-blue-600 mt-0.5" />
                                 <div>
-                                    <p className="text-xs text-gray-500">Periode</p>
-                                    <p className="font-semibold text-gray-900">{application.start_date} - {application.end_date}</p>
+                                    <p className="text-xs text-gray-500">
+                                        {application.application_type === 'permohonan_data' ? 'Periode Data' : 'Periode Magang'}
+                                    </p>
+                                    <p className="font-semibold text-gray-900">
+                                        {application.application_type === 'permohonan_data'
+                                            ? `${application.data_period_start || '-'} s/d ${application.data_period_end || '-'}`
+                                            : `${application.start_date || '-'} s/d ${application.end_date || '-'}`
+                                        }
+                                    </p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
                                 <Clock className="h-5 w-5 text-blue-600 mt-0.5" />
                                 <div>
-                                    <p className="text-xs text-gray-500">Diajukan</p>
+                                    <p className="text-xs text-gray-500">Diajukan Pada</p>
                                     <p className="font-semibold text-gray-900">{application.created_at}</p>
                                 </div>
                             </div>
                         </div>
+
+                        {/* Additional Data Info for Permohonan Data */}
+                        {application.application_type === 'permohonan_data' && (
+                            <div className="mt-4 grid gap-4 md:grid-cols-2 border-t border-gray-100 pt-4">
+                                <div className="flex items-start gap-3">
+                                    <FileText className="h-5 w-5 text-blue-600 mt-0.5" />
+                                    <div>
+                                        <p className="text-xs text-gray-500">Jenis Data</p>
+                                        <p className="font-semibold text-gray-900">
+                                            {application.data_type === '00' ? '00 - Data Tarif Nol' : '01 - Data PNBP'}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <Target className="h-5 w-5 text-blue-600 mt-0.5" />
+                                    <div>
+                                        <p className="text-xs text-gray-500">Kategori Data</p>
+                                        <p className="font-semibold text-gray-900 capitalize">{application.data_category?.replace('_', ' ') || '-'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Applicant Info */}
@@ -118,7 +149,10 @@ export default function ApplicationShow({ application }) {
                                 </div>
                                 <div>
                                     <p className="font-semibold text-gray-900">{application.user.name}</p>
-                                    <p className="text-sm text-gray-600">{application.user.email}</p>
+                                    <p className="text-sm text-gray-600 capitalize">
+                                        {application.applicant_type === 'employee' ? 'Pegawai Perusahaan' : 'Mahasiswa/Siswa'}
+                                    </p>
+                                    <p className="text-xs text-gray-500">{application.user.email}</p>
                                 </div>
                             </div>
 
@@ -132,25 +166,41 @@ export default function ApplicationShow({ application }) {
                                 </div>
 
                                 <div className="flex items-start gap-3">
-                                    <GraduationCap className="h-5 w-5 text-gray-400 mt-0.5" />
-                                    <div>
-                                        <p className="text-xs text-gray-500">NIM/NIS</p>
-                                        <p className="font-medium text-gray-900">{application.student_id}</p>
-                                    </div>
+                                    {application.applicant_type === 'employee' ? (
+                                        <>
+                                            <Target className="h-5 w-5 text-gray-400 mt-0.5" />
+                                            <div>
+                                                <p className="text-xs text-gray-500">Jabatan/Posisi</p>
+                                                <p className="font-medium text-gray-900">{application.position || '-'}</p>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <GraduationCap className="h-5 w-5 text-gray-400 mt-0.5" />
+                                            <div>
+                                                <p className="text-xs text-gray-500">NIM/NIS</p>
+                                                <p className="font-medium text-gray-900">{application.student_id || '-'}</p>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Institution Info */}
+                    {/* Institution/Company Info */}
                     <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
-                        <h2 className="mb-4 text-lg font-bold text-gray-900">Data Institusi</h2>
+                        <h2 className="mb-4 text-lg font-bold text-gray-900">
+                            {application.applicant_type === 'employee' ? 'Data Perusahaan' : 'Data Institusi'}
+                        </h2>
 
                         <div className="space-y-3">
                             <div className="flex items-start gap-3">
                                 <Building className="h-5 w-5 text-gray-400 mt-0.5" />
                                 <div className="flex-1">
-                                    <p className="text-xs text-gray-500">Institusi</p>
+                                    <p className="text-xs text-gray-500">
+                                        {application.applicant_type === 'employee' ? 'Nama Perusahaan' : 'Nama Institusi'}
+                                    </p>
                                     <p className="font-semibold text-gray-900">{application.institution_name}</p>
                                     {application.institution_address && (
                                         <p className="mt-1 text-sm text-gray-600">{application.institution_address}</p>
@@ -158,32 +208,36 @@ export default function ApplicationShow({ application }) {
                                 </div>
                             </div>
 
-                            <div className="grid gap-4 md:grid-cols-2">
-                                <div>
-                                    <p className="text-xs text-gray-500">Fakultas/Jurusan</p>
-                                    <p className="font-medium text-gray-900">{application.department}</p>
+                            {application.applicant_type !== 'employee' && (
+                                <div className="grid gap-4 md:grid-cols-2">
+                                    <div>
+                                        <p className="text-xs text-gray-500">Fakultas/Jurusan</p>
+                                        <p className="font-medium text-gray-900">{application.department}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-gray-500">Program Studi</p>
+                                        <p className="font-medium text-gray-900">{application.study_program}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="text-xs text-gray-500">Program Studi</p>
-                                    <p className="font-medium text-gray-900">{application.study_program}</p>
-                                </div>
-                            </div>
+                            )}
                         </div>
                     </div>
 
                     {/* Research Info (if applicable) */}
-                    {application.research_field && (
+                    {(application.research_field || application.research_objective) && (
                         <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
                             <h2 className="mb-4 text-lg font-bold text-gray-900">Bidang Penelitian</h2>
 
                             <div className="space-y-3">
-                                <div className="flex items-start gap-3">
-                                    <Target className="h-5 w-5 text-gray-400 mt-0.5" />
-                                    <div>
-                                        <p className="text-xs text-gray-500">Bidang</p>
-                                        <p className="font-medium text-gray-900">{application.research_field}</p>
+                                {application.research_field && (
+                                    <div className="flex items-start gap-3">
+                                        <Target className="h-5 w-5 text-gray-400 mt-0.5" />
+                                        <div>
+                                            <p className="text-xs text-gray-500">Bidang</p>
+                                            <p className="font-medium text-gray-900">{application.research_field}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                )}
 
                                 {application.research_objective && (
                                     <div>
@@ -195,7 +249,7 @@ export default function ApplicationShow({ application }) {
                                 )}
 
                                 {application.supervisor_name && (
-                                    <div className="flex items-start gap-3">
+                                    <div className="flex items-start gap-3 pt-2">
                                         <Users className="h-5 w-5 text-gray-400 mt-0.5" />
                                         <div>
                                             <p className="text-xs text-gray-500">Dosen Pembimbing</p>
@@ -354,6 +408,61 @@ export default function ApplicationShow({ application }) {
                         <h3 className="mb-4 text-xl font-bold text-gray-900">Setujui Permohonan</h3>
 
                         <form onSubmit={handleApprove}>
+                            <div className="mb-4">
+                                <label className="mb-2 block text-sm font-medium text-gray-700">
+                                    Surat Konfirmasi <span className="text-red-500">*</span>
+                                </label>
+                                <div
+                                    className={`relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-all ${approveForm.data.confirmation_letter
+                                            ? 'border-green-300 bg-green-50'
+                                            : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
+                                        }`}
+                                    onDragOver={(e) => e.preventDefault()}
+                                    onDrop={(e) => {
+                                        e.preventDefault();
+                                        if (e.dataTransfer.files[0]) {
+                                            approveForm.setData('confirmation_letter', e.dataTransfer.files[0]);
+                                        }
+                                    }}
+                                    onClick={() => document.getElementById('file-upload').click()}
+                                >
+                                    <input
+                                        id="file-upload"
+                                        type="file"
+                                        className="hidden"
+                                        accept=".pdf,.jpg,.jpeg,.png"
+                                        onChange={(e) => {
+                                            if (e.target.files[0]) {
+                                                approveForm.setData('confirmation_letter', e.target.files[0]);
+                                            }
+                                        }}
+                                    />
+
+                                    {approveForm.data.confirmation_letter ? (
+                                        <div className="text-center">
+                                            <FileText className="mx-auto h-8 w-8 text-green-600" />
+                                            <p className="mt-2 text-sm font-medium text-green-700">
+                                                {approveForm.data.confirmation_letter.name}
+                                            </p>
+                                            <p className="text-xs text-green-600">
+                                                {(approveForm.data.confirmation_letter.size / 1024 / 1024).toFixed(2)} MB
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="text-center">
+                                            <Upload className="mx-auto h-8 w-8 text-gray-400" />
+                                            <p className="mt-2 text-sm font-medium text-gray-700">
+                                                Klik atau drag file ke sini
+                                            </p>
+                                            <p className="text-xs text-gray-500">PDF, JPG, PNG (Max 2MB)</p>
+                                        </div>
+                                    )}
+                                </div>
+                                {approveForm.errors.confirmation_letter && (
+                                    <p className="mt-1 text-sm text-red-600">{approveForm.errors.confirmation_letter}</p>
+                                )}
+                            </div>
+
                             <div className="mb-4">
                                 <label className="mb-2 block text-sm font-medium text-gray-700">
                                     Catatan (Opsional)
