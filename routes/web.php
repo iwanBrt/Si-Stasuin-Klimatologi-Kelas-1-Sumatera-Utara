@@ -32,6 +32,7 @@ Route::get('/', function () {
 
 // Public News Detail Route
 Route::get('/berita/{slug}', [App\Http\Controllers\NewsController::class, 'show'])->name('news.show');
+Route::get('/api/weather', [App\Http\Controllers\WeatherController::class, 'getCurrentWeather'])->name('api.weather');
 
 // Dashboard route with auth & verified middleware
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -49,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-applications', [App\Http\Controllers\ApplicationController::class, 'index'])->name('applicant.applications');
     Route::get('/application/create', [App\Http\Controllers\ApplicationController::class, 'create'])->name('applicant.create');
     Route::post('/application', [App\Http\Controllers\ApplicationController::class, 'store'])->name('application.store');
+    Route::get('/application/{application}', [App\Http\Controllers\ApplicationController::class, 'show'])->name('applicant.applications.show');
     Route::get('/application/{application}/download-letter', [App\Http\Controllers\ApplicationController::class, 'downloadLetter'])->name('applicant.download-letter');
 });
 
@@ -64,6 +66,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // News Management
     Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
+
+    // User Management
+    Route::get('/users', [App\Http\Controllers\Admin\UserManagementController::class, 'index'])->name('users.index');
 });
 
 // Email Verification Routes (OTP for registration)

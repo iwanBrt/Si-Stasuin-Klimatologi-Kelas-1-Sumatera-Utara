@@ -40,38 +40,62 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Applications by type
-        $applicationsByType = Application::select('application_type', DB::raw('count(*) as total'))
-            ->groupBy('application_type')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'type' => $item->application_type,
-                    'total' => $item->total,
-                ];
-            });
-
-        // Applications by month (last 6 months)
-        $applicationsByMonth = Application::select(
-                DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
-                DB::raw('count(*) as total')
-            )
+        // Chart Data: Last 6 months, grouped by type
+        $monthlyStats = Application::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, application_type, count(*) as total')
             ->where('created_at', '>=', now()->subMonths(6))
-            ->groupBy('month')
+            ->groupBy('month', 'application_type')
             ->orderBy('month')
+            ->get();
+
+        $chartData = [];
+        // Initialize last 6 months to ensure continuity
+        for ($i = 5; $i >= 0; $i--) {
+            $date = now()->subMonths($i);
+            $key = $date->format('M Y');
+            $chartData[$key] = [
+                'name' => $key,
+                'pkl' => 0,
+                'magang' => 0,
+                'penelitian' => 0,
+                'data' => 0
+            ];
+        }
+
+        foreach ($monthlyStats as $stat) {
+            $month = \Carbon\Carbon::createFromFormat('Y-m', $stat->month)->format('M Y');
+            if (isset($chartData[$month])) {
+                // Normalize keys
+                $typeKey = match(strtolower($stat->application_type)) {
+                    'pkl' => 'pkl',
+                    'magang' => 'magang',
+                    'penelitian' => 'penelitian',
+                    default => 'data'
+                };
+                $chartData[$month][$typeKey] += $stat->total;
+            }
+        }
+
+        // Calendar Data
+        $calendarEvents = Application::select('id', 'title', 'start_date', 'end_date', 'status', 'application_type', 'user_id')
+            ->with('user:id,name')
+            ->whereNotNull('start_date')
             ->get()
-            ->map(function ($item) {
+            ->map(function($app) {
                 return [
-                    'month' => $item->month,
-                    'total' => $item->total,
+                    'id' => $app->id,
+                    'title' => $app->user->name ?? 'Permohonan',
+                    'desc' => $app->title,
+                    'date' => $app->start_date->format('Y-m-d'), // Use start date for calendar marker
+                    'type' => $app->application_type,
+                    'status' => $app->status,
                 ];
             });
 
         return Inertia::render('Admin/Dashboard', [
             'stats' => $stats,
             'recentApplications' => $recentApplications,
-            'applicationsByType' => $applicationsByType,
-            'applicationsByMonth' => $applicationsByMonth,
+            'chartData' => array_values($chartData),
+            'calendarEvents' => $calendarEvents,
         ]);
     }
 }

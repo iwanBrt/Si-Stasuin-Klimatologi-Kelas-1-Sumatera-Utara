@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { Download, FileText, Users, Calendar, BookOpen, Award, Clock, Mail, MapPin, Phone, Newspaper } from 'lucide-react';
+import WeatherForecastSection from '@/Components/WeatherForecastSection';
 
 export default function Welcome({ auth, latestNews = [] }) {
     const downloadItems = [
@@ -345,6 +346,9 @@ export default function Welcome({ auth, latestNews = [] }) {
                         </div>
                     </section>
                 )}
+
+                {/* Weather Forecast Section (New) */}
+                <WeatherForecastSection />
 
                 {/* Contact Section */}
                 <section className="py-20">

@@ -151,7 +151,11 @@ export default function AuthenticatedLayout({ header, children }) {
                             {/* Notification */}
                             <button className="relative rounded-full p-2 text-gray-600 hover:bg-gray-100">
                                 <Bell className="h-5 w-5" />
-                                <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500"></span>
+                                {usePage().props.auth.unread_notifications_count > 0 && (
+                                    <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                                        {usePage().props.auth.unread_notifications_count}
+                                    </span>
+                                )}
                             </button>
 
                             {/* User Avatar with Dropdown */}

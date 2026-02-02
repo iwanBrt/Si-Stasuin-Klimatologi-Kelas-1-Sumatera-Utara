@@ -33,6 +33,12 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'unread_notifications_count' => function () use ($request) {
+                    if ($request->user() && $request->user()->role === 'admin') {
+                        return \App\Models\Application::where('status', 'pending')->count();
+                    }
+                    return 0;
+                },
             ],
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
