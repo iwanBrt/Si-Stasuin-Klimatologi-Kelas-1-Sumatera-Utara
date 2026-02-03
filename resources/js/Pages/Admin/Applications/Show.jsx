@@ -25,6 +25,7 @@ export default function ApplicationShow({ application }) {
     const [showRejectModal, setShowRejectModal] = useState(false);
 
     const approveForm = useForm({
+        reference_number: '',
         notes: '',
         confirmation_letter: null,
     });
@@ -410,12 +411,29 @@ export default function ApplicationShow({ application }) {
                         <form onSubmit={handleApprove}>
                             <div className="mb-4">
                                 <label className="mb-2 block text-sm font-medium text-gray-700">
+                                    Nomor Surat <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    value={approveForm.data.reference_number}
+                                    onChange={(e) => approveForm.setData('reference_number', e.target.value)}
+                                    className="w-full rounded-lg border border-gray-300 p-3 focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                                    placeholder="Masukkan Nomor Surat..."
+                                    required
+                                />
+                                {approveForm.errors.reference_number && (
+                                    <p className="mt-1 text-sm text-red-600">{approveForm.errors.reference_number}</p>
+                                )}
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="mb-2 block text-sm font-medium text-gray-700">
                                     Surat Konfirmasi <span className="text-red-500">*</span>
                                 </label>
                                 <div
                                     className={`relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-all ${approveForm.data.confirmation_letter
-                                            ? 'border-green-300 bg-green-50'
-                                            : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
+                                        ? 'border-green-300 bg-green-50'
+                                        : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
                                         }`}
                                     onDragOver={(e) => e.preventDefault()}
                                     onDrop={(e) => {

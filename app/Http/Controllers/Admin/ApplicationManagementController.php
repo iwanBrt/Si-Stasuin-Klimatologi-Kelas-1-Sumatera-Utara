@@ -113,9 +113,11 @@ class ApplicationManagementController extends Controller
     public function approve(Request $request, Application $application)
     {
         $validated = $request->validate([
+            'reference_number' => 'required|string|max:255',
             'notes' => 'nullable|string|max:1000',
             'confirmation_letter' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ], [
+            'reference_number.required' => 'Nomor surat wajib diisi.',
             'confirmation_letter.required' => 'Surat konfirmasi wajib diupload.',
             'confirmation_letter.mimes' => 'Format file harus PDF, JPG, JPEG, atau PNG.',
             'confirmation_letter.max' => 'Ukuran file maksimal 2MB.',
@@ -134,9 +136,23 @@ class ApplicationManagementController extends Controller
             'reviewed_by' => auth()->id(),
         ]);
 
+        // Auto-create Mail Archive for Outgoing Mail
+        if ($path) {
+            \App\Models\MailArchive::create([
+                'category' => 'outgoing',
+                'reference_number' => $validated['reference_number'],
+                'date' => now(),
+                'sender' => 'UPT Stasiun Klimatologi Kelas I Sumatera Utara',
+                'recipient' => $application->user->name,
+                'subject' => 'Surat Balasan Permohonan - ' . $application->title,
+                'description' => 'Surat persetujuan otomatis dari sistem untuk permohonan: ' . $application->title,
+                'file_path' => $path,
+            ]);
+        }
+
         // TODO: Send email notification to user
 
-        return redirect()->back()->with('success', 'Permohonan berhasil disetujui!');
+        return redirect()->back()->with('success', 'Permohonan berhasil disetujui dan surat telah diarsipkan!');
     }
 
     public function reject(Request $request, Application $application)

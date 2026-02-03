@@ -111,6 +111,15 @@ class ApplicationController extends Controller
         // Create application
         $application = auth()->user()->applications()->create($validated);
 
+        // Kirim notifikasi email ke Admin
+        try {
+            \Illuminate\Support\Facades\Mail::to(env('ADMIN_EMAIL', 'admin@siklimatologi.com'))
+                ->send(new \App\Mail\NewApplicationAdminMail($application));
+        } catch (\Exception $e) {
+            // Optional: Log error, tapi jangan gagalkan proses permohonan
+             \Illuminate\Support\Facades\Log::error('Email Error: ' . $e->getMessage());
+        }
+
         return redirect()->route('applicant.applications')
             ->with('success', 'Permohonan berhasil diajukan! Tim kami akan meninjau dalam 3-5 hari kerja.');
     }

@@ -69,6 +69,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // User Management
     Route::get('/users', [App\Http\Controllers\Admin\UserManagementController::class, 'index'])->name('users.index');
+
+    // Mail Archives
+    Route::resource('archives', App\Http\Controllers\Admin\MailArchiveController::class);
 });
 
 // Email Verification Routes (OTP for registration)

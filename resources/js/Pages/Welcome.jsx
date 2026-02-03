@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { Download, FileText, Users, Calendar, BookOpen, Award, Clock, Mail, MapPin, Phone, Newspaper } from 'lucide-react';
+import { Download, FileText, Users, Calendar, BookOpen, Award, Clock, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight } from 'lucide-react';
 import WeatherForecastSection from '@/Components/WeatherForecastSection';
 
 export default function Welcome({ auth, latestNews = [] }) {
@@ -287,61 +287,117 @@ export default function Welcome({ auth, latestNews = [] }) {
                 </section>
 
                 {/* News Section */}
+                {/* Creative News Section */}
                 {latestNews.length > 0 && (
-                    <section className="bg-white py-20">
-                        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                            <div className="mb-12 text-center">
-                                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-                                    <Newspaper className="h-4 w-4" />
-                                    Berita & Pengumuman
+                    <section className="relative overflow-hidden bg-gray-50 py-24">
+                        {/* Abstract Background Elements */}
+                        <div className="absolute right-0 top-0 -mr-20 -mt-20 h-[500px] w-[500px] rounded-full bg-blue-100/50 mix-blend-multiply blur-3xl filter" />
+                        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 h-[500px] w-[500px] rounded-full bg-indigo-100/50 mix-blend-multiply blur-3xl filter" />
+
+                        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                            {/* Section Header */}
+                            <div className="mb-16 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+                                <div className="max-w-2xl">
+                                    <div className="mb-2 flex items-center gap-2 uppercase tracking-wider text-blue-600">
+                                        <Newspaper className="h-4 w-4" />
+                                        <span className="text-sm font-bold">Kabar Terkini</span>
+                                    </div>
+                                    <h2 className="text-4xl font-black leading-tight text-gray-900 md:text-5xl">
+                                        Wawasan & <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Informasi</span>
+                                    </h2>
+                                    <div className="mt-4 h-1.5 w-24 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600" />
                                 </div>
-                                <h2 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">
-                                    Informasi Terbaru
-                                </h2>
-                                <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                                    Dapatkan update terkini seputar program magang dan kegiatan stasiun klimatologi
-                                </p>
+
+                                <Link
+                                    href="#"
+                                    className="group hidden items-center gap-2 font-bold text-gray-600 transition-colors hover:text-blue-600 md:inline-flex"
+                                >
+                                    Lihat Arsip Berita
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-lg">
+                                        <ArrowRight className="h-4 w-4" />
+                                    </div>
+                                </Link>
                             </div>
 
-                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                                {latestNews.map((news) => (
+                            {/* News Grid */}
+                            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                                {latestNews.map((news, index) => (
                                     <Link
                                         key={news.id}
                                         href={route('news.show', news.slug)}
-                                        className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                                        className={`group relative isolate flex flex-col justify-end overflow-hidden rounded-3xl shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${index === 0 ? 'bg-gray-900 md:col-span-2 md:row-span-2 min-h-[400px] md:min-h-[500px]' : 'bg-white min-h-[350px]'
+                                            }`}
                                     >
-                                        {news.featured_image && (
-                                            <div className="aspect-video w-full overflow-hidden bg-gray-100">
+                                        {/* Image */}
+                                        <div className={`absolute inset-0 transition-transform duration-700 group-hover:scale-110 ${index === 0 ? '' : 'h-1/2'}`}>
+                                            {news.featured_image ? (
                                                 <img
                                                     src={`/storage/${news.featured_image}`}
                                                     alt={news.title}
-                                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                                    className="h-full w-full object-cover"
                                                 />
-                                            </div>
-                                        )}
+                                            ) : (
+                                                <div className="h-full w-full bg-gray-200" />
+                                            )}
+                                            {/* Overlays */}
+                                            {index === 0 ? (
+                                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
+                                            ) : (
+                                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                                            )}
+                                        </div>
 
-                                        <div className="p-6">
-                                            <div className="mb-3 flex items-center gap-2 text-xs text-gray-500">
-                                                <Calendar className="h-4 w-4" />
+                                        {/* Content Container */}
+                                        <div className={`relative z-10 p-6 ${index === 0 ? 'md:p-10' : 'mt-auto'}`}>
+                                            {/* Date Badge */}
+                                            <div className={`mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold backdrop-blur-md ${index === 0
+                                                ? 'bg-blue-600 text-white'
+                                                : 'bg-blue-50 text-blue-700 group-hover:bg-white/20 group-hover:text-white'
+                                                }`}>
+                                                <Calendar className="h-3.5 w-3.5" />
                                                 {news.published_at}
                                             </div>
 
-                                            <h3 className="mb-3 text-xl font-bold text-gray-900 transition-colors group-hover:text-blue-600">
+                                            {/* Floating Icon for non-featured */}
+                                            {index !== 0 && (
+                                                <div className="absolute right-6 top-0 -mt-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-blue-600 shadow-xl transition-all duration-300 group-hover:scale-0 group-hover:opacity-0">
+                                                    <ArrowUpRight className="h-6 w-6" />
+                                                </div>
+                                            )}
+
+                                            <h3 className={`mb-3 font-bold leading-tight transition-colors ${index === 0
+                                                ? 'text-3xl text-white group-hover:text-yellow-300 md:text-4xl'
+                                                : 'text-xl text-gray-900 group-hover:text-white'
+                                                }`}>
                                                 {news.title}
                                             </h3>
 
                                             {news.excerpt && (
-                                                <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-gray-600">
+                                                <p className={`line-clamp-2 leading-relaxed ${index === 0
+                                                    ? 'max-w-2xl text-lg text-gray-300'
+                                                    : 'text-sm text-gray-500 group-hover:text-gray-200'
+                                                    }`}>
                                                     {news.excerpt}
                                                 </p>
                                             )}
 
-                                            <div className="text-sm font-semibold text-blue-600 transition-all group-hover:gap-2 group-hover:text-blue-700">
-                                                Baca Selengkapnya →
+                                            {/* Read More Link */}
+                                            <div className={`mt-6 flex items-center gap-2 text-sm font-bold ${index === 0 ? 'text-yellow-300' : 'text-blue-600 group-hover:text-yellow-300'
+                                                }`}>
+                                                Read More
+                                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                             </div>
                                         </div>
                                     </Link>
                                 ))}
+                            </div>
+
+                            {/* Mobile View All */}
+                            <div className="mt-8 text-center md:hidden">
+                                <Link href="#" className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-4 font-bold text-gray-700 shadow-sm transition-all hover:bg-gray-50">
+                                    Lihat Semua Berita
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
                             </div>
                         </div>
                     </section>

@@ -1,6 +1,6 @@
 import { Link, usePage, router } from '@inertiajs/react';
 import { useState } from 'react';
-import { LayoutDashboard, FileText, User, Bell, LogOut, Menu, X, ChevronDown, Settings } from 'lucide-react';
+import { LayoutDashboard, FileText, User, Bell, LogOut, Menu, X, ChevronDown, Settings, Archive } from 'lucide-react';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
@@ -59,6 +59,17 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     <Bell className="h-5 w-5" />
                                     Kelola Berita
+                                </Link>
+
+                                <Link
+                                    href={route('admin.archives.index')}
+                                    className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${route().current('admin.archives.*')
+                                        ? 'bg-blue-500 text-white'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    <Archive className="h-5 w-5" />
+                                    Arsip Surat
                                 </Link>
 
                                 <Link
