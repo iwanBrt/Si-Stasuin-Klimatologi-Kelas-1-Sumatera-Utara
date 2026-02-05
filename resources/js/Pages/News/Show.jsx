@@ -27,9 +27,12 @@ export default function NewsShow({ news, relatedNews }) {
                         <div className="flex h-16 items-center justify-between">
                             <Link href="/" className="flex items-center gap-2">
                                 <div className="h-8 w-8 overflow-hidden rounded-full border border-gray-200">
-                                    <img src="/assets/logo.png" alt="Logo" className="h-full w-full object-cover" />
+                                    <img src="/assets/logo-bmkg.png" alt="Logo" className="h-full w-full object-contain" />
                                 </div>
-                                <span className="font-bold text-gray-900">SI Magang</span>
+                                <div>
+                                    <h1 className="text-sm font-bold text-gray-900 uppercase tracking-wide leading-tight">Stasiun Klimatologi Sumatera Utara</h1>
+                                    <p className="text-[10px] text-blue-600 font-medium leading-tight">Badan Meteorologi Klimatologi dan Geofisika</p>
+                                </div>
                             </Link>
                             <Link
                                 href="/"
@@ -226,7 +229,7 @@ export default function NewsShow({ news, relatedNews }) {
                     <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                         <div className="mb-4 flex items-center justify-center gap-2">
                             <div className="h-8 w-8 overflow-hidden rounded-full border border-gray-200">
-                                <img src="/assets/logo.png" alt="Logo" className="h-full w-full object-cover" />
+                                <img src="/assets/logo-bmkg.png" alt="Logo" className="h-full w-full object-contain" />
                             </div>
                             <span className="text-lg font-bold text-gray-900">SI Magang</span>
                         </div>

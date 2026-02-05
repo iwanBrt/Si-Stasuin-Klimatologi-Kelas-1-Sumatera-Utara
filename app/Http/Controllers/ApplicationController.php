@@ -43,7 +43,7 @@ class ApplicationController extends Controller
     {
         $validated = $request->validate([
             // Basic fields
-            'applicant_type' => 'required|string|in:student,employee',
+            'applicant_type' => 'required|string|in:student,employee,general,agency',
             'application_type' => 'required|string|in:magang,penelitian,pkl,observasi,kerja_praktek,tugas_akhir,permohonan_data',
             'title' => 'required|string|max:255',
             'institution_name' => 'required|string|max:255',
@@ -57,8 +57,8 @@ class ApplicationController extends Controller
             'supervisor_name' => 'nullable|string|max:255',
             'supervisor_contact' => 'nullable|string|max:255',
             
-            // Employee-specific fields
-            'position' => 'required_if:applicant_type,employee|nullable|string|max:255',
+            // Employee/General/Agency specific fields
+            'position' => 'nullable|string|max:255',
             
             // Period fields (not required for permohonan_data)
             'start_date' => 'required_unless:application_type,permohonan_data|nullable|date|after_or_equal:today',
@@ -77,11 +77,12 @@ class ApplicationController extends Controller
             'additional_notes' => 'nullable|string',
             
             // File uploads
-            'proposal' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'proposal' => 'required_if:applicant_type,student|nullable|file|mimes:pdf,doc,docx|max:5120',
             'recommendation_letter' => 'required|file|mimes:pdf|max:5120',
-            'cv' => 'nullable|file|mimes:pdf|max:5120',
+            'zero_fee_letter' => 'required_if:applicant_type,student|nullable|file|mimes:pdf|max:5120', // Surat Permohonan Rp.0
+            'cv' => 'required_if:applicant_type,student|nullable|file|mimes:pdf|max:5120',
             'transcript' => 'nullable|file|mimes:pdf|max:5120',
-            'identity_card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'identity_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ], [
             'start_date.after_or_equal' => 'Tanggal mulai tidak boleh kurang dari hari ini.',
             'end_date.after' => 'Tanggal selesai harus setelah tanggal mulai.',
@@ -94,6 +95,7 @@ class ApplicationController extends Controller
         $fileFields = [
             'proposal' => 'proposal_file',
             'recommendation_letter' => 'recommendation_letter',
+            'zero_fee_letter' => 'zero_fee_letter', // Surat Permohonan Rp.0
             'cv' => 'cv_file',
             'transcript' => 'transcript_file',
             'identity_card' => 'identity_card_file',

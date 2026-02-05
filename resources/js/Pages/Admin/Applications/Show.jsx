@@ -151,7 +151,10 @@ export default function ApplicationShow({ application }) {
                                 <div>
                                     <p className="font-semibold text-gray-900">{application.user.name}</p>
                                     <p className="text-sm text-gray-600 capitalize">
-                                        {application.applicant_type === 'employee' ? 'Pegawai Perusahaan' : 'Mahasiswa/Siswa'}
+                                        {application.applicant_type === 'employee' && 'Pegawai Perusahaan'}
+                                        {application.applicant_type === 'student' && 'Mahasiswa/Siswa'}
+                                        {application.applicant_type === 'general' && 'Umum'}
+                                        {application.applicant_type === 'agency' && 'Instansi Kerjasama BMKG'}
                                     </p>
                                     <p className="text-xs text-gray-500">{application.user.email}</p>
                                 </div>
@@ -167,7 +170,7 @@ export default function ApplicationShow({ application }) {
                                 </div>
 
                                 <div className="flex items-start gap-3">
-                                    {application.applicant_type === 'employee' ? (
+                                    {(application.applicant_type === 'employee' || application.applicant_type === 'general' || application.applicant_type === 'agency') ? (
                                         <>
                                             <Target className="h-5 w-5 text-gray-400 mt-0.5" />
                                             <div>
@@ -192,7 +195,7 @@ export default function ApplicationShow({ application }) {
                     {/* Institution/Company Info */}
                     <div className="rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-md">
                         <h2 className="mb-4 text-lg font-bold text-gray-900">
-                            {application.applicant_type === 'employee' ? 'Data Perusahaan' : 'Data Institusi'}
+                            {(application.applicant_type === 'employee' || application.applicant_type === 'general' || application.applicant_type === 'agency') ? 'Data Perusahaan/Institusi' : 'Data Institusi'}
                         </h2>
 
                         <div className="space-y-3">
@@ -200,7 +203,7 @@ export default function ApplicationShow({ application }) {
                                 <Building className="h-5 w-5 text-gray-400 mt-0.5" />
                                 <div className="flex-1">
                                     <p className="text-xs text-gray-500">
-                                        {application.applicant_type === 'employee' ? 'Nama Perusahaan' : 'Nama Institusi'}
+                                        {(application.applicant_type === 'employee' || application.applicant_type === 'general') ? 'Nama Perusahaan' : (application.applicant_type === 'agency' ? 'Nama Instansi' : 'Nama Institusi')}
                                     </p>
                                     <p className="font-semibold text-gray-900">{application.institution_name}</p>
                                     {application.institution_address && (
@@ -209,7 +212,7 @@ export default function ApplicationShow({ application }) {
                                 </div>
                             </div>
 
-                            {application.applicant_type !== 'employee' && (
+                            {application.applicant_type === 'student' && (
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div>
                                         <p className="text-xs text-gray-500">Fakultas/Jurusan</p>
@@ -303,20 +306,6 @@ export default function ApplicationShow({ application }) {
                         <h2 className="mb-4 text-lg font-bold text-gray-900">Dokumen</h2>
 
                         <div className="space-y-3">
-                            {application.files.proposal && (
-                                <a
-                                    href={`/storage/${application.files.proposal}`}
-                                    target="_blank"
-                                    className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 transition-all hover:border-blue-300 hover:shadow-md"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <FileText className="h-5 w-5 text-blue-600" />
-                                        <span className="text-sm font-medium text-gray-900">Proposal</span>
-                                    </div>
-                                    <Download className="h-4 w-4 text-gray-400" />
-                                </a>
-                            )}
-
                             {application.files.recommendation_letter && (
                                 <a
                                     href={`/storage/${application.files.recommendation_letter}`}
@@ -325,7 +314,60 @@ export default function ApplicationShow({ application }) {
                                 >
                                     <div className="flex items-center gap-3">
                                         <FileText className="h-5 w-5 text-blue-600" />
-                                        <span className="text-sm font-medium text-gray-900">Surat Pengantar</span>
+                                        <span className="text-sm font-medium text-gray-900">
+                                            {application.application_type === 'permohonan_data' ? (
+                                                application.applicant_type === 'general' ? 'Surat Permohonan (Ttd + Stempel Perusahaan)' :
+                                                    application.applicant_type === 'agency' ? 'Surat Permohonan (Ttd Kepala Instansi)' :
+                                                        application.applicant_type === 'student' ? 'Surat Permohonan (Ttd Kepala Prodi/Dekan)' :
+                                                            'Surat Pengantar'
+                                            ) : 'Surat Pengantar'}
+                                        </span>
+                                    </div>
+                                    <Download className="h-4 w-4 text-gray-400" />
+                                </a>
+                            )}
+
+                            {application.files.zero_fee_letter && (
+                                <a
+                                    href={`/storage/${application.files.zero_fee_letter}`}
+                                    target="_blank"
+                                    className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 transition-all hover:border-blue-300 hover:shadow-md"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <FileText className="h-5 w-5 text-blue-600" />
+                                        <span className="text-sm font-medium text-gray-900">Surat Permohonan Rp.0</span>
+                                    </div>
+                                    <Download className="h-4 w-4 text-gray-400" />
+                                </a>
+                            )}
+
+                            {application.files.proposal && (
+                                <a
+                                    href={`/storage/${application.files.proposal}`}
+                                    target="_blank"
+                                    className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 transition-all hover:border-blue-300 hover:shadow-md"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <FileText className="h-5 w-5 text-blue-600" />
+                                        <span className="text-sm font-medium text-gray-900">
+                                            {application.application_type === 'permohonan_data' && application.applicant_type === 'student'
+                                                ? 'Proposal Penelitian (PDF/Hardcopy)'
+                                                : 'Proposal'}
+                                        </span>
+                                    </div>
+                                    <Download className="h-4 w-4 text-gray-400" />
+                                </a>
+                            )}
+
+                            {application.files.identity_card && (
+                                <a
+                                    href={`/storage/${application.files.identity_card}`}
+                                    target="_blank"
+                                    className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 transition-all hover:border-blue-300 hover:shadow-md"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <FileText className="h-5 w-5 text-blue-600" />
+                                        <span className="text-sm font-medium text-gray-900">KTP Pemohon</span>
                                     </div>
                                     <Download className="h-4 w-4 text-gray-400" />
                                 </a>
@@ -339,7 +381,11 @@ export default function ApplicationShow({ application }) {
                                 >
                                     <div className="flex items-center gap-3">
                                         <FileText className="h-5 w-5 text-blue-600" />
-                                        <span className="text-sm font-medium text-gray-900">CV</span>
+                                        <span className="text-sm font-medium text-gray-900">
+                                            {application.application_type === 'permohonan_data' && application.applicant_type === 'student'
+                                                ? 'KTM (Kartu Tanda Mahasiswa)'
+                                                : 'CV'}
+                                        </span>
                                     </div>
                                     <Download className="h-4 w-4 text-gray-400" />
                                 </a>
@@ -354,20 +400,6 @@ export default function ApplicationShow({ application }) {
                                     <div className="flex items-center gap-3">
                                         <FileText className="h-5 w-5 text-blue-600" />
                                         <span className="text-sm font-medium text-gray-900">Transkrip</span>
-                                    </div>
-                                    <Download className="h-4 w-4 text-gray-400" />
-                                </a>
-                            )}
-
-                            {application.files.identity_card && (
-                                <a
-                                    href={`/storage/${application.files.identity_card}`}
-                                    target="_blank"
-                                    className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 transition-all hover:border-blue-300 hover:shadow-md"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <FileText className="h-5 w-5 text-blue-600" />
-                                        <span className="text-sm font-medium text-gray-900">KTP/Kartu Pelajar</span>
                                     </div>
                                     <Download className="h-4 w-4 text-gray-400" />
                                 </a>

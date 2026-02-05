@@ -101,6 +101,7 @@ class ApplicationManagementController extends Controller
                 'files' => [
                     'proposal' => $application->proposal_file,
                     'recommendation_letter' => $application->recommendation_letter,
+                    'zero_fee_letter' => $application->zero_fee_letter, // Surat Permohonan Rp.0
                     'cv' => $application->cv_file,
                     'transcript' => $application->transcript_file,
                     'identity_card' => $application->identity_card_file,

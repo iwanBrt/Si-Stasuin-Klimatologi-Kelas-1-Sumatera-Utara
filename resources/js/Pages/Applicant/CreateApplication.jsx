@@ -31,6 +31,7 @@ export default function CreateApplication() {
         cv: null,
         transcript: null,
         identity_card: null,
+        zero_fee_letter: null, // Surat Permohonan Rp.0 for students
     });
 
     const applicantTypes = [
@@ -283,39 +284,137 @@ export default function CreateApplication() {
                         Tipe Pemohon
                     </h3>
 
-                    <div className="grid gap-3 sm:grid-cols-2">
-                        {applicantTypes.map((type) => (
-                            <label
-                                key={type.value}
-                                className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${data.applicant_type === type.value
-                                    ? 'border-blue-500 bg-blue-50 shadow-md'
-                                    : 'border-gray-200 bg-white hover:border-blue-300'
-                                    }`}
-                            >
-                                <input
-                                    type="radio"
-                                    name="applicant_type"
-                                    value={type.value}
-                                    checked={data.applicant_type === type.value}
-                                    onChange={(e) => setData('applicant_type', e.target.value)}
-                                    className="sr-only"
-                                />
-                                <div className="flex items-center gap-3">
-                                    <div
-                                        className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${data.applicant_type === type.value
-                                            ? 'border-blue-500'
-                                            : 'border-gray-300'
+                    {data.application_type === 'permohonan_data' ? (
+                        <>
+                            {/* For Permohonan Data: 3 options */}
+                            <div className="grid gap-3 sm:grid-cols-3">
+                                <label
+                                    className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${data.applicant_type === 'general'
+                                        ? 'border-blue-500 bg-blue-50 shadow-md'
+                                        : 'border-gray-200 bg-white hover:border-blue-300'
+                                        }`}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="applicant_type"
+                                        value="general"
+                                        checked={data.applicant_type === 'general'}
+                                        onChange={(e) => setData('applicant_type', e.target.value)}
+                                        className="sr-only"
+                                    />
+                                    <div className="flex items-center gap-3">
+                                        <div
+                                            className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${data.applicant_type === 'general'
+                                                ? 'border-blue-500'
+                                                : 'border-gray-300'
+                                                }`}
+                                        >
+                                            {data.applicant_type === 'general' && (
+                                                <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
+                                            )}
+                                        </div>
+                                        <span className="font-medium text-gray-900">Umum</span>
+                                    </div>
+                                </label>
+
+                                <label
+                                    className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${data.applicant_type === 'agency'
+                                        ? 'border-purple-500 bg-purple-50 shadow-md'
+                                        : 'border-gray-200 bg-white hover:border-purple-300'
+                                        }`}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="applicant_type"
+                                        value="agency"
+                                        checked={data.applicant_type === 'agency'}
+                                        onChange={(e) => setData('applicant_type', e.target.value)}
+                                        className="sr-only"
+                                    />
+                                    <div className="flex items-center gap-3">
+                                        <div
+                                            className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${data.applicant_type === 'agency'
+                                                ? 'border-purple-500'
+                                                : 'border-gray-300'
+                                                }`}
+                                        >
+                                            {data.applicant_type === 'agency' && (
+                                                <div className="h-2.5 w-2.5 rounded-full bg-purple-500"></div>
+                                            )}
+                                        </div>
+                                        <span className="font-medium text-gray-900">Instansi Kerjasama BMKG</span>
+                                    </div>
+                                </label>
+
+                                <label
+                                    className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${data.applicant_type === 'student'
+                                        ? 'border-green-500 bg-green-50 shadow-md'
+                                        : 'border-gray-200 bg-white hover:border-green-300'
+                                        }`}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="applicant_type"
+                                        value="student"
+                                        checked={data.applicant_type === 'student'}
+                                        onChange={(e) => setData('applicant_type', e.target.value)}
+                                        className="sr-only"
+                                    />
+                                    <div className="flex items-center gap-3">
+                                        <div
+                                            className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${data.applicant_type === 'student'
+                                                ? 'border-green-500'
+                                                : 'border-gray-300'
+                                                }`}
+                                        >
+                                            {data.applicant_type === 'student' && (
+                                                <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
+                                            )}
+                                        </div>
+                                        <span className="font-medium text-gray-900">Pelajar/Mahasiswa</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            {/* For Other Applications: 2 options */}
+                            <div className="grid gap-3 sm:grid-cols-2">
+                                {applicantTypes.map((type) => (
+                                    <label
+                                        key={type.value}
+                                        className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${data.applicant_type === type.value
+                                            ? 'border-blue-500 bg-blue-50 shadow-md'
+                                            : 'border-gray-200 bg-white hover:border-blue-300'
                                             }`}
                                     >
-                                        {data.applicant_type === type.value && (
-                                            <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
-                                        )}
-                                    </div>
-                                    <span className="font-medium text-gray-900">{type.label}</span>
-                                </div>
-                            </label>
-                        ))}
-                    </div>
+                                        <input
+                                            type="radio"
+                                            name="applicant_type"
+                                            value={type.value}
+                                            checked={data.applicant_type === type.value}
+                                            onChange={(e) => setData('applicant_type', e.target.value)}
+                                            className="sr-only"
+                                        />
+                                        <div className="flex items-center gap-3">
+                                            <div
+                                                className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${data.applicant_type === type.value
+                                                    ? 'border-blue-500'
+                                                    : 'border-gray-300'
+                                                    }`}
+                                            >
+                                                {data.applicant_type === type.value && (
+                                                    <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
+                                                )}
+                                            </div>
+                                            <span className="font-medium text-gray-900">{type.label}</span>
+                                        </div>
+                                    </label>
+                                ))}
+                            </div>
+                        </>
+                    )}
+
                     {errors.applicant_type && (
                         <p className="mt-2 text-sm text-red-600">{errors.applicant_type}</p>
                     )}
@@ -612,144 +711,403 @@ export default function CreateApplication() {
                     <h3 className="mb-4 text-lg font-bold text-gray-900">Upload Dokumen Pendukung</h3>
 
                     <div className="space-y-4">
-                        {/* Proposal */}
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Proposal {data.application_type === 'penelitian' ? <span className="text-red-500">*</span> : '(Opsional)'}
-                            </label>
-                            {!data.proposal ? (
-                                <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
-                                    <Upload className="h-5 w-5 text-gray-400" />
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-700">
-                                            Klik untuk upload proposal
-                                        </p>
-                                        <p className="text-xs text-gray-500">PDF, DOC, DOCX (Max 5MB)</p>
-                                    </div>
-                                    <input
-                                        id="proposal"
-                                        type="file"
-                                        accept=".pdf,.doc,.docx"
-                                        onChange={(e) => handleFileChange('proposal', e)}
-                                        className="sr-only"
-                                    />
-                                </label>
-                            ) : (
-                                <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
-                                    <div className="flex items-center gap-3">
-                                        <FileText className="h-5 w-5 text-green-600" />
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-900">
-                                                {data.proposal.name}
-                                            </p>
-                                            <p className="text-xs text-gray-600">
-                                                {getFileSize(data.proposal.size)}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => removeFile('proposal')}
-                                        className="rounded-lg p-1 text-red-600 hover:bg-red-100"
-                                    >
-                                        <X className="h-5 w-5" />
-                                    </button>
-                                </div>
-                            )}
-                            {errors.proposal && <p className="mt-1 text-sm text-red-600">{errors.proposal}</p>}
-                        </div>
+                        {data.application_type === 'permohonan_data' ? (
+                            <>
+                                {/* For Permohonan Data - Conditional based on applicant_type */}
 
-                        {/* Surat Pengantar */}
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Surat Pengantar <span className="text-red-500">*</span>
-                            </label>
-                            {!data.recommendation_letter ? (
-                                <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
-                                    <Upload className="h-5 w-5 text-gray-400" />
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-700">
-                                            Klik untuk upload surat pengantar
-                                        </p>
-                                        <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
-                                    </div>
-                                    <input
-                                        id="recommendation_letter"
-                                        type="file"
-                                        accept=".pdf"
-                                        onChange={(e) => handleFileChange('recommendation_letter', e)}
-                                        className="sr-only"
-                                    />
-                                </label>
-                            ) : (
-                                <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
-                                    <div className="flex items-center gap-3">
-                                        <FileText className="h-5 w-5 text-green-600" />
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-900">
-                                                {data.recommendation_letter.name}
-                                            </p>
-                                            <p className="text-xs text-gray-600">
-                                                {getFileSize(data.recommendation_letter.size)}
-                                            </p>
+                                {/* 1. Surat Permohonan (All types) */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        {data.applicant_type === 'general' && 'Surat Permohonan yang ditanda tangani (jika dari perusahaan, dibubuhkan stempel perusahaan)'}
+                                        {data.applicant_type === 'agency' && 'Surat Permohonan yang ditanda tangani oleh Kepala Instansi'}
+                                        {data.applicant_type === 'student' && 'Surat Permohonan yang ditanda tangani oleh Kepala Prodi/Dekan/Pejabat Setingkat'}
+                                        <span className="text-red-500"> *</span>
+                                    </label>
+                                    {!data.recommendation_letter ? (
+                                        <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                            <Upload className="h-5 w-5 text-gray-400" />
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-700">
+                                                    Klik untuk upload surat permohonan
+                                                </p>
+                                                <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
+                                            </div>
+                                            <input
+                                                id="recommendation_letter"
+                                                type="file"
+                                                accept=".pdf"
+                                                onChange={(e) => handleFileChange('recommendation_letter', e)}
+                                                className="sr-only"
+                                            />
+                                        </label>
+                                    ) : (
+                                        <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                            <div className="flex items-center gap-3">
+                                                <FileText className="h-5 w-5 text-green-600" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-900">
+                                                        {data.recommendation_letter.name}
+                                                    </p>
+                                                    <p className="text-xs text-gray-600">
+                                                        {getFileSize(data.recommendation_letter.size)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeFile('recommendation_letter')}
+                                                className="rounded-lg p-1 text-red-600 hover:bg-red-100"
+                                            >
+                                                <X className="h-5 w-5" />
+                                            </button>
                                         </div>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => removeFile('recommendation_letter')}
-                                        className="rounded-lg p-1 text-red-600 hover:bg-red-100"
-                                    >
-                                        <X className="h-5 w-5" />
-                                    </button>
+                                    )}
+                                    {errors.recommendation_letter && <p className="mt-1 text-sm text-red-600">{errors.recommendation_letter}</p>}
                                 </div>
-                            )}
-                            {errors.recommendation_letter && <p className="mt-1 text-sm text-red-600">{errors.recommendation_letter}</p>}
-                        </div>
 
-                        {/* CV (Optional) */}
-                        <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
-                                Curriculum Vitae (Opsional)
-                            </label>
-                            {!data.cv ? (
-                                <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
-                                    <Upload className="h-5 w-5 text-gray-400" />
+                                {/* 2. Surat Permohonan Rp.0 (Only for Student) */}
+                                {data.applicant_type === 'student' && (
                                     <div>
-                                        <p className="text-sm font-medium text-gray-700">Klik untuk upload CV</p>
-                                        <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            Surat Permohonan Rp.0 <span className="text-red-500"> *</span>
+                                        </label>
+                                        <p className="mb-2 text-xs text-blue-600">
+                                            Template dapat diunduh di{' '}
+                                            <a href="/layanan" target="_blank" className="font-semibold underline hover:text-blue-800">
+                                                laman layanan
+                                            </a>
+                                        </p>
+                                        {!data.zero_fee_letter ? (
+                                            <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                                <Upload className="h-5 w-5 text-gray-400" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-700">
+                                                        Klik untuk upload surat permohonan Rp.0
+                                                    </p>
+                                                    <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
+                                                </div>
+                                                <input
+                                                    id="zero_fee_letter"
+                                                    type="file"
+                                                    accept=".pdf"
+                                                    onChange={(e) => handleFileChange('zero_fee_letter', e)}
+                                                    className="sr-only"
+                                                />
+                                            </label>
+                                        ) : (
+                                            <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                                <div className="flex items-center gap-3">
+                                                    <FileText className="h-5 w-5 text-green-600" />
+                                                    <div>
+                                                        <p className="text-sm font-medium text-gray-900">
+                                                            {data.zero_fee_letter.name}
+                                                        </p>
+                                                        <p className="text-xs text-gray-600">
+                                                            {getFileSize(data.zero_fee_letter.size)}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeFile('zero_fee_letter')}
+                                                    className="rounded-lg p-1 text-red-600 hover:bg-red-100"
+                                                >
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            </div>
+                                        )}
+                                        {errors.zero_fee_letter && <p className="mt-1 text-sm text-red-600">{errors.zero_fee_letter}</p>}
                                     </div>
-                                    <input
-                                        id="cv"
-                                        type="file"
-                                        accept=".pdf"
-                                        onChange={(e) => handleFileChange('cv', e)}
-                                        className="sr-only"
-                                    />
-                                </label>
-                            ) : (
-                                <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
-                                    <div className="flex items-center gap-3">
-                                        <FileText className="h-5 w-5 text-green-600" />
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-900">
-                                                {data.cv.name}
-                                            </p>
-                                            <p className="text-xs text-gray-600">
-                                                {getFileSize(data.cv.size)}
-                                            </p>
+                                )}
+
+                                {/* 3. Proposal Penelitian (Only for Student) */}
+                                {data.applicant_type === 'student' && (
+                                    <div>
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            Proposal Penelitian (PDF/Hardcopy) <span className="text-red-500"> *</span>
+                                        </label>
+                                        {!data.proposal ? (
+                                            <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                                <Upload className="h-5 w-5 text-gray-400" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-700">
+                                                        Klik untuk upload proposal penelitian
+                                                    </p>
+                                                    <p className="text-xs text-gray-500">PDF, DOC, DOCX (Max 5MB)</p>
+                                                </div>
+                                                <input
+                                                    id="proposal"
+                                                    type="file"
+                                                    accept=".pdf,.doc,.docx"
+                                                    onChange={(e) => handleFileChange('proposal', e)}
+                                                    className="sr-only"
+                                                />
+                                            </label>
+                                        ) : (
+                                            <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                                <div className="flex items-center gap-3">
+                                                    <FileText className="h-5 w-5 text-green-600" />
+                                                    <div>
+                                                        <p className="text-sm font-medium text-gray-900">
+                                                            {data.proposal.name}
+                                                        </p>
+                                                        <p className="text-xs text-gray-600">
+                                                            {getFileSize(data.proposal.size)}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeFile('proposal')}
+                                                    className="rounded-lg p-1 text-red-600 hover:bg-red-100"
+                                                >
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            </div>
+                                        )}
+                                        {errors.proposal && <p className="mt-1 text-sm text-red-600">{errors.proposal}</p>}
+                                    </div>
+                                )}
+
+                                {/* 4. KTP (All types) */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        KTP Pemohon <span className="text-red-500"> *</span>
+                                    </label>
+                                    {!data.identity_card ? (
+                                        <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                            <Upload className="h-5 w-5 text-gray-400" />
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-700">
+                                                    Klik untuk upload KTP
+                                                </p>
+                                                <p className="text-xs text-gray-500">PDF, JPG, PNG (Max 5MB)</p>
+                                            </div>
+                                            <input
+                                                id="identity_card"
+                                                type="file"
+                                                accept=".pdf,.jpg,.jpeg,.png"
+                                                onChange={(e) => handleFileChange('identity_card', e)}
+                                                className="sr-only"
+                                            />
+                                        </label>
+                                    ) : (
+                                        <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                            <div className="flex items-center gap-3">
+                                                <FileText className="h-5 w-5 text-green-600" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-900">
+                                                        {data.identity_card.name}
+                                                    </p>
+                                                    <p className="text-xs text-gray-600">
+                                                        {getFileSize(data.identity_card.size)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeFile('identity_card')}
+                                                className="rounded-lg p-1 text-red-600 hover:bg-red-100"
+                                            >
+                                                <X className="h-5 w-5" />
+                                            </button>
                                         </div>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => removeFile('cv')}
-                                        className="rounded-lg p-1 text-red-600 hover:bg-red-100"
-                                    >
-                                        <X className="h-5 w-5" />
-                                    </button>
+                                    )}
+                                    {errors.identity_card && <p className="mt-1 text-sm text-red-600">{errors.identity_card}</p>}
                                 </div>
-                            )}
-                            {errors.cv && <p className="mt-1 text-sm text-red-600">{errors.cv}</p>}
-                        </div>
+
+                                {/* 5. KTM (Only for Student) */}
+                                {data.applicant_type === 'student' && (
+                                    <div>
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            KTM (Kartu Tanda Mahasiswa) <span className="text-red-500"> *</span>
+                                        </label>
+                                        {!data.cv ? (
+                                            <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                                <Upload className="h-5 w-5 text-gray-400" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-700">
+                                                        Klik untuk upload KTM
+                                                    </p>
+                                                    <p className="text-xs text-gray-500">PDF, JPG, PNG (Max 5MB)</p>
+                                                </div>
+                                                <input
+                                                    id="cv"
+                                                    type="file"
+                                                    accept=".pdf,.jpg,.jpeg,.png"
+                                                    onChange={(e) => handleFileChange('cv', e)}
+                                                    className="sr-only"
+                                                />
+                                            </label>
+                                        ) : (
+                                            <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                                <div className="flex items-center gap-3">
+                                                    <FileText className="h-5 w-5 text-green-600" />
+                                                    <div>
+                                                        <p className="text-sm font-medium text-gray-900">
+                                                            {data.cv.name}
+                                                        </p>
+                                                        <p className="text-xs text-gray-600">
+                                                            {getFileSize(data.cv.size)}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeFile('cv')}
+                                                    className="rounded-lg p-1 text-red-600 hover:bg-red-100"
+                                                >
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            </div>
+                                        )}
+                                        {errors.cv && <p className="mt-1 text-sm text-red-600">{errors.cv}</p>}
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                {/* For Other Application Types - Original Logic */}
+                                {/* Proposal */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Proposal {data.application_type === 'penelitian' ? <span className="text-red-500">*</span> : '(Opsional)'}
+                                    </label>
+                                    {!data.proposal ? (
+                                        <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                            <Upload className="h-5 w-5 text-gray-400" />
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-700">
+                                                    Klik untuk upload proposal
+                                                </p>
+                                                <p className="text-xs text-gray-500">PDF, DOC, DOCX (Max 5MB)</p>
+                                            </div>
+                                            <input
+                                                id="proposal"
+                                                type="file"
+                                                accept=".pdf,.doc,.docx"
+                                                onChange={(e) => handleFileChange('proposal', e)}
+                                                className="sr-only"
+                                            />
+                                        </label>
+                                    ) : (
+                                        <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                            <div className="flex items-center gap-3">
+                                                <FileText className="h-5 w-5 text-green-600" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-900">
+                                                        {data.proposal.name}
+                                                    </p>
+                                                    <p className="text-xs text-gray-600">
+                                                        {getFileSize(data.proposal.size)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeFile('proposal')}
+                                                className="rounded-lg p-1 text-red-600 hover:bg-red-100"
+                                            >
+                                                <X className="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    )}
+                                    {errors.proposal && <p className="mt-1 text-sm text-red-600">{errors.proposal}</p>}
+                                </div>
+
+                                {/* Surat Pengantar */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Surat Pengantar <span className="text-red-500">*</span>
+                                    </label>
+                                    {!data.recommendation_letter ? (
+                                        <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                            <Upload className="h-5 w-5 text-gray-400" />
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-700">
+                                                    Klik untuk upload surat pengantar
+                                                </p>
+                                                <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
+                                            </div>
+                                            <input
+                                                id="recommendation_letter"
+                                                type="file"
+                                                accept=".pdf"
+                                                onChange={(e) => handleFileChange('recommendation_letter', e)}
+                                                className="sr-only"
+                                            />
+                                        </label>
+                                    ) : (
+                                        <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                            <div className="flex items-center gap-3">
+                                                <FileText className="h-5 w-5 text-green-600" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-900">
+                                                        {data.recommendation_letter.name}
+                                                    </p>
+                                                    <p className="text-xs text-gray-600">
+                                                        {getFileSize(data.recommendation_letter.size)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeFile('recommendation_letter')}
+                                                className="rounded-lg p-1 text-red-600 hover:bg-red-100"
+                                            >
+                                                <X className="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    )}
+                                    {errors.recommendation_letter && <p className="mt-1 text-sm text-red-600">{errors.recommendation_letter}</p>}
+                                </div>
+
+                                {/* CV (Optional) */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Curriculum Vitae (Opsional)
+                                    </label>
+                                    {!data.cv ? (
+                                        <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                            <Upload className="h-5 w-5 text-gray-400" />
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-700">Klik untuk upload CV</p>
+                                                <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
+                                            </div>
+                                            <input
+                                                id="cv"
+                                                type="file"
+                                                accept=".pdf"
+                                                onChange={(e) => handleFileChange('cv', e)}
+                                                className="sr-only"
+                                            />
+                                        </label>
+                                    ) : (
+                                        <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                            <div className="flex items-center gap-3">
+                                                <FileText className="h-5 w-5 text-green-600" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-900">
+                                                        {data.cv.name}
+                                                    </p>
+                                                    <p className="text-xs text-gray-600">
+                                                        {getFileSize(data.cv.size)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeFile('cv')}
+                                                className="rounded-lg p-1 text-red-600 hover:bg-red-100"
+                                            >
+                                                <X className="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    )}
+                                    {errors.cv && <p className="mt-1 text-sm text-red-600">{errors.cv}</p>}
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
 

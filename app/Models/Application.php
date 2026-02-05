@@ -32,6 +32,7 @@ class Application extends Model
         'supervisor_contact',
         'proposal_file',
         'recommendation_letter',
+        'zero_fee_letter', // Surat Permohonan Rp.0
         'cv_file',
         'transcript_file',
         'identity_card_file',

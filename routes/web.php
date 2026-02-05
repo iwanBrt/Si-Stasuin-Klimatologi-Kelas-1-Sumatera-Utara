@@ -33,6 +33,16 @@ Route::get('/', function () {
 // Public News Detail Route
 Route::get('/berita/{slug}', [App\Http\Controllers\NewsController::class, 'show'])->name('news.show');
 Route::get('/api/weather', [App\Http\Controllers\WeatherController::class, 'getCurrentWeather'])->name('api.weather');
+Route::get('/api/weather/warning', [App\Http\Controllers\WeatherController::class, 'getEarlyWarning'])->name('api.weather.warning');
+Route::get('/api/earthquake', [App\Http\Controllers\EarthquakeController::class, 'getLatestEarthquake'])->name('api.earthquake');
+
+// Profile & Layanan Routes
+Route::get('/profil/tentang-kami', [App\Http\Controllers\ProfileController::class, 'tentangKami'])->name('profile.tentang-kami');
+Route::get('/profil/sejarah-visi-misi', [App\Http\Controllers\ProfileController::class, 'sejarahVisiMisi'])->name('profile.sejarah-visi-misi');
+Route::get('/profil/staklim-sumut', [App\Http\Controllers\ProfileController::class, 'staklimSumut'])->name('profile.staklim-sumut');
+Route::get('/profil/tim-kami', [App\Http\Controllers\ProfileController::class, 'timKami'])->name('profile.tim-kami');
+Route::get('/layanan', [App\Http\Controllers\ProfileController::class, 'layanan'])->name('layanan');
+Route::get('/layanan/permintaan-data', [App\Http\Controllers\ProfileController::class, 'permintaanData'])->name('layanan.permintaan-data');
 
 // Dashboard route with auth & verified middleware
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -72,6 +82,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Mail Archives
     Route::resource('archives', App\Http\Controllers\Admin\MailArchiveController::class);
+    Route::post('/archives/export', [App\Http\Controllers\Admin\MailArchiveController::class, 'export'])->name('archives.export');
 });
 
 // Email Verification Routes (OTP for registration)
