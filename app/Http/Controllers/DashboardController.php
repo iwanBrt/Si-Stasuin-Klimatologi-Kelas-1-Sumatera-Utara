@@ -22,32 +22,38 @@ class DashboardController extends Controller
         }
 
         if ($user->role === 'user') {
-            // a. Cek relasi application user tersebut
-            $application = $user->application;
+            // Get user's applications statistics
+            $userApplications = \App\Models\Application::where('user_id', $user->id)->get();
+            
+            $stats = [
+                'total' => $userApplications->count(),
+                'approved' => $userApplications->where('status', 'approved')->count(),
+                'pending' => $userApplications->whereIn('status', ['pending', 'submitted', 'reviewing'])->count(),
+                'rejected' => $userApplications->where('status', 'rejected')->count(),
+            ];
 
-            // b. Jika BELUM ada aplikasi -> return Applicant Onboarding
-            if (!$application) {
-                return Inertia::render('Applicant/Onboarding');
-            }
+            // Get all applications with details
+            $applications = \App\Models\Application::where('user_id', $user->id)
+                ->latest()
+                ->get()
+                ->map(function ($app) {
+                    return [
+                        'id' => $app->id,
+                        'title' => $app->title,
+                        'application_type' => $app->application_type,
+                        'applicant_type' => $app->applicant_type,
+                        'status' => $app->status,
+                        'created_at' => $app->created_at->format('d M Y'),
+                        'updated_at' => $app->updated_at->format('d M Y'),
+                        'start_date' => $app->start_date ? $app->start_date->format('d M Y') : null,
+                        'end_date' => $app->end_date ? $app->end_date->format('d M Y') : null,
+                    ];
+                });
 
-            // c. Jika ada tapi status 'draft'/'rejected' -> return Registration Form
-            if (in_array($application->status, ['draft', 'rejected'])) {
-                return Inertia::render('Applicant/RegistrationForm', [
-                    'application' => $application
-                ]);
-            }
-
-            // d. Jika status 'submitted'/'reviewing' -> return Status Page
-            if (in_array($application->status, ['submitted', 'reviewing'])) {
-                return Inertia::render('Applicant/Status', [
-                    'application' => $application
-                ]);
-            }
-
-            // e. Jika status 'approved' -> return Participant Dashboard
-            if ($application->status === 'approved') {
-                return Inertia::render('Participant/Dashboard');
-            }
+            return Inertia::render('Dashboard', [
+                'stats' => $stats,
+                'applications' => $applications,
+            ]);
         }
 
         // Fallback jika role tidak dikenali

@@ -54,22 +54,24 @@ export default function Welcome({ auth, latestNews = [] }) {
 
     return (
         <>
-            <Head title="Stasiun Klimatologi Sumatera Utara" />
+            <Head title="Stasiun Klimatologi Sumatera Utara">
+                <meta name="description" content="Sistem Informasi UPT Stasiun Klimatologi Sumatera Utara - BMKG. Layanan permohonan data meteorologi, klimatologi, dan informasi cuaca terkini." />
+            </Head>
 
             <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
                 {/* Navigation Bar */}
-                <nav className="border-b border-blue-100 bg-white/80 backdrop-blur-md relative z-50">
+                <nav className="border-b border-blue-100 bg-white/80 backdrop-blur-md relative z-50" role="navigation" aria-label="Main navigation">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex h-20 items-center justify-between">
                             {/* Logo & Title */}
                             <div className="flex items-center gap-3">
                                 <img
                                     src="/assets/logo-bmkg.png"
-                                    alt="Logo BMKG"
+                                    alt="Logo BMKG - Badan Meteorologi Klimatologi dan Geofisika"
                                     className="h-14 w-auto object-contain"
                                 />
                                 <div>
-                                    <h1 className="text-sm md:text-lg font-bold text-gray-900 uppercase tracking-wide">STASIUN KLIMATOLOGI SUMATERA UTARA</h1>
+                                    <div className="text-sm md:text-lg font-bold text-gray-900 uppercase tracking-wide">STASIUN KLIMATOLOGI SUMATERA UTARA</div>
                                     <p className="text-[10px] md:text-xs text-blue-600 font-medium">Badan Meteorologi Klimatologi dan Geofisika</p>
                                 </div>
                             </div>
@@ -139,11 +141,13 @@ export default function Welcome({ auth, latestNews = [] }) {
                 </nav >
 
                 {/* Hero Section */}
-                <section className="relative overflow-hidden py-20">
+                <section className="relative overflow-hidden py-20" aria-labelledby="hero-heading">
                     {/* Background Image */}
                     <div
                         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                         style={{ backgroundImage: 'url(/assets/lobyKlimatologi.jpeg)' }}
+                        role="img"
+                        aria-label="Lobi Stasiun Klimatologi"
                     />
                     {/* Dark Overlay for text readability */}
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/70 to-indigo-900/80" />
@@ -153,13 +157,13 @@ export default function Welcome({ auth, latestNews = [] }) {
                         <div className="text-center">
                             {/* Badge */}
                             <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 backdrop-blur-sm">
-                                <Calendar className="h-5 w-5 text-yellow-300" />
+                                <Calendar className="h-5 w-5 text-yellow-300" aria-hidden="true" />
                                 <span className="text-sm font-semibold text-white">
                                     Pendaftaran Dibuka - Tahun 2026
                                 </span>
                             </div>
 
-                            <h1 className="mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+                            <h1 id="hero-heading" className="mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
                                 Sistem Informasi
                                 <span className="mt-2 block bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-200 bg-clip-text text-transparent">
                                     UPT Stasiun Klimatologi Sumatera Utara
@@ -576,10 +580,10 @@ export default function Welcome({ auth, latestNews = [] }) {
                 </section>
 
                 {/* Footer */}
-                <footer className="border-t border-gray-200 bg-white py-8">
+                <footer className="border-t border-gray-200 bg-white py-8" role="contentinfo">
                     <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                         <p className="text-sm text-gray-600">
-                            © 2026 UPT Stasiun Klimatologi BMKG. All rights reserved.
+                            © 2026 UPT Stasiun Klimatologi BMKG Sumatera Utara. Hak Cipta Dilindungi.
                         </p>
                     </div>
                 </footer>

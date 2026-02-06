@@ -15,9 +15,9 @@ export default function AuthenticatedLayout({ header, children }) {
                 <div className="flex h-full flex-col">
                     {/* Logo/Brand */}
                     <div className="border-b border-gray-200 p-6">
-                        <h1 className="text-xl font-bold text-gray-900">
+                        <div className="text-xl font-bold text-gray-900">
                             SI Klimatologi
-                        </h1>
+                        </div>
                         <p className="text-sm font-semibold text-gray-700">
                             {user.role === 'admin' ? 'Admin Panel' : 'Portal Pemohon'}
                         </p>
@@ -153,9 +153,9 @@ export default function AuthenticatedLayout({ header, children }) {
                         </button>
 
                         {/* Page Title */}
-                        <h1 className="text-2xl font-bold text-gray-900">
+                        <h2 className="text-2xl font-bold text-gray-900">
                             {header || 'Dashboard'}
-                        </h1>
+                        </h2>
 
                         {/* User Info */}
                         <div className="flex items-center gap-4">

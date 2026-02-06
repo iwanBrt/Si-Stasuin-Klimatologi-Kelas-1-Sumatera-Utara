@@ -91,11 +91,44 @@ class DashboardController extends Controller
                 ];
             });
 
+        // Mail Archive Stats
+        $mailStats = [
+            'incoming' => \App\Models\MailArchive::where('category', 'incoming')->count(),
+            'outgoing' => \App\Models\MailArchive::where('category', 'outgoing')->count(),
+            'total' => \App\Models\MailArchive::count(),
+        ];
+
+        // Mail Archive Chart Data (last 6 months)
+        $mailChartData = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $monthName = $month->locale('id')->translatedFormat('M Y');
+            
+            $incoming = \App\Models\MailArchive::where('category', 'incoming')
+                ->whereYear('date', $month->year)
+                ->whereMonth('date', $month->month)
+                ->count();
+                
+            $outgoing = \App\Models\MailArchive::where('category', 'outgoing')
+                ->whereYear('date', $month->year)
+                ->whereMonth('date', $month->month)
+                ->count();
+            
+            $mailChartData[] = [
+                'month' => $monthName,
+                'incoming' => $incoming,
+                'outgoing' => $outgoing,
+                'total' => $incoming + $outgoing,
+            ];
+        }
+
         return Inertia::render('Admin/Dashboard', [
             'stats' => $stats,
             'recentApplications' => $recentApplications,
             'chartData' => array_values($chartData),
             'calendarEvents' => $calendarEvents,
+            'mailStats' => $mailStats,
+            'mailChartData' => $mailChartData,
         ]);
     }
 }

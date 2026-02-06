@@ -9,7 +9,7 @@ import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 
-export default function ArchivesIndex({ auth, archives, filters, stats }) {
+export default function ArchivesIndex({ auth, archives, filters, stats, chartData }) {
     const [activeTab, setActiveTab] = useState(filters.category || 'incoming');
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -180,12 +180,8 @@ export default function ArchivesIndex({ auth, archives, filters, stats }) {
             <Head title="Arsip Surat" />
 
             <div className="space-y-6">
-                {/* Header */}
+                {/* Search and Action Buttons */}
                 <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900">Arsip Surat</h1>
-                        <p className="mt-1 text-sm text-gray-600">Kelola arsip surat masuk dan keluar</p>
-                    </div>
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setShowExportModal(true)}
@@ -586,8 +582,8 @@ export default function ArchivesIndex({ auth, archives, filters, stats }) {
                                 <button
                                     onClick={() => setExportFormat('excel')}
                                     className={`flex items-center justify-center gap-2 rounded-lg border-2 p-4 font-medium transition-all ${exportFormat === 'excel'
-                                            ? 'border-green-500 bg-green-50 text-green-700'
-                                            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                                        ? 'border-green-500 bg-green-50 text-green-700'
+                                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                                         }`}
                                 >
                                     <FileText className="h-5 w-5" />
@@ -596,8 +592,8 @@ export default function ArchivesIndex({ auth, archives, filters, stats }) {
                                 <button
                                     onClick={() => setExportFormat('pdf')}
                                     className={`flex items-center justify-center gap-2 rounded-lg border-2 p-4 font-medium transition-all ${exportFormat === 'pdf'
-                                            ? 'border-red-500 bg-red-50 text-red-700'
-                                            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                                        ? 'border-red-500 bg-red-50 text-red-700'
+                                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                                         }`}
                                 >
                                     <FileText className="h-5 w-5" />
@@ -615,8 +611,8 @@ export default function ArchivesIndex({ auth, archives, filters, stats }) {
                                 <button
                                     onClick={() => setExportPeriod('all')}
                                     className={`rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all ${exportPeriod === 'all'
-                                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                                         }`}
                                 >
                                     Semua
@@ -624,8 +620,8 @@ export default function ArchivesIndex({ auth, archives, filters, stats }) {
                                 <button
                                     onClick={() => setExportPeriod('month')}
                                     className={`rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all ${exportPeriod === 'month'
-                                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                                         }`}
                                 >
                                     Per Bulan
@@ -633,8 +629,8 @@ export default function ArchivesIndex({ auth, archives, filters, stats }) {
                                 <button
                                     onClick={() => setExportPeriod('year')}
                                     className={`rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all ${exportPeriod === 'year'
-                                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                                         }`}
                                 >
                                     Per Tahun

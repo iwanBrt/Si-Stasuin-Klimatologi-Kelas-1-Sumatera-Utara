@@ -52,10 +52,35 @@ class MailArchiveController extends Controller
             'total' => \App\Models\MailArchive::count(),
         ];
 
+        // Calculate chart data (last 6 months)
+        $chartData = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $monthName = $month->locale('id')->translatedFormat('M Y');
+            
+            $incoming = \App\Models\MailArchive::where('category', 'incoming')
+                ->whereYear('date', $month->year)
+                ->whereMonth('date', $month->month)
+                ->count();
+                
+            $outgoing = \App\Models\MailArchive::where('category', 'outgoing')
+                ->whereYear('date', $month->year)
+                ->whereMonth('date', $month->month)
+                ->count();
+            
+            $chartData[] = [
+                'month' => $monthName,
+                'incoming' => $incoming,
+                'outgoing' => $outgoing,
+                'total' => $incoming + $outgoing,
+            ];
+        }
+
         return Inertia::render('Admin/Archives/Index', [
             'archives' => $archives,
             'filters' => $request->only(['search', 'category']),
             'stats' => $stats,
+            'chartData' => $chartData,
         ]);
     }
 

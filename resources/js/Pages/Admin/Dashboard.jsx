@@ -23,8 +23,9 @@ import {
     Legend
 } from 'recharts';
 import { useState } from 'react';
+import CompactMailChart from '@/Components/CompactMailChart';
 
-export default function AdminDashboard({ stats, recentApplications, chartData, calendarEvents }) {
+export default function AdminDashboard({ stats, recentApplications, chartData, calendarEvents, mailStats, mailChartData }) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -236,6 +237,11 @@ export default function AdminDashboard({ stats, recentApplications, chartData, c
                             </table>
                         </div>
                     </div>
+
+                    {/* Mail Archive Chart */}
+                    {mailChartData && mailStats && (
+                        <CompactMailChart data={mailChartData} stats={mailStats} />
+                    )}
                 </div>
 
                 {/* Right Sidebar (Calendar & Quick Info) */}
