@@ -145,35 +145,86 @@ class WeatherController extends Controller
      */
     public function getEarlyWarning()
     {
-        return Cache::remember('weather_warning_sumut_xml_v1', 1800, function () {
-            $weatherData = $this->getCurrentWeather();
+        // Cache result for 20 minutes
+        $data = Cache::remember('weather_warning_sumut_hybrid_v3', 1200, function () {
+            // 1. Fetch Text from BMKG Website (Source of Truth for Text)
+            $warningText = "";
+            $hasInfo = false;
             
-            $warnings = [];
-            foreach ($weatherData as $city) {
-                $code = $city['weather_code'];
+            try {
+                $url = 'https://www.bmkg.go.id/cuaca/peringatan-dini-cuaca/12';
+                $response = Http::withoutVerifying()->timeout(15)->get($url);
                 
-                // BMKG Extreme Weather Codes:
-                // 63: Heavy Rain
-                // 80: Isolated Shower (Heavy)
-                // 95: Thunderstorm
-                // 97: Thunderstorm
-                
-                if (in_array($code, [63, 80, 95, 97])) {
-                    $warnings[] = [
-                        'region' => $city['name'],
-                        'condition' => $city['weather_name'],
-                        'code' => $code,
-                        'severity' => ($code >= 95) ? 'high' : 'medium'
-                    ];
+                if ($response->successful()) {
+                    $html = $response->body();
+                    
+                    // The warning text is typically the first substantial paragraph containing "Peringatan Dini"
+                    // It often starts with "UPDATE Peringatan Dini..." or just "Peringatan Dini..."
+                    // And ends with the forecaster signature like "Prakirawan BMKG - Sumatera Utara"
+                    // We use the 's' modifier for dot matches newline
+                    if (preg_match('/((?:UPDATE\s+)?Peringatan\s+Dini\s+Cuaca\s+Wilayah\s+Sumatera\s+Utara.*?Prakirawan\s+BMKG.*?(?:Sumatera\s+Utara)?)/is', $html, $matches)) {
+                        $cleaned = strip_tags($matches[1]);
+                        // Normalize whitespace
+                        $warningText = trim(preg_replace('/\s+/', ' ', $cleaned));
+                        if (!empty($warningText)) $hasInfo = true;
+                    } 
+                    
+                    // 1.b Scrape Image URL
+                    // Look for an image that is likely the warning map. 
+                    // Usually it's inside the same container or has 'peringatan' or region name in src.
+                    // We look for .png, .jpg, .jpeg
+                    if (preg_match('/<img[^>]+src="([^"]*(?:SumateraUtara|Peringatan|Warn)[^"]*\.(?:png|jpg|jpeg))"[^>]*>/i', $html, $imgMatches)) {
+                        $imgSrc = $imgMatches[1];
+                        // Handle relative URLs
+                        if (!filter_var($imgSrc, FILTER_VALIDATE_URL)) {
+                            // If it starts with /, append to domain
+                            if (strpos($imgSrc, '/') === 0) {
+                                $warningImage = 'https://www.bmkg.go.id' . $imgSrc;
+                            } else {
+                                // relative to current path? assume root for safety or try adaptable base
+                                $warningImage = 'https://www.bmkg.go.id/' . $imgSrc;
+                            }
+                        } else {
+                            $warningImage = $imgSrc;
+                        }
+                    } else {
+                        // Fallback to the known static URL if scrape fails but we have text
+                         $warningImage = 'https://data.bmkg.go.id/DataMKG/MEWS/LEWS/SumateraUtara.png';
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::error('Warning Scraper Error: ' . $e->getMessage());
+            }
+
+            // 2. Get Affected Cities from XML (Source of Truth for Locations/Map)
+            $weatherData = $this->getCurrentWeather(); 
+            $regions = [];
+            
+            if (is_array($weatherData)) {
+                foreach ($weatherData as $city) {
+                    $code = $city['weather_code'];
+                    if (in_array($code, [61, 63, 80, 95, 97])) {
+                        $regions[] = [
+                            'region' => $city['name'],
+                            'condition' => $city['weather_name'],
+                            'code' => $code,
+                            'severity' => ($code >= 95 || $code == 63) ? 'high' : 'medium'
+                        ];
+                    }
                 }
             }
             
-            return response()->json([
-                'count' => count($warnings),
-                'regions' => $warnings,
-                'source' => 'Prakiraan BMKG'
-            ]);
+            return [
+                'warning_text' => $warningText,
+                'warning_image' => $warningImage ?? 'https://data.bmkg.go.id/DataMKG/MEWS/LEWS/SumateraUtara.png', // Ensure fallback
+                'has_warning' => $hasInfo || count($regions) > 0,
+                'regions_count' => count($regions),
+                'regions' => $regions,
+                'source' => 'BMKG Pusat'
+            ];
         });
+
+        return response()->json($data);
     }
 
     /**

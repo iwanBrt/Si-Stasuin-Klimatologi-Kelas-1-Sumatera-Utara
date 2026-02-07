@@ -2,9 +2,9 @@ import { Head, Link } from '@inertiajs/react';
 import { Users, User } from 'lucide-react';
 import Navbar from '@/Components/Navbar';
 
-export default function TimKami({ auth }) {
-    // Placeholder data - replace with actual team data
-    const teams = [
+export default function TimKami({ auth, dbTeams }) {
+    // Default fallback
+    const defaultTeams = [
         {
             division: 'Pimpinan',
             members: [
@@ -27,6 +27,8 @@ export default function TimKami({ auth }) {
             ]
         }
     ];
+
+    const teams = (dbTeams && dbTeams.length > 0) ? dbTeams : defaultTeams;
 
     return (
         <div className="min-h-screen bg-white">

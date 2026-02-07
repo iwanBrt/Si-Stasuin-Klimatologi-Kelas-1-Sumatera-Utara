@@ -19,14 +19,14 @@ export default function AuthenticatedLayout({ header, children }) {
                             SI Klimatologi
                         </div>
                         <p className="text-sm font-semibold text-gray-700">
-                            {user.role === 'admin' ? 'Admin Panel' : 'Portal Pemohon'}
+                            {user.role === 'admin' ? 'Admin Panel' : user.role === 'media' ? 'Panel Media' : 'Portal Pemohon'}
                         </p>
                     </div>
 
                     {/* Navigation */}
                     <nav className="flex-1 space-y-2 p-4">
                         {user.role === 'admin' ? (
-                            // Admin Menu
+                            // Admin Menu (Full Access)
                             <>
                                 <Link
                                     href={route('admin.dashboard')}
@@ -51,6 +51,41 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </Link>
 
                                 <Link
+                                    href={route('admin.archives.index')}
+                                    className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${route().current('admin.archives.*')
+                                        ? 'bg-blue-500 text-white'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    <Archive className="h-5 w-5" />
+                                    Arsip Surat
+                                </Link>
+
+
+
+                                <Link
+                                    href={route('profile.edit')}
+                                    className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 mt-4"
+                                >
+                                    <Settings className="h-5 w-5" />
+                                    Pengaturan
+                                </Link>
+                            </>
+                        ) : user.role === 'media' ? (
+                            // Media Team Menu (Restricted)
+                            <>
+                                <Link
+                                    href={route('admin.media.dashboard')}
+                                    className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${route().current('admin.media.dashboard')
+                                        ? 'bg-blue-500 text-white'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    <LayoutDashboard className="h-5 w-5" />
+                                    Dashboard Media
+                                </Link>
+
+                                <Link
                                     href={route('admin.news.index')}
                                     className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${route().current('admin.news.*')
                                         ? 'bg-blue-500 text-white'
@@ -62,22 +97,22 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </Link>
 
                                 <Link
-                                    href={route('admin.archives.index')}
-                                    className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${route().current('admin.archives.*')
+                                    href={route('admin.contents.index')}
+                                    className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${route().current('admin.contents.*')
                                         ? 'bg-blue-500 text-white'
                                         : 'text-gray-700 hover:bg-gray-100'
                                         }`}
                                 >
-                                    <Archive className="h-5 w-5" />
-                                    Arsip Surat
+                                    <FileText className="h-5 w-5" />
+                                    Manajemen Konten
                                 </Link>
 
                                 <Link
                                     href={route('profile.edit')}
                                     className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
                                 >
-                                    <Settings className="h-5 w-5" />
-                                    Pengaturan
+                                    <User className="h-5 w-5" />
+                                    Profil
                                 </Link>
                             </>
                         ) : (

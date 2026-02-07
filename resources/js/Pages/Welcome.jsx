@@ -1,8 +1,8 @@
-import { Head, Link } from '@inertiajs/react';
+﻿import { Head, Link } from '@inertiajs/react';
 import { Users, Calendar, BookOpen, Award, Clock, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
-// import WeatherForecastSection from '@/Components/WeatherForecastSection';
+import WeatherForecastSection from '@/Components/WeatherForecastSection';
 import EarthquakeSection from '@/Components/EarthquakeSection';
-// import WeatherWarningSection from '@/Components/WeatherWarningSection';
+import WeatherWarningSection from '@/Components/WeatherWarningSection';
 
 export default function Welcome({ auth, latestNews = [] }) {
     const features = [
@@ -171,9 +171,9 @@ export default function Welcome({ auth, latestNews = [] }) {
                                             <Link href={route('normal-iklim.normal-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Normal Hujan Bulanan
                                             </Link>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            <Link href={route('normal-iklim.peta-zona-musim')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Peta Zona Musim (ZOM)
-                                            </a>
+                                            </Link>
                                             <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Peta Iklim Schmidt Fergusson
                                             </a>
@@ -374,6 +374,8 @@ export default function Welcome({ auth, latestNews = [] }) {
                     </div>
                 </section>
 
+                <WeatherWarningSection />
+
                 {/* Features Section */}
                 < section className="py-20" >
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -529,13 +531,12 @@ export default function Welcome({ auth, latestNews = [] }) {
                     )
                 }
 
-                {/* Weather Sections - Disabled per request */}
-                {/* <WeatherWarningSection /> */}
-                {/* <WeatherForecastSection /> */}
+                {/* Weather Sections - Enabled */}
+                <WeatherWarningSection />
+                <WeatherForecastSection />
 
                 {/* Earthquake Section */}
                 <EarthquakeSection />
-
                 {/* Contact Section */}
                 <section className="py-20">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

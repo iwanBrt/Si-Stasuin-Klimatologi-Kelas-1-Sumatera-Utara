@@ -48,6 +48,7 @@ Route::get('/layanan/permintaan-data', [App\Http\Controllers\ProfileController::
 Route::get('/kualitas-udara/pm25', [App\Http\Controllers\KualitasUdaraController::class, 'pm25'])->name('kualitas-udara.pm25');
 Route::get('/kualitas-udara/kimia-air-hujan', [App\Http\Controllers\KualitasUdaraController::class, 'kimiaAirHujan'])->name('kualitas-udara.kimia-air-hujan');
 Route::get('/normal-iklim/normal-hujan-bulanan', [App\Http\Controllers\NormalIklimController::class, 'normalHujanBulanan'])->name('normal-iklim.normal-hujan-bulanan');
+Route::get('/normal-iklim/peta-zona-musim', [App\Http\Controllers\NormalIklimController::class, 'petaZonaMusim'])->name('normal-iklim.peta-zona-musim');
 Route::get('/normal-iklim/download-folder', [App\Http\Controllers\NormalIklimController::class, 'downloadFolder'])->name('normal-iklim.download-folder');
 Route::get('/kebakaran-hutan/ffmc', [App\Http\Controllers\KebakaranHutanController::class, 'ffmc'])->name('kebakaran-hutan.ffmc');
 Route::get('/kebakaran-hutan/fwi', [App\Http\Controllers\KebakaranHutanController::class, 'fwi'])->name('kebakaran-hutan.fwi');
@@ -73,7 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/application/{application}/download-letter', [App\Http\Controllers\ApplicationController::class, 'downloadLetter'])->name('applicant.download-letter');
 });
 
-// Admin Routes
+// Admin Routes (Admin-only access)
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     
@@ -82,9 +83,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/applications/{application}', [App\Http\Controllers\Admin\ApplicationManagementController::class, 'show'])->name('applications.show');
     Route::post('/applications/{application}/approve', [App\Http\Controllers\Admin\ApplicationManagementController::class, 'approve'])->name('applications.approve');
     Route::post('/applications/{application}/reject', [App\Http\Controllers\Admin\ApplicationManagementController::class, 'reject'])->name('applications.reject');
-    
-    // News Management
-    Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
 
     // User Management
     Route::get('/users', [App\Http\Controllers\Admin\UserManagementController::class, 'index'])->name('users.index');
@@ -92,6 +90,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Mail Archives
     Route::resource('archives', App\Http\Controllers\Admin\MailArchiveController::class);
     Route::post('/archives/export', [App\Http\Controllers\Admin\MailArchiveController::class, 'export'])->name('archives.export');
+});
+
+// Media Panel Routes (Accessible by both 'admin' and 'media' roles)
+Route::middleware(['auth', 'media'])->prefix('admin')->name('admin.')->group(function () {
+    // Media Dashboard
+    Route::get('/media/dashboard', [App\Http\Controllers\Media\DashboardController::class, 'index'])->name('media.dashboard');
+
+    // News Management
+    Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
+
+    // Content Management
+    Route::resource('contents', App\Http\Controllers\Admin\ContentController::class);
 });
 
 // Email Verification Routes (OTP for registration)

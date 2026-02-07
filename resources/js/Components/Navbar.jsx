@@ -112,7 +112,7 @@ export default function Navbar({ auth }) {
                             <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
                                 <div className="p-2 flex flex-col gap-1">
                                     <Link href={route('normal-iklim.normal-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Normal Hujan Bulanan</Link>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Zona Musim (ZOM)</a>
+                                    <Link href={route('normal-iklim.peta-zona-musim')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Zona Musim (ZOM)</Link>
                                     <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Iklim Schmidt Fergusson</a>
                                     <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Iklim Oldeman</a>
                                     <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Normal Suhu Maksimum</a>

@@ -24,7 +24,30 @@ class ProfileController extends Controller
 
     public function timKami()
     {
-        return Inertia::render('Profile/TimKami');
+        $contents = \App\Models\Content::where('section', 'tim-kami')
+            ->orderBy('sort_order', 'asc')
+            ->get();
+            
+        $teams = [];
+        
+        if ($contents->isNotEmpty()) {
+            $teams = $contents->groupBy('category')->map(function ($items, $category) {
+                return [
+                    'division' => $category,
+                    'members' => $items->map(function ($item) {
+                        return [
+                            'name' => $item->title,
+                            'role' => $item->subtitle,
+                            'image' => $item->file_path ? \Illuminate\Support\Facades\Storage::url($item->file_path) : null,
+                        ];
+                    })->values()
+                ];
+            })->values();
+        }
+
+        return Inertia::render('Profile/TimKami', [
+            'dbTeams' => $teams // Pass as dbTeams to distinguish from hardcoded
+        ]);
     }
 
     public function layanan()

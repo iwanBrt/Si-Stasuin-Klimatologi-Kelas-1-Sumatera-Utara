@@ -28,5 +28,13 @@ class AdminSeeder extends Seeder
             'role' => 'admin',
             'email_verified_at' => now(),
         ]);
+
+        User::create([
+            'name' => 'Tim Media',
+            'email' => 'media@klimatologi.com',
+            'password' => Hash::make('media123'),
+            'role' => 'media',
+            'email_verified_at' => now(),
+        ]);
     }
 }

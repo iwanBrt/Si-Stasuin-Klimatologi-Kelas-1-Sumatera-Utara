@@ -13,14 +13,55 @@ class NormalIklimController extends Controller
 {
     public function normalHujanBulanan()
     {
-        $petaFiles = $this->getFiles('normal-iklim/normal-hujan-bulanan/peta-normal');
-        $grafikFiles = $this->getFiles('normal-iklim/normal-hujan-bulanan/grafik-normal');
+        // Fetch from Database
+        $contents = \App\Models\Content::where('section', 'normal-hujan-bulanan')
+            ->orderBy('sort_order', 'asc')
+            ->get();
+            
+        // Split by category
+        // If content is managed via DB, 'category' likely stores 'peta' or 'grafik'
+        // We map to expected format: { name, url }
+        
+        if ($contents->isNotEmpty()) {
+            $petaFiles = $contents->where('category', 'peta')->map(function ($item) {
+                return [
+                    'name' => $item->title,
+                    'url' => \Illuminate\Support\Facades\Storage::url($item->file_path),
+                ];
+            })->values();
+
+            $grafikFiles = $contents->where('category', 'grafik')->map(function ($item) {
+                return [
+                    'name' => $item->title,
+                    'url' => \Illuminate\Support\Facades\Storage::url($item->file_path),
+                ];
+            })->values();
+        } else {
+             // Fallback to file scanning if contents table is empty for this section
+             $petaFiles = $this->getFiles('normal-iklim/normal-hujan-bulanan/peta-normal');
+             $grafikFiles = $this->getFiles('normal-iklim/normal-hujan-bulanan/grafik-normal');
+        }
 
         return Inertia::render('NormalIklim/NormalHujanBulanan', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'petaFiles' => $petaFiles,
             'grafikFiles' => $grafikFiles,
+        ]);
+    }
+
+    public function petaZonaMusim()
+    {
+        $content = \App\Models\Content::where('section', 'zom')
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $mapUrl = $content && $content->file_path ? \Illuminate\Support\Facades\Storage::url($content->file_path) : '/assets/petaZonaMusim.jpeg';
+
+        return Inertia::render('NormalIklim/PetaZonaMusim', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'mapUrl' => $mapUrl,
         ]);
     }
 

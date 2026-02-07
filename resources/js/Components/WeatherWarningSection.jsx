@@ -3,14 +3,20 @@ import { AlertTriangle, CloudLightning, Info, MapPin, Clock, Wind, CloudRain, Za
 
 export default function WeatherWarningSection() {
     const [warnings, setWarnings] = useState([]);
+    const [warningText, setWarningText] = useState('');
+    const [warningImage, setWarningImage] = useState('');
     const [loading, setLoading] = useState(true);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [hasWarning, setHasWarning] = useState(false);
 
     useEffect(() => {
         fetch('/api/weather/warning')
             .then(res => res.json())
             .then(data => {
                 if (data.regions) setWarnings(data.regions);
+                if (data.warning_text) setWarningText(data.warning_text);
+                if (data.warning_image) setWarningImage(data.warning_image);
+                setHasWarning(data.has_warning);
                 setLoading(false);
             })
             .catch(e => {
@@ -20,7 +26,7 @@ export default function WeatherWarningSection() {
     }, []);
 
     // Loading state or No Warnings -> Return Null (Original Behavior)
-    if (loading || warnings.length === 0) return null;
+    if (loading || !hasWarning) return null;
 
     // Define severity colors
     const severityColors = {
@@ -46,142 +52,128 @@ export default function WeatherWarningSection() {
     const currentSeverity = warnings.some(w => w.severity === 'high') ? severityColors.high : severityColors.medium;
 
     return (
-        <section className="py-16 bg-red-50 relative overflow-hidden">
-            {/* Animated Background Elements */}
-            <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-orange-100/50 blur-3xl animate-pulse" />
-            <div className="absolute bottom-0 left-0 -mb-20 -ml-20 h-96 w-96 rounded-full bg-yellow-100/50 blur-3xl animate-pulse" />
-
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header */}
-                <div className="text-center mb-10">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 text-red-700 font-bold text-sm mb-4 shadow-sm animate-bounce">
-                        <AlertTriangle className="h-4 w-4" />
-                        <span>PERINGATAN DINI AKTIF</span>
-                    </div>
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">
-                        Peringatan Cuaca <span className="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">Sumatera Utara</span>
+        <section className="py-12 bg-gray-100" id="weather-warning">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Section Header */}
+                <div className="text-center mb-8">
+                    <h2 className="text-3xl font-black text-gray-900">
+                        Information Center
                     </h2>
-                    <div className="h-1.5 w-24 rounded-full bg-gradient-to-r from-red-500 to-orange-500 mx-auto" />
+                    <p className="mt-2 text-gray-600">Peringatan Dini & Monitor Cuaca Real-time</p>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-8">
-                    {/* Left Side - Warning Image */}
-                    <div className={`rounded-3xl ${currentSeverity.bg} ${currentSeverity.border} border-2 p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:shadow-2xl`}>
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className={`p-3 rounded-xl bg-gradient-to-br ${currentSeverity.gradient}`}>
-                                <MapPin className="h-6 w-6 text-white" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Left Card: Visual Map */}
+                    <div className="flex flex-col bg-[#0b1b32] rounded-3xl overflow-hidden shadow-2xl border border-blue-900">
+                        {/* Card Header */}
+                        <div className="bg-[#badc00] p-4 flex items-center justify-center relative">
+                            {/* Decorative Icon */}
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 p-2 rounded-full hidden sm:block">
+                                <CloudRain className="h-6 w-6 text-[#0b1b32]" />
                             </div>
-                            <div>
-                                <h3 className={`text-xl font-bold ${currentSeverity.text}`}>Peta Sebaran</h3>
-                                <p className="text-sm text-gray-600">Visualisasi Area Terdampak</p>
+                            <div className="text-center">
+                                <h3 className="text-[#0b1b32] font-black text-lg md:text-xl leading-tight uppercase tracking-wide">
+                                    Peringatan Dini Cuaca<br />Wilayah Sumatera Utara
+                                </h3>
                             </div>
                         </div>
 
-                        <div className="relative group">
-                            <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity" />
-                            <div className="relative rounded-2xl overflow-hidden border-2 border-white shadow-lg bg-white">
+                        {/* Card Content (Image) */}
+                        <div className="flex-1 relative bg-[url('https://www.bmkg.go.id/asset/img/weather-pattern.png')] bg-cover bg-center min-h-[400px] flex items-center justify-center p-4">
+                            {/* Fallback pattern if URL invalid, just dark blue */}
+                            <div className="relative w-full h-full flex items-center justify-center">
                                 <img
-                                    src="https://data.bmkg.go.id/DataMKG/MEWS/LEWS/SumateraUtara.png"
-                                    alt="Peta Peringatan Cuaca Sumatera Utara"
-                                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                                    src={warningImage || "https://data.bmkg.go.id/DataMKG/MEWS/LEWS/SumateraUtara.png"}
+                                    alt="Peta Peringatan Cuaca"
+                                    className="max-w-full max-h-[500px] object-contain drop-shadow-2xl"
                                     onLoad={() => setImageLoaded(true)}
                                     onError={(e) => {
-                                        e.target.style.display = 'none';
-                                        setImageLoaded(false);
+                                        if (e.target.src !== "https://data.bmkg.go.id/DataMKG/MEWS/LEWS/SumateraUtara.png") {
+                                            e.target.src = "https://data.bmkg.go.id/DataMKG/MEWS/LEWS/SumateraUtara.png";
+                                        }
                                     }}
                                 />
                                 {!imageLoaded && (
-                                    <div className="flex items-center justify-center h-64 bg-gray-100">
-                                        <div className="text-center">
-                                            <CloudLightning className="h-16 w-16 text-gray-300 mx-auto mb-3" />
-                                            <p className="text-gray-500 text-sm">Memuat peta peringatan...</p>
-                                        </div>
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#badc00]"></div>
                                     </div>
                                 )}
                             </div>
+
+                            {/* Legend Overlay (Optional Mockup to match style) */}
+                            <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm p-3 rounded-lg border border-white/10 text-xs text-white space-y-1">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                                    <span>Peringatan Dini</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                    <span>Potensi Meluas</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                    <span>Tidak Terdampak</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="mt-6 flex justify-center">
-                            <a
-                                href="https://data.bmkg.go.id/peringatan-dini-cuaca/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105"
-                            >
-                                <ExternalLink className="h-5 w-5" />
-                                Lihat Detail Lengkap di BMKG
-                            </a>
+                        {/* Card Footer */}
+                        <div className="bg-[#badc00] py-2 px-4 flex justify-between items-center text-[#0b1b32] text-xs md:text-sm font-bold">
+                            <div className="flex items-center gap-2">
+                                <ExternalLink className="h-4 w-4" />
+                                <span>www.bmkg.go.id</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span>infoBMKG</span>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Right Side - Warning Details */}
-                    <div className="space-y-6">
-                        {/* Warning Info Card */}
-                        <div className={`rounded-3xl ${currentSeverity.bg} ${currentSeverity.border} border-2 p-6 shadow-xl backdrop-blur-sm`}>
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className={`p-3 rounded-xl bg-gradient-to-br ${currentSeverity.gradient} shrink-0 animate-pulse`}>
-                                    <AlertTriangle className="h-6 w-6 text-white" />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className={`text-xl font-bold ${currentSeverity.text} mb-2`}>Detail Peringatan</h3>
-                                    <p className="text-gray-700 leading-relaxed">
-                                        Potensi <strong>Hujan Sedang hingga Lebat</strong> yang dapat disertai dengan <strong>Kilat/Petir</strong> dan <strong>Angin Kencang</strong> pada wilayah yang tercantum.
-                                    </p>
-                                </div>
+                    {/* Right Card: Text Info */}
+                    <div className="flex flex-col bg-[#0b1b32] rounded-3xl overflow-hidden shadow-2xl border border-blue-900">
+                        {/* Card Header */}
+                        <div className="bg-[#badc00] p-4 flex items-center justify-center relative">
+                            <div className="text-center">
+                                <h3 className="text-[#0b1b32] font-black text-lg md:text-xl leading-tight uppercase tracking-wide">
+                                    Update Informasi<br />Terdampak
+                                </h3>
                             </div>
-
-                            {/* Affected Regions */}
-                            <div className="mb-6">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <MapPin className={`h-5 w-5 ${currentSeverity.icon}`} />
-                                    <span className={`font-bold ${currentSeverity.text}`}>Wilayah Terdampak:</span>
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    {warnings.map((w, idx) => (
-                                        <span
-                                            key={idx}
-                                            className={`px-4 py-2 rounded-full ${currentSeverity.badge} font-semibold text-sm border ${currentSeverity.border} shadow-sm`}
-                                        >
-                                            {w.region}
-                                            {w.condition && <span className="opacity-75 ml-1">({w.condition})</span>}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Time Info */}
-                            <div className="p-4 rounded-xl bg-white/50 border border-red-100">
-                                <div className="flex items-center gap-2">
-                                    <Clock className="h-4 w-4 text-red-600" />
-                                    <span className="font-bold text-red-700 text-sm">Status Terkini:</span>
-                                </div>
-                                <p className="mt-1 text-xs text-gray-500">
-                                    Data diperbaharui otomatis dari server BMKG. Harap waspada dan pantau informasi terkini.
-                                </p>
+                            <div className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 p-2 rounded-full hidden sm:block">
+                                <Info className="h-6 w-6 text-[#0b1b32]" />
                             </div>
                         </div>
 
-                        {/* Safety Notice */}
-                        <div className="rounded-2xl bg-gradient-to-r from-gray-900 to-gray-800 p-6 shadow-xl text-white">
-                            <div className="flex items-start gap-3">
-                                <Info className="h-6 w-6 text-yellow-400 shrink-0 mt-1" />
-                                <div>
-                                    <h4 className="font-bold text-lg mb-2">Himbauan Keselamatan</h4>
-                                    <ul className="space-y-2 text-sm text-gray-200">
-                                        <li className="flex items-start gap-2">
-                                            <span className="text-yellow-400 mt-0.5">•</span>
-                                            <span>Hindari berteduh di bawah pohon tua/besar</span>
-                                        </li>
-                                        <li className="flex items-start gap-2">
-                                            <span className="text-yellow-400 mt-0.5">•</span>
-                                            <span>Waspadai potensi banjir/genangan air</span>
-                                        </li>
-                                        <li className="flex items-start gap-2">
-                                            <span className="text-yellow-400 mt-0.5">•</span>
-                                            <span>Jauhi area terbuka saat terjadi petir</span>
-                                        </li>
-                                    </ul>
+                        {/* Card Content (Text) */}
+                        <div className="flex-1 p-6 md:p-8 flex flex-col">
+                            {warningText ? (
+                                <div className="prose prose-invert max-w-none flex-1 overflow-y-auto max-h-[500px] scrollbar-thin scrollbar-thumb-[#badc00] scrollbar-track-blue-900 pr-2">
+                                    <p className="text-white text-sm md:text-base leading-relaxed whitespace-pre-wrap font-medium font-sans text-justify">
+                                        {warningText}
+                                    </p>
                                 </div>
+                            ) : (
+                                <div className="flex-1 flex flex-col items-center justify-center text-center p-8 opacity-70">
+                                    <CloudRain className="h-16 w-16 text-white mb-4 animate-bounce" />
+                                    <p className="text-white font-medium">Memuat data peringatan dini...</p>
+                                </div>
+                            )}
+
+                            {/* Timestamp or Status Badge */}
+                            <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-between">
+                                <div className="flex items-center gap-2 text-yellow-400">
+                                    <Clock className="h-4 w-4" />
+                                    <span className="text-xs font-bold uppercase tracking-wider">Update Terkini</span>
+                                </div>
+                                <span className="bg-blue-600/50 text-blue-200 text-xs px-3 py-1 rounded-full border border-blue-500/50">
+                                    Sumber: BMKG Pusat
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Card Footer */}
+                        <div className="bg-[#badc00] py-2 px-4 flex justify-center items-center text-[#0b1b32] text-xs md:text-sm font-bold">
+                            <div className="flex items-center gap-2">
+                                <span>Call Center 196</span>
                             </div>
                         </div>
                     </div>
