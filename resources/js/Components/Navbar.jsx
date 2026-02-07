@@ -66,6 +66,28 @@ export default function Navbar({ auth }) {
                             </div>
                         </div>
 
+                        {/* Profil Dropdown */}
+                        <div className="relative group">
+                            <button className="flex items-center gap-1 text-xs xl:text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2 whitespace-nowrap">
+                                Profil
+                                <ChevronDown className="h-3 w-3 xl:h-4 xl:w-4 transition-transform group-hover:rotate-180" />
+                            </button>
+                            <div className="absolute top-full left-0 mt-1 w-56 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
+                                <div className="p-2 flex flex-col gap-1">
+                                    <Link href={route('profile.tentang-kami')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Tentang Kami</Link>
+                                    <Link href={route('profile.sejarah-visi-misi')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Sejarah, Visi & Misi</Link>
+                                    <Link href={route('profile.staklim-sumut')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Staklim Sumut</Link>
+                                    <Link href={route('profile.tim-kami')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Tim Kami</Link>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Layanan Link */}
+                        <Link href={route('layanan')} className="text-xs xl:text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2 whitespace-nowrap">
+                            Layanan
+                        </Link>
+
+
                         {/* Kualitas Udara Dropdown */}
                         <div className="relative group">
                             <button className="flex items-center gap-1 text-xs xl:text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2 whitespace-nowrap">
@@ -107,9 +129,9 @@ export default function Navbar({ auth }) {
                             </button>
                             <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
                                 <div className="p-2 flex flex-col gap-1">
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Fire Weather Index</a>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Fine Fuel Moisture Code</a>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Sebaran Titik Panas</a>
+                                    <Link href={route('kebakaran-hutan.fwi')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Fire Weather Index</Link>
+                                    <Link href={route('kebakaran-hutan.ffmc')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Fine Fuel Moisture Code</Link>
+                                    <Link href={route('kebakaran-hutan.hotspot')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Sebaran Titik Panas</Link>
                                 </div>
                             </div>
                         </div>

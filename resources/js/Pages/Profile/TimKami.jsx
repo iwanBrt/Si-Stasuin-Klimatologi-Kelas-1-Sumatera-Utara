@@ -1,7 +1,8 @@
 import { Head, Link } from '@inertiajs/react';
-import { ChevronDown, Users, User } from 'lucide-react';
+import { Users, User } from 'lucide-react';
+import Navbar from '@/Components/Navbar';
 
-export default function TimKami() {
+export default function TimKami({ auth }) {
     // Placeholder data - replace with actual team data
     const teams = [
         {
@@ -31,49 +32,7 @@ export default function TimKami() {
         <div className="min-h-screen bg-white">
             <Head title="Tim Kami - BMKG" />
 
-            <nav className="border-b border-blue-100 bg-white/80 backdrop-blur-md relative z-50">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-20 items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <Link href="/">
-                                <img src="/assets/logo-bmkg.png" alt="Logo" className="h-12 w-12" />
-                            </Link>
-                            <div>
-                                <h1 className="text-sm md:text-lg font-bold text-gray-900 uppercase tracking-wide">Stasiun Klimatologi Sumatera Utara</h1>
-                                <p className="text-[10px] md:text-xs text-blue-600 font-medium">Badan Meteorologi Klimatologi dan Geofisika</p>
-                            </div>
-                        </div>
-                        <div className="hidden md:flex items-center gap-8">
-                            <div className="relative group">
-                                <button className="flex items-center gap-1.5 text-sm font-semibold text-blue-600">
-                                    Profil BMKG
-                                    <ChevronDown className="h-4 w-4" />
-                                </button>
-                                <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                    <div className="p-2 flex flex-col gap-1">
-                                        <Link href={route('profile.tentang-kami')} className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg">
-                                            Tentang Kami
-                                        </Link>
-                                        <Link href={route('profile.sejarah-visi-misi')} className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg">
-                                            Sejarah, Visi & Misi
-                                        </Link>
-                                        <Link href={route('profile.staklim-sumut')} className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg">
-                                            Profil Staklim Sumut
-                                        </Link>
-                                        <Link href={route('profile.tim-kami')} className="block px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg">
-                                            Tim Kami
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <Link href={route('layanan')} className="text-sm font-semibold text-gray-700 hover:text-blue-600">Layanan</Link>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <Link href="/" className="text-sm font-bold text-gray-600 hover:text-blue-600">Kembali ke Beranda</Link>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <Navbar auth={auth} />
 
             <main className="py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50 min-h-screen">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">

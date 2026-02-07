@@ -1,34 +1,10 @@
 import { Head, Link } from '@inertiajs/react';
-import { Download, FileText, Users, Calendar, BookOpen, Award, Clock, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
-import WeatherForecastSection from '@/Components/WeatherForecastSection';
+import { Users, Calendar, BookOpen, Award, Clock, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
+// import WeatherForecastSection from '@/Components/WeatherForecastSection';
 import EarthquakeSection from '@/Components/EarthquakeSection';
-import WeatherWarningSection from '@/Components/WeatherWarningSection';
+// import WeatherWarningSection from '@/Components/WeatherWarningSection';
 
 export default function Welcome({ auth, latestNews = [] }) {
-    const downloadItems = [
-        {
-            id: 1,
-            title: 'Template Proposal',
-            fileType: 'DOCX',
-            fileSize: '125 KB',
-            downloadUrl: '#',
-        },
-        {
-            id: 2,
-            title: 'Format Surat Pengantar',
-            fileType: 'PDF',
-            fileSize: '95 KB',
-            downloadUrl: '#',
-        },
-        {
-            id: 3,
-            title: 'SOP Magang & Penelitian',
-            fileType: 'PDF',
-            fileSize: '210 KB',
-            downloadUrl: '#',
-        },
-    ];
-
     const features = [
         {
             icon: BookOpen,
@@ -142,6 +118,27 @@ export default function Welcome({ auth, latestNews = [] }) {
                                     </div>
                                 </div>
 
+                                {/* Profil Dropdown */}
+                                <div className="relative group">
+                                    <button className="flex items-center gap-1 text-xs xl:text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2 whitespace-nowrap">
+                                        Profil
+                                        <ChevronDown className="h-3 w-3 xl:h-4 xl:w-4 transition-transform group-hover:rotate-180" />
+                                    </button>
+                                    <div className="absolute top-full left-0 mt-1 w-56 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
+                                        <div className="p-2 flex flex-col gap-1">
+                                            <Link href={route('profile.tentang-kami')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Tentang Kami</Link>
+                                            <Link href={route('profile.sejarah-visi-misi')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Sejarah, Visi & Misi</Link>
+                                            <Link href={route('profile.staklim-sumut')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Staklim Sumut</Link>
+                                            <Link href={route('profile.tim-kami')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Tim Kami</Link>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Layanan Link */}
+                                <Link href={route('layanan')} className="text-xs xl:text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2 whitespace-nowrap">
+                                    Layanan
+                                </Link>
+
                                 {/* Kualitas Udara Dropdown */}
                                 <div className="relative group">
                                     <button className="flex items-center gap-1 text-xs xl:text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2 whitespace-nowrap">
@@ -201,15 +198,15 @@ export default function Welcome({ auth, latestNews = [] }) {
                                     </button>
                                     <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
                                         <div className="p-2 flex flex-col gap-1">
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            <Link href={route('kebakaran-hutan.fwi')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Fire Weather Index
-                                            </a>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            </Link>
+                                            <Link href={route('kebakaran-hutan.ffmc')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Fine Fuel Moisture Code
-                                            </a>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            </Link>
+                                            <Link href={route('kebakaran-hutan.hotspot')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Sebaran Titik Panas
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -354,13 +351,6 @@ export default function Welcome({ auth, latestNews = [] }) {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                             </svg>
                                         </Link>
-                                        <a
-                                            href="#download"
-                                            className="inline-flex items-center gap-3 rounded-xl border-2 border-white px-8 py-4 text-lg font-bold text-white transition-all duration-300 hover:bg-white hover:text-blue-700"
-                                        >
-                                            <Download className="h-5 w-5" />
-                                            <span>Unduh Panduan</span>
-                                        </a>
                                     </>
                                 )}
                             </div>
@@ -416,60 +406,6 @@ export default function Welcome({ auth, latestNews = [] }) {
                                     </div>
                                 );
                             })}
-                        </div>
-                    </div>
-                </section >
-
-                {/* Download Section */}
-                < section id="download" className="bg-gradient-to-br from-gray-50 to-blue-50 py-20" >
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="mb-12 text-center">
-                            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-                                <Download className="h-4 w-4" />
-                                Pusat Unduhan
-                            </div>
-                            <h2 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">
-                                Dokumen Persyaratan
-                            </h2>
-                            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                                Unduh template dan panduan yang diperlukan untuk melengkapi permohonan Anda
-                            </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                            {downloadItems.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="group rounded-2xl border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-2xl"
-                                >
-                                    <div className="mb-5 flex items-start justify-between">
-                                        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg">
-                                            <FileText className="h-7 w-7 text-white" />
-                                        </div>
-                                        <span className="rounded-lg bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-                                            {item.fileType}
-                                        </span>
-                                    </div>
-
-                                    <h3 className="mb-2 text-xl font-bold text-gray-900">
-                                        {item.title}
-                                    </h3>
-
-                                    <div className="mb-5 flex items-center gap-2 text-xs text-gray-500">
-                                        <span className="rounded bg-gray-100 px-2 py-1">
-                                            {item.fileSize}
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href={item.downloadUrl}
-                                        className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl"
-                                    >
-                                        <Download className="h-4 w-4" />
-                                        Unduh Dokumen
-                                    </a>
-                                </div>
-                            ))}
                         </div>
                     </div>
                 </section >
@@ -593,11 +529,9 @@ export default function Welcome({ auth, latestNews = [] }) {
                     )
                 }
 
-                {/* Weather Alert Section */}
-                <WeatherWarningSection />
-
-                {/* Weather Forecast Section (New) */}
-                <WeatherForecastSection />
+                {/* Weather Sections - Disabled per request */}
+                {/* <WeatherWarningSection /> */}
+                {/* <WeatherForecastSection /> */}
 
                 {/* Earthquake Section */}
                 <EarthquakeSection />

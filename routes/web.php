@@ -35,6 +35,8 @@ Route::get('/berita/{slug}', [App\Http\Controllers\NewsController::class, 'show'
 Route::get('/api/weather', [App\Http\Controllers\WeatherController::class, 'getCurrentWeather'])->name('api.weather');
 Route::get('/api/weather/warning', [App\Http\Controllers\WeatherController::class, 'getEarlyWarning'])->name('api.weather.warning');
 Route::get('/api/earthquake', [App\Http\Controllers\EarthquakeController::class, 'getLatestEarthquake'])->name('api.earthquake');
+Route::get('/api/proxy/karhutla-map/{type?}', [App\Http\Controllers\Admin\KarhutlaController::class, 'getLatestMap'])->name('api.karhutla-map');
+Route::get('/api/proxy/hotspot-map', [App\Http\Controllers\Admin\KarhutlaController::class, 'getHotspotMap'])->name('api.hotspot-map');
 
 // Profile & Layanan Routes
 Route::get('/profil/tentang-kami', [App\Http\Controllers\ProfileController::class, 'tentangKami'])->name('profile.tentang-kami');
@@ -47,6 +49,9 @@ Route::get('/kualitas-udara/pm25', [App\Http\Controllers\KualitasUdaraController
 Route::get('/kualitas-udara/kimia-air-hujan', [App\Http\Controllers\KualitasUdaraController::class, 'kimiaAirHujan'])->name('kualitas-udara.kimia-air-hujan');
 Route::get('/normal-iklim/normal-hujan-bulanan', [App\Http\Controllers\NormalIklimController::class, 'normalHujanBulanan'])->name('normal-iklim.normal-hujan-bulanan');
 Route::get('/normal-iklim/download-folder', [App\Http\Controllers\NormalIklimController::class, 'downloadFolder'])->name('normal-iklim.download-folder');
+Route::get('/kebakaran-hutan/ffmc', [App\Http\Controllers\KebakaranHutanController::class, 'ffmc'])->name('kebakaran-hutan.ffmc');
+Route::get('/kebakaran-hutan/fwi', [App\Http\Controllers\KebakaranHutanController::class, 'fwi'])->name('kebakaran-hutan.fwi');
+Route::get('/kebakaran-hutan/hotspot', [App\Http\Controllers\KebakaranHutanController::class, 'hotspot'])->name('kebakaran-hutan.hotspot');
 
 // Dashboard route with auth & verified middleware
 Route::middleware(['auth', 'verified'])->group(function () {

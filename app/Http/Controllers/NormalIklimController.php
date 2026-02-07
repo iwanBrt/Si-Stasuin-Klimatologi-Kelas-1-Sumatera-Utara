@@ -27,13 +27,39 @@ class NormalIklimController extends Controller
     private function getFiles($directory)
     {
         $files = Storage::disk('public')->files($directory);
-        return collect($files)->map(function ($file) {
+        return collect($files)->filter(function ($file) {
+            // Hanya ambil file gambar (jpg, jpeg, png) dan abaikan file txt
+            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            return in_array($extension, ['jpg', 'jpeg', 'png']);
+        })->map(function ($file) {
             return [
                 'name' => basename($file),
                 'url' => Storage::url($file), // This automatically handles the /storage prefix if configured correctly
                 'path' => $file,
             ];
+        })->sort(function ($a, $b) {
+            return $this->sortFiles($a['name'], $b['name']);
         })->values()->all();
+    }
+
+    private function sortFiles($nameA, $nameB)
+    {
+        // Ekstrak angka dari nama file untuk sorting
+        // Format peta: 1_JAN.jpg, 2_FEB.jpg, dst
+        // Format grafik: SUMUT 1.jpg, SUMUT 2.jpg, dst
+        
+        // Cek apakah file peta bulanan (format: angka_BULAN)
+        if (preg_match('/^(\d+)_/', $nameA, $matchA) && preg_match('/^(\d+)_/', $nameB, $matchB)) {
+            return (int)$matchA[1] <=> (int)$matchB[1];
+        }
+        
+        // Cek apakah file grafik ZOM (format: SUMUT angka atau text angka)
+        if (preg_match('/(\d+)/', $nameA, $matchA) && preg_match('/(\d+)/', $nameB, $matchB)) {
+            return (int)$matchA[1] <=> (int)$matchB[1];
+        }
+        
+        // Default: sorting alfabetis
+        return strcasecmp($nameA, $nameB);
     }
 
     public function downloadFolder(Request $request)
@@ -47,6 +73,12 @@ class NormalIklimController extends Controller
         $directory = "normal-iklim/normal-hujan-bulanan/{$folderName}";
         
         $files = Storage::disk('public')->files($directory);
+
+        // Filter hanya file gambar
+        $files = collect($files)->filter(function ($file) {
+            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            return in_array($extension, ['jpg', 'jpeg', 'png']);
+        })->all();
 
         if (empty($files)) {
             return back()->with('error', 'Tidak ada file untuk diunduh.');
