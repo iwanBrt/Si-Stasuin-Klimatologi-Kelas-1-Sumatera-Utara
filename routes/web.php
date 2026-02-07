@@ -43,6 +43,10 @@ Route::get('/profil/staklim-sumut', [App\Http\Controllers\ProfileController::cla
 Route::get('/profil/tim-kami', [App\Http\Controllers\ProfileController::class, 'timKami'])->name('profile.tim-kami');
 Route::get('/layanan', [App\Http\Controllers\ProfileController::class, 'layanan'])->name('layanan');
 Route::get('/layanan/permintaan-data', [App\Http\Controllers\ProfileController::class, 'permintaanData'])->name('layanan.permintaan-data');
+Route::get('/kualitas-udara/pm25', [App\Http\Controllers\KualitasUdaraController::class, 'pm25'])->name('kualitas-udara.pm25');
+Route::get('/kualitas-udara/kimia-air-hujan', [App\Http\Controllers\KualitasUdaraController::class, 'kimiaAirHujan'])->name('kualitas-udara.kimia-air-hujan');
+Route::get('/normal-iklim/normal-hujan-bulanan', [App\Http\Controllers\NormalIklimController::class, 'normalHujanBulanan'])->name('normal-iklim.normal-hujan-bulanan');
+Route::get('/normal-iklim/download-folder', [App\Http\Controllers\NormalIklimController::class, 'downloadFolder'])->name('normal-iklim.download-folder');
 
 // Dashboard route with auth & verified middleware
 Route::middleware(['auth', 'verified'])->group(function () {
