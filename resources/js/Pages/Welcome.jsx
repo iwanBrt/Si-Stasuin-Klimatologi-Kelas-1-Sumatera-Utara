@@ -1,8 +1,9 @@
 ﻿import { Head, Link } from '@inertiajs/react';
 import { Users, Calendar, BookOpen, Award, Clock, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
-import WeatherForecastSection from '@/Components/WeatherForecastSection';
+
 import EarthquakeSection from '@/Components/EarthquakeSection';
 import WeatherWarningSection from '@/Components/WeatherWarningSection';
+import WeatherCardGrid from '@/Components/WeatherCardGrid';
 
 export default function Welcome({ auth, latestNews = [] }) {
     const features = [
@@ -376,6 +377,10 @@ export default function Welcome({ auth, latestNews = [] }) {
 
                 <WeatherWarningSection />
 
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-8">
+                    <WeatherCardGrid />
+                </div>
+
                 {/* Features Section */}
                 < section className="py-20" >
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -531,9 +536,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                     )
                 }
 
-                {/* Weather Sections - Enabled */}
-                <WeatherWarningSection />
-                <WeatherForecastSection />
+
 
                 {/* Earthquake Section */}
                 <EarthquakeSection />

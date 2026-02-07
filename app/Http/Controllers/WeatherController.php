@@ -228,6 +228,37 @@ class WeatherController extends Controller
     }
 
     /**
+     * Get Current Weather from BMKG JSON API (New Source for 33 Regions)
+     * Handles CORS and Proxying
+     */
+    public function getSumutWeatherJSON()
+    {
+        // Reuse the XML fetching logic which is reliable
+        // But format it for the frontend component specifically
+        $weatherData = $this->getCurrentWeather();
+        
+        $formattedData = [];
+        foreach ($weatherData as $data) {
+            $formattedData[] = [
+                'id' => $data['id'],
+                'name' => $data['name'],
+                'type' => $data['type'] ?? 'Wilayah',
+                'temp' => $data['temp'],
+                'humidity' => $data['humidity'],
+                'weather_desc' => $data['weather_name'], // Map weather_name -> weather_desc
+                'weather_icon' => '', // Icon handling in frontend via 'weather_desc'
+                'wind_speed' => $data['wind_speed'],
+                'wind_dir' => '', // Not available in simple XML parser, optional
+                'datetime' => now()->format('Y-m-d') . ' ' . $data['updated_at'], // Combine date with time
+            ];
+        }
+
+        return response()->json($formattedData)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    }
+
+    /**
      * Helper: Translate Weather Code to Name
      */
     private function getWeatherNameCode($code) {
