@@ -1,0 +1,4248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stasiun Klimatologi BMKG Sumatera Utara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e3/BMG_2003.png">
+ 
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <style> 
+        .text-dark {
+    --bs-text-opacity: 1;
+    color: rgb(255 255 255) !important;
+}
+        :root {
+            --biru-utama: #4db5ff;      /* biru muda utama */
+            --biru-teks: #215a96;       /* biru sedikit lebih gelap untuk teks */
+            --putih: #ffffff;
+            --gradien-hero: linear-gradient(135deg, #ffffff 0%, #e6f4ff 100%);
+            --gradien-biru: linear-gradient(120deg, #48a9ff 0%, #7fd1ff 100%);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #f5f9ff;
+            color: var(--biru-teks);
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        /* Animasi scroll per section */
+        .section-animate {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+
+        .section-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .navbar {
+            background: var(--gradien-biru);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 24px rgba(72, 169, 255, 0.4);
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: var(--putih) !important;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .hero {
+            position: relative;
+            background: var(--gradien-hero);
+            border-radius: 2rem;
+            padding: 3.5rem;
+            overflow: hidden;
+            box-shadow: 0 30px 70px rgba(12, 60, 120, 0.12);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0 10% -35% 40%;
+            background: radial-gradient(circle, rgba(77, 181, 255, 0.35) 0%, transparent 55%);
+            z-index: 0;
+        }
+
+        .forecast-card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 20px 45px rgba(12, 60, 120, 0.12);
+            overflow: hidden;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            background: var(--putih);
+        }
+
+        .forecast-card .card-header {
+            background: var(--gradien-biru);
+            color: var(--putih);
+            font-weight: 600;
+        }
+
+        .forecast-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 26px 55px rgba(72, 169, 255, 0.4);
+        }
+
+        .highlight-card {
+            border-left: 5px solid var(--biru-utama);
+            background-color: var(--putih);
+            border-radius: 1rem;
+            box-shadow: 0 12px 30px rgba(72, 169, 255, 0.22);
+            transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-6px);
+            border-left-color: var(--biru-teks);
+            box-shadow: 0 18px 38px rgba(72, 169, 255, 0.32);
+        }
+
+        footer {
+            background: var(--gradien-biru);
+            color: var(--putih);
+        }
+
+        .badge-custom {
+    background-color: rgb(255 255 255 / 93%);
+    color: var(--biru-teks);
+    font-weight: 600;
+}
+
+        .section-heading span {
+            color: var(--biru-muda);
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .hero-content,
+        .hero-visual {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-stats {
+            gap: 1.25rem;
+        }
+
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 999px;
+            padding: 0.75rem 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 12px 30px rgba(72, 169, 255, 0.25);
+        }
+
+        .hero-stat strong {
+            font-size: 1.25rem;
+            color: var(--biru-teks);
+        }
+
+        .btn-soft {
+    border-color: rgb(255 255 255 / 40%);
+    color: #ffffff;
+    background-color: rgb(255 255 255 / 8%);
+}
+
+        .btn-soft:hover {
+            color: var(--putih);
+            background: var(--biru-utama);
+        }
+
+        .list-group-item {
+            border: none;
+            margin-bottom: 0.5rem;
+            border-radius: 0.85rem;
+            box-shadow: inset 0 0 0 1px rgba(72, 169, 255, 0.25);
+        }
+
+        /* Wave separator */
+        .wave-wrapper {
+            position: relative;
+            height: 70px;
+            margin: -40px 0 40px;
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
+            overflow: hidden;
+        }
+
+        .wave-wrapper svg {
+            width: 200%;
+            height: 100%;
+            display: block;
+            animation: waveMove 14s linear infinite;
+        }
+
+        .wave-wrapper path {
+            fill: #e6f4ff;
+        }
+
+        .wave-inverse path {
+            transform: scaleY(-1);
+            transform-origin: center;
+        }
+
+        @keyframes waveMove {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .section-shell {
+            padding: 4rem 0;
+        }
+
+        .forecast-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(72, 169, 255, 0.9) transparent;
+        }
+
+        .forecast-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .forecast-scroll::-webkit-scrollbar-thumb {
+            background: rgba(72, 169, 255, 0.9);
+            border-radius: 999px;
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                padding: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 2rem;
+                text-align: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .forecast-scroll {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 1.5rem;
+                padding-bottom: 1rem;
+            }
+
+            .forecast-scroll .col-md-4 {
+                min-width: 260px;
+                flex: 0 0 auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                border-radius: 0 0 1rem 1rem;
+            }
+
+            .hero-stat {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        .hero-bg {
+    
+    background-image: url('her.png');
+    background-size: cover;
+    background-position: center;
+    
+    z-index: 1;
+}
+
+.hero-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
+/* Sembunyikan gambar di HP */
+@media(max-width: 768px) {
+    .logo-image {
+        display: none;
+    }
+}
+
+    </style>
+</head>
+<body>
+<!-- FONT AWESOME (WAJIB ADA) -->
+
+<!-- TOP BAR HARI, TANGGAL, JAM -->
+<div class="top-timebar">
+    <b><div id="tanggalFull">
+        <i class="fa-regular fa-calendar-days"></i>
+        <!-- Tanggal akan muncul disini -->
+    </div>
+</b>
+<b style="display:flex; justify-content:end; align-items:center; gap:10px;">
+    <div id="jam">
+        <i class="fa-regular fa-clock"></i>
+    </div>
+
+  
+</b>
+
+
+  </div></b>
+
+<style>
+    .top-timebar {
+        width: 100%;
+        background: linear-gradient(to right, #127ecb, #6ec6ff);
+        color: #ffffff;
+        padding: 6px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Outfit', sans-serif;
+        font-size: 14px;
+        border-bottom: 1px solid #e4e4e400;
+    }
+
+    .top-timebar i {
+        margin-right: 6px;
+    }
+    
+    .jam-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px; /* Jarak antara jam dan gambar */
+    }
+    
+   @media (min-width: 768px) {
+    .logo-image {
+        display: inline-block;
+        vertical-align: middle;
+                margin-right: 16px;
+    }
+}
+    
+    #jam {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+</style>
+
+<script>
+    function updateTime() {
+        const hariArray = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+        const bulanArray = [
+            "Januari","Februari","Maret","April","Mei","Juni",
+            "Juli","Agustus","September","Oktober","November","Desember"
+        ];
+
+        let now = new Date();
+        let options = { timeZone: "Asia/Jakarta" };
+        let wibTime = new Date(now.toLocaleString("en-US", options));
+
+        let hari = hariArray[wibTime.getDay()];
+        let tanggal = wibTime.getDate();
+        let bulan = bulanArray[wibTime.getMonth()];
+        let tahun = wibTime.getFullYear();
+
+        // Tanggal + ikon
+        document.getElementById("tanggalFull").innerHTML =
+            `<i class="fa-regular fa-calendar-days"></i> ${hari}, ${tanggal} ${bulan} ${tahun}`;
+
+        // Jam + ikon
+        let jam = wibTime.getHours().toString().padStart(2, '0');
+        let menit = wibTime.getMinutes().toString().padStart(2, '0');
+        let detik = wibTime.getSeconds().toString().padStart(2, '0');
+
+        document.getElementById("jam").innerHTML =
+            `<i class="fa-regular fa-clock"></i> ${jam}:${menit}:${detik} WIB`;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+</script>
+    <nav class="navbar navbar-expand-lg navbar-dark py-3">
+        <div class="container">
+            <div class="d-flex align-items-center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/BMG_2003.png" width="40" class="me-2">
+
+    <div class="lh-1">
+        <span class="fw-bold d-block navbar-brand mb-0" style="font-size: 14px;">Stasiun Klimatologi Sumatera Utara</span>
+        <small class="text-muted d-block" style="color: white !important; font-size: 12px">Badan Meteorologi Klimatologi dan Geofisika</small>
+    </div>
+</div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item"><a class="nav-link" href="profile.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+</svg> Profil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="layanan.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-menu-up" viewBox="0 0 16 16">
+  <path d="M7.646 15.854a.5.5 0 0 0 .708 0L10.207 14H14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3.793zM1 9V6h14v3zm14 1v2a1 1 0 0 1-1 1h-3.793a1 1 0 0 0-.707.293l-1.5 1.5-1.5-1.5A1 1 0 0 0 5.793 13H2a1 1 0 0 1-1-1v-2zm0-5H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zM2 11.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 0-1h-8a.5.5 0 0 0-.5.5m0-4a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11a.5.5 0 0 0-.5.5m0-4a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 0-1h-6a.5.5 0 0 0-.5.5"/>
+</svg> Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="produk.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
+  <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
+  <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+</svg> Produk</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#media"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+  <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z"/>
+</svg> Media</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kontak"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+  <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z"/>
+</svg> Kontak</a></li>
+                </ul>
+            </div> 
+        </div>
+        
+          <span class="logo-image">
+        <img src="WhatsApp Image 2025-11-24 at 10.29.40 AM.jpeg" width="80px" style="border-radius: 20px;">
+    </span>
+    </nav>
+
+    <main class="container my-5">
+        <section class="hero mb-5 section-animate hero-bg">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7 hero-content">
+                    <span class="badge badge-custom mb-3" > <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-check" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M10.354 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+</svg> Informasi Terkini</span> 
+                    <h1 class="fw-bold text-primary mb-3"  style="color: white !important;"> Citra Satelit Terkini</h1> 
+                    <p class="lead text-secondary mb-4" style="color: white !important; text-align:justify;">
+                     Pada produk Himawari-9 EH menunjukkan suhu puncak awan yang didapat dari pengamatan radiasi pada panjang gelombang 10.4 mikrometer yang kemudian diklasifikasi dengan pewarnaan tertentu, dimana warna hitam atau biru menunjukkan tidak terdapat pembentukan awan yang banyak (cerah), sedangkan semakin dingin suhu puncak awan, dimana warna mendekati jingga hingga merah, menunjukan pertumbuhan awan yang signifikan dan berpotensi terbentuknya awan Cumulonimbus.
+                    </p> 
+                  
+               
+               
+                </div>
+                <div class="col-lg-5 text-center hero-visual">
+                    <img src="https://inderaja.bmkg.go.id/IMAGE/HIMA/H08_EH_Indonesia.png" class="img-fluid rounded-4 shadow" alt="Ilustrasi klimatologi">
+                </div>
+            </div> 
+        </section> 
+        <div class="wave-wrapper">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path d="M0,224L60,202.7C120,181,240,139,360,112C480,85,600,75,720,101.3C840,128,960,192,1080,197.3C1200,203,1320,149,1380,122.7L1440,96L1440,320L0,320Z"></path>
+            </svg>
+        </div>
+        <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Peringatan Dini Cuaca Sumatera Utara</title>
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Bootstrap 5 -->
+    <style>
+       
+        
+        .header-sumut {
+            background: linear-gradient(135deg, #0d6efd 0%, #0d6efd 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .province-highlight {
+            background-color: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-active {
+            background-color: #28a745;
+            box-shadow: 0 0 10px #28a745;
+        }
+        
+        .alert-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 4px solid #0d6efd;
+            transition: all 0.3s ease;
+        }
+        
+        .alert-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .alert-critical {
+            border-left-color: #dc3545;
+            background-color: #fff5f5;
+        }
+        
+        .alert-high {
+            border-left-color: #fd7e14;
+            background-color: #fff4e6;
+        }
+        
+        .alert-medium {
+            border-left-color: #ffc107;
+            background-color: #fff9db;
+        }
+        
+        .badge-urgency {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        
+        .map-container {
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #dee2e6;
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+        
+        .legend {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .filter-tag {
+            background-color: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #495057;
+        }
+        
+        .footer-sumut {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-top: 1px solid #dee2e6;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 30px;
+        }
+        
+        .highlight-sumut {
+            color: #0d6efd;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .alert-card {
+                padding: 15px;
+            }
+            
+            .header-sumut h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="header-sumut">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="fw-bold mb-0">
+                        <i class="bi bi-cloud-lightning-rain-fill"></i>
+                        Peringatan Dini Cuaca 
+                        <span class="province-highlight">Sumatera Utara</span>
+                    </h2>
+                    <p class="mb-0 mt-2">
+                        Update Terakhir: <strong>20 February 2026 16:15:42 WIB</strong> | 
+                        Total Peringatan: <span class="badge bg-danger">1</span>
+                        <span class="ms-3 text-white-50">
+                            <i class="bi bi-filter"></i> Hanya Sumatera Utara
+                        </span>
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span class="status-indicator status-active"></span>
+                        <small class="text-light fw-bold">Sistem Aktif</small>
+                    </div>
+                    <a href="?action=list" class="btn btn-light btn-sm mt-2">
+                        <i class="bi bi-arrow-clockwise"></i> Refresh Data
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Filter Tags -->
+            <div class="filter-tags mt-3">
+                <span class="filter-tag bg-white text-primary">
+                    <i class="bi bi-geo-alt"></i> Wilayah Filter: Sumut
+                </span>
+                <span class="filter-tag">
+                    Total Data Dipindai: 20                </span>
+                <span class="filter-tag">
+                    50 Kata Kunci Wilayah
+                </span>
+            </div>
+        </div>
+
+                <!-- DAFTAR PERINGATAN -->
+        <div class="row mt-4">
+            <div class="col-12">
+                                    <div class="alert alert-primary">
+                        <h5>
+                            <i class="bi bi-bell-fill"></i> 
+                            1 Peringatan Aktif 
+                            <span class="badge bg-white text-primary">Sumatera Utara</span>
+                        </h5>
+                        <p class="mb-0">
+                            <i class="bi bi-filter"></i> 
+                            Menampilkan peringatan dini cuaca khusus untuk wilayah 
+                            <span class="highlight-sumut">Sumatera Utara</span>.
+                        </p>
+                    </div>
+                    
+                                        <div class="alert-card alert-medium">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-primary me-2">
+                                        <i class="bi bi-geo-alt-fill"></i> SUMUT
+                                    </span>
+                                    <h4 class="mb-0">Hujan Lebat disertai Petir di Sumatera Utara</h4>
+                                </div>
+                                <p class="text-muted mb-2">
+                                    <i class="bi bi-calendar-event"></i> 20 February 2026 14:50 WIB                                </p>
+                                <p class="mb-0 mt-2" style="color:#495057;">Hujan lebat disertai petir akan terjadi pada 20 February 2026, 15:20 WIB di sebagian wilayah Sumatera Utara, khususnya di Adian Koting, Arse, Batang Serangan, Harian, Kerajaan, Kolang, Onan Ganjang, Pagar Merbau, Pagaran, Pakkat, Parlilitan, Parmonangan, Pollung, Siempat Rube, Sijamapolang, Sipirok, Sipoholon, Sitelu Tali Urang Jehe, Sitelu Tali Urang Julu, Tanah Pinem, Tanjung Morawa, Tarutung, Tigalingga.
+ Kondisi ini berpotensi menimbulkan dampak berupa jarak pandang berkurang, angin kencang, dan banjir lokal.
+ Masyarakat dihimbau untuk tetap waspada, mengurangi aktivitas di luar ruangan, serta mengambil langkah-langkah pencegahan yang diperlukan guna menjaga keselamatan.
+ Kondisi diperkirakan dapat berlangsung hingga 20 February 2026, 17:20 WIB.</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                                                <a href="?action=detail&alert_code=CSU20260220001" 
+                                   class="btn btn-primary btn-sm mb-2">
+                                    <i class="bi bi-eye-fill"></i> Lihat Detail
+                                </a>
+                                                                <br>
+                                <small class="text-muted">
+                                    <i class="bi bi-hash"></i> 
+                                    <code>CSU20260220001</code>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                                                    
+                <!-- Informasi Sistem -->
+                
+                
+            </div>
+        </div>
+                
+        <!-- Footer -->
+       
+    </div>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    // Auto-refresh setiap 10 menit
+    setTimeout(function() {
+        window.location.reload();
+    }, 600000);
+    
+    // Highlight kata kunci Sumatera Utara
+    document.addEventListener('DOMContentLoaded', function() {
+        const sumutKeywords = ['Sumatera Utara', 'Sumut', 'Medan', 'Deli Serdang', 'Binjai', 'Karo'];
+        const contentElements = document.querySelectorAll('.alert-card p');
+        
+        contentElements.forEach(element => {
+            let text = element.innerHTML;
+            sumutKeywords.forEach(keyword => {
+                const regex = new RegExp(`(${keyword})`, 'gi');
+                text = text.replace(regex, '<span class="highlight-sumut">$1</span>');
+            });
+            element.innerHTML = text;
+        });
+    });
+    </script>
+</body>
+</html>
+   <!-- Section Perkiraan Cuaca Sumatera Utara -->
+<section id="perkiraan-cuaca" class="mb-5 section-animate">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 section-heading">
+        <div>
+            <span class="text-uppercase fw-semibold text-primary">Forecast</span>
+            <h2 class="fw-bold text-primary mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-cloud-sun me-2" viewBox="0 0 16 16">
+                    <path d="M7 8a3.5 3.5 0 0 1 3.5 3.555.5.5 0 0 0 .624.492A1.503 1.503 0 0 1 13 13.5a1.5 1.5 0 0 1-1.5 1.5H3a2 2 0 1 1 .1-3.998.5.5 0 0 0 .51-.375A3.5 3.5 0 0 1 7 8m4.473 3a4.5 4.5 0 0 0-8.72-.99A3 3 0 0 0 3 16h8.5a2.5 2.5 0 0 0 0-5z"/>
+                    <path d="M10.5 1.5a.5.5 0 0 0-1 0v1a.5.5 0 0 0 1 0zm3.743 1.964a.5.5 0 1 0-.707-.707l-.708.707a.5.5 0 0 0 .708.708zm-7.779-.707a.5.5 0 0 0-.707.707l.707.708a.5.5 0 1 0 .708-.708zm1.734 3.374a2 2 0 1 1 3.296 2.198q.3.423.516.898a3 3 0 1 0-4.84-3.225q.529.017 1.028.129m4.484 4.074c.6.215 1.125.59 1.522 1.072a.5.5 0 0 0 .039-.742l-.707-.707a.5.5 0 0 0-.854.377M14.5 6.5a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"/>
+                </svg>
+                Prakiraan Cuaca Sumatera Utara
+            </h2>
+        </div>
+        <div class="text-end">
+            <span class="text-muted d-block" id="forecast-update-time">
+                20 February 2026, 16:15 WIB            </span>
+            <small class="text-muted">Data resmi dari BMKG</small>
+        </div>
+    </div>
+
+    <!-- Info BMKG -->
+    <div class="alert alert-info alert-sm mb-3">
+        <div class="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle me-2" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+            </svg>
+            <small>Data cuaca resmi Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) Republik Indonesia</small>
+        </div>
+    </div>
+
+    <!-- Filter dan Pencarian -->
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <div class="input-group input-group-sm">
+                <span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 1-1.415 1.414l-3.85-3.85a1 1 0 0 1-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg>
+                </span>
+                <input type="text" id="search-weather" class="form-control" placeholder="Cari kabupaten/kota di Sumatera Utara...">
+                <button class="btn btn-outline-primary" type="button" id="clear-search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex gap-2">
+                <select id="filter-type" class="form-select form-select-sm">
+                    <option value="all">Semua Jenis</option>
+                    <option value="Kota">Kota</option>
+                    <option value="Kabupaten">Kabupaten</option>
+                </select>
+                <select id="filter-weather" class="form-select form-select-sm">
+                    <option value="all">Semua Cuaca</option>
+                    <option value="Cerah">Cerah</option>
+                    <option value="Cerah Berawan">Cerah Berawan</option>
+                    <option value="Berawan">Berawan</option>
+                    <option value="Berawan Tebal">Berawan Tebal</option>
+                    <option value="Udara Kabur">Udara Kabur</option>
+                    <option value="Asap">Asap</option>
+                    <option value="Kabut">Kabut</option>
+                    <option value="Hujan Ringan">Hujan Ringan</option>
+                    <option value="Hujan Sedang">Hujan Sedang</option>
+                    <option value="Hujan Lebat">Hujan Lebat</option>
+                    <option value="Hujan Lokal">Hujan Lokal</option>
+                    <option value="Hujan Petir">Hujan Petir</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontrol Slider -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center">
+            <span class="pulse-dot me-2"></span>
+            <small class="text-muted">Live Update</small>
+            <div class="form-check form-switch ms-3">
+                <input class="form-check-input" type="checkbox" role="switch" id="toggle-slider" checked>
+                <label class="form-check-label" for="toggle-slider">Auto Slide</label>
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-outline-primary btn-sm" id="pause-forecast">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
+                        <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/>
+                    </svg>
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" id="play-forecast">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+                    </svg>
+                </button>
+            </div>
+            <button id="refresh-forecast" class="btn btn-primary btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="weather-loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-muted">Memuat data cuaca dari BMKG...</p>
+    </div>
+
+    <!-- Container Grid Cuaca -->
+    <div class="weather-grid-container mb-3" id="weather-grid-container" style="display: none;">
+        <div class="row g-3" id="weather-grid">
+            <!-- Card cuaca akan di-generate oleh JavaScript -->
+        </div>
+    </div>
+
+    <!-- Container Slider Cuaca -->
+    <div class="weather-slider-container" id="weather-slider-container" style="display: none;">
+        <div class="weather-slider-track" id="weather-slider-track">
+            <!-- Card cuaca akan di-generate oleh JavaScript -->
+        </div>
+    </div>
+
+    <!-- Toggle View Mode -->
+    <div class="text-center mb-3" id="view-toggle" style="display: none;">
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-outline-primary active" data-view="slider">
+                <svg xmlns="http://www.w3.org2000/svg" width="14" height="14" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                    <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+                </svg>
+                Slider
+            </button>
+            <button type="button" class="btn btn-outline-primary" data-view="grid">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-grid-3x3-gap" viewBox="0 0 16 16">
+                    <path d="M4 2v2H2V2zM2 8h2v2H2zm0 6h2v2H2zm6-8h2v2H8zm0 6h2v2H8zm0 6h2v2H8zm6-14v2h-2V2zm-2 6h2v2h-2zm0 6h2v2h-2z"/>
+                </svg>
+                Grid
+            </button>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="weather-error" class="alert alert-warning" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-exclamation-triangle me-2" viewBox="0 0 16 16">
+            <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+            <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+        </svg>
+        <span id="error-message">Gagal memuat data cuaca. Silakan coba lagi.</span>
+    </div>
+
+    <!-- Legenda dan Info -->
+    <div class="row mt-3" id="weather-legend" style="display: none;">
+        <div class="col-md-8">
+            <div class="d-flex flex-wrap gap-3 align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="https://img.icons8.com/fluency/24/sun.png" class="me-2" width="20" height="20">
+                    <small>Cerah</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <img src="https://img.icons8.com/fluency/24/partly-cloudy-day.png" class="me-2" width="20" height="20">
+                    <small>Berawan</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <img src="https://img.icons8.com/fluency/24/cloud.png" class="me-2" width="20" height="20">
+                    <small>Mendung</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <img src="https://img.icons8.com/fluency/24/rain.png" class="me-2" width="20" height="20">
+                    <small>Hujan</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <img src="https://img.icons8.com/fluency/24/storm.png" class="me-2" width="20" height="20">
+                    <small>Badai</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <img src="https://img.icons8.com/fluency/24/fog-day.png" class="me-2" width="20" height="20">
+                    <small>Kabut</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-end">
+            <small class="text-muted" id="weather-count-info">Total: <span id="total-cities-weather">0</span> Kabupaten/Kota</small>
+            <br>
+            <small class="text-muted" id="filtered-count-info"></small>
+        </div>
+    </div>
+
+    <!-- Pagination untuk Grid View -->
+    <nav aria-label="Weather pagination" id="weather-pagination" class="mt-3" style="display: none;">
+        <ul class="pagination pagination-sm justify-content-center" id="pagination-list">
+            <!-- Pagination akan di-generate oleh JavaScript -->
+        </ul>
+    </nav>
+</section>
+
+<style>
+    /* Container untuk slider cuaca */
+    .weather-slider-container {
+        position: relative;
+        overflow: hidden;
+        padding: 5px 0;
+        background: linear-gradient(to right, 
+            rgba(255,255,255,0.9) 0%, 
+            rgba(255,255,255,0) 5%, 
+            rgba(255,255,255,0) 95%, 
+            rgba(255,255,255,0.9) 100%);
+    }
+    
+    .weather-slider-track {
+        display: flex;
+        gap: 15px;
+        animation: slideLeft 35s linear infinite;
+        width: max-content;
+    }
+    
+    /* Pause animation */
+    .weather-slider-track.paused {
+        animation-play-state: paused;
+    }
+    
+    /* Animation untuk auto slide */
+    @keyframes slideLeft {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+    
+    /* Grid container */
+    .weather-grid-container {
+        min-height: 400px;
+    }
+    
+    /* Card cuaca styling untuk grid */
+    .weather-grid-card {
+        height: 100%;
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Card cuaca styling untuk slider */
+    .weather-mini-card {
+        flex: 0 0 200px;
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        min-height: 180px;
+    }
+    
+    .weather-grid-card:hover,
+    .weather-mini-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+        border-color: #48a9ff;
+    }
+    
+    .weather-grid-card.active,
+    .weather-mini-card.active {
+        border-color: #48a9ff;
+        box-shadow: 0 0 0 2px rgba(72, 169, 255, 0.2);
+    }
+    
+    /* Header card */
+    .weather-card-header {
+        text-align: center;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .city-name-weather {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 3px;
+    }
+    
+    .city-type {
+        font-size: 0.75rem;
+        color: #6c757d;
+        display: inline-block;
+        padding: 2px 8px;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+    
+    /* Icon dan suhu */
+    .weather-icon-temp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin: 10px 0;
+    }
+    
+    .weather-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .temp-display {
+        text-align: center;
+    }
+    
+    .temp-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        line-height: 1;
+    }
+    
+    .temp-unit {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-top: 2px;
+    }
+    
+    /* Deskripsi cuaca */
+    .weather-desc {
+        text-align: center;
+        margin: 8px 0;
+    }
+    
+    .desc-text {
+        font-size: 0.85rem;
+        color: #48a9ff;
+        font-weight: 600;
+        padding: 4px 10px;
+        background: rgba(72, 169, 255, 0.1);
+        border-radius: 12px;
+        display: inline-block;
+    }
+    
+    /* Detail parameter */
+    .weather-details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-top: 10px;
+    }
+    
+    .detail-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 8px;
+        text-align: center;
+    }
+    
+    .detail-label {
+        font-size: 0.7rem;
+        color: #6c757d;
+        margin-bottom: 3px;
+    }
+    
+    .detail-value {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    /* Footer */
+    .weather-card-footer {
+        margin-top: auto;
+        padding-top: 10px;
+        border-top: 1px solid #e9ecef;
+        text-align: center;
+    }
+    
+    .update-time-weather {
+        font-size: 0.7rem;
+        color: #6c757d;
+    }
+    
+    /* Pulse animation */
+    .pulse-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #28a745;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+        }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .weather-mini-card {
+            flex: 0 0 170px;
+            padding: 12px;
+            min-height: 170px;
+        }
+        
+        .weather-icon {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .temp-value {
+            font-size: 1.7rem;
+        }
+        
+        .weather-slider-track {
+            gap: 10px;
+        }
+        
+        .weather-details {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+        
+        #view-toggle {
+            margin-bottom: 15px;
+        }
+    }
+    
+    /* Highlight untuk pencarian */
+    .highlight {
+        background-color: #fff3cd;
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
+</style>
+
+<script>
+// ========== KONFIGURASI UTAMA ==========
+
+let isWeatherPlaying = true;
+let currentWeatherActive = 0;
+let weatherData = [];
+let filteredWeatherData = [];
+let currentView = 'slider';
+let currentPage = 1;
+const itemsPerPage = 12;
+
+// Daftar kode wilayah Sumatera Utara (propinsi 12)
+const sumutCodes = [
+    // 8 KOTA
+    { code: "12.71.04.1006", name: "Medan", type: "Kota" },
+    { code: "12.72.08.1005", name: "Pematang Siantar", type: "Kota" },
+    { code: "12.73.01.1004", name: "Sibolga", type: "Kota" },
+    { code: "12.74.01.1002", name: "Tanjung Balai", type: "Kota" },
+    { code: "12.75.02.1006", name: "Binjai", type: "Kota" },
+    { code: "12.76.03.1004", name: "Tebing Tinggi", type: "Kota" },
+    { code: "12.77.05.2012", name: "Padang Sidempuan", type: "Kota" },
+    { code: "12.78.01.1030", name: "Gunungsitoli", type: "Kota" },
+    
+    // 25 KABUPATEN
+    { code: "12.01.12.2010", name: "Tapanuli Tengah", type: "Kabupaten" },
+    { code: "12.02.15.2015", name: "Tapanuli Utara", type: "Kabupaten" },
+    { code: "12.03.06.2018", name: "Tapanuli Selatan", type: "Kabupaten" },
+    { code: "12.04.35.2011", name: "Nias", type: "Kabupaten" },
+    { code: "12.05.13.2004", name: "Langkat", type: "Kabupaten" },
+    { code: "12.72.04.1002", name: "Karo", type: "Kabupaten" },
+    { code: "12.07.22.1006", name: "Deli Serdang", type: "Kabupaten" },
+    { code: "12.72.04.1003", name: "Simalungun", type: "Kabupaten" },
+    { code: "12.09.10.2004", name: "Asahan", type: "Kabupaten" },
+    { code: "12.10.20.2007", name: "Labuhanbatu", type: "Kabupaten" },
+    { code: "12.11.15.2003", name: "Dairi", type: "Kabupaten" },
+    { code: "12.72.04.1001", name: "Toba", type: "Kabupaten" },
+    { code: "12.13.16.2026", name: "Mandailing Natal", type: "Kabupaten" },
+    { code: "12.14.04.2021", name: "Nias Selatan", type: "Kabupaten" },
+    { code: "12.15.08.2006", name: "Pakpak Bharat", type: "Kabupaten" },
+    { code: "12.16.10.2009", name: "Humbang Hasundutan", type: "Kabupaten" },
+    { code: "12.17.09.2008", name: "Samosir", type: "Kabupaten" },
+    { code: "12.18.17.2019", name: "Serdang Bedagai", type: "Kabupaten" },
+    { code: "12.21.02.2018", name: "Batu Bara", type: "Kabupaten" },
+    { code: "12.20.05.2017", name: "Padang Lawas Utara", type: "Kabupaten" },
+    { code: "12.21.12.2012", name: "Padang Lawas", type: "Kabupaten" },
+    { code: "12.22.01.1001", name: "Labuhanbatu Selatan", type: "Kabupaten" },
+    { code: "12.23.08.2012", name: "Labuhanbatu Utara", type: "Kabupaten" },
+    { code: "12.24.11.2007", name: "Nias Utara", type: "Kabupaten" },
+    { code: "12.25.03.2014", name: "Nias Barat", type: "Kabupaten" }
+];
+
+// ========== FETCH DATA DARI API BMKG ==========
+
+async function fetchWeatherDataFromBMKG() {
+    console.log('Memulai pengambilan data cuaca dari BMKG...');
+    
+    const weatherPromises = sumutCodes.map(async (city) => {
+        try {
+            const apiUrl = `https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4=${city.code}`;
+            console.log(`Fetching data for ${city.name}: ${apiUrl}`);
+            
+            const response = await fetch(apiUrl);
+            
+            if (!response.ok) {
+                console.warn(`Gagal mengambil data untuk ${city.name}: ${response.status}`);
+                return createFallbackData(city);
+            }
+            
+            const data = await response.json();
+            
+            // Validasi struktur data
+            if (!data || !data.data || !data.data[0] || !data.data[0].cuaca) {
+                console.warn(`Struktur data tidak valid untuk ${city.name}`);
+                return createFallbackData(city);
+            }
+            
+            // Ambil data cuaca untuk hari ini (index 0)
+            const todayForecast = data.data[0].cuaca[0];
+            
+            if (!todayForecast || !Array.isArray(todayForecast)) {
+                console.warn(`Data cuaca tidak ditemukan untuk ${city.name}`);
+                return createFallbackData(city);
+            }
+            
+            // Ambil data jam terdekat (jam 12 siang biasanya data tersedia)
+            const closestForecast = todayForecast.find(f => {
+                const hour = new Date(f.local_datetime).getHours();
+                return hour >= 10 && hour <= 14; // Ambil antara jam 10-14
+            }) || todayForecast[0]; // Fallback ke data pertama
+            
+            return {
+                id: city.code,
+                name: city.name,
+                type: city.type,
+                temp: closestForecast?.t ? parseInt(closestForecast.t) : 27,
+                humidity: closestForecast?.hu ? parseInt(closestForecast.hu) : 75,
+                wind: closestForecast?.ws ? parseFloat(closestForecast.ws) : 10,
+                condition: closestForecast?.weather_desc || "Cerah",
+                icon: closestForecast?.image ? closestForecast.image.replace(" ", "%20") : getWeatherIcon("Cerah"),
+                lastUpdate: new Date().toISOString(),
+                source: 'bmkg',
+                lat: data.lokasi?.lat || 2.5 + Math.random() * 1.5,
+                lon: data.lokasi?.lon || 98 + Math.random() * 2
+            };
+            
+        } catch (error) {
+            console.error(`Error fetching data for ${city.name}:`, error);
+            return createFallbackData(city);
+        }
+    });
+    
+    const results = await Promise.all(weatherPromises);
+    
+    // Filter hanya data yang valid
+    const validResults = results.filter(item => item !== null);
+    console.log(`Berhasil mengambil ${validResults.length} dari ${sumutCodes.length} data`);
+    
+    return validResults;
+}
+
+function createFallbackData(city) {
+    // Data fallback jika API gagal
+    const conditions = ["Cerah", "Cerah Berawan", "Berawan", "Hujan Ringan"];
+    const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
+    
+    return {
+        id: city.code,
+        name: city.name,
+        type: city.type,
+        temp: 27 + Math.floor(Math.random() * 5), // 27-31 derajat
+        humidity: 70 + Math.floor(Math.random() * 15), // 70-85%
+        wind: 8 + Math.floor(Math.random() * 10), // 8-18 km/jam
+        condition: randomCondition,
+        icon: getWeatherIcon(randomCondition),
+        lastUpdate: new Date().toISOString(),
+        source: 'simulasi',
+        lat: 2.5 + Math.random() * 1.5,
+        lon: 98 + Math.random() * 2
+    };
+}
+
+function getWeatherIcon(condition) {
+    const icons = {
+        "Cerah": "https://img.icons8.com/fluency/96/sun.png",
+        "Cerah Berawan": "https://img.icons8.com/fluency/96/partly-cloudy-day.png",
+        "Berawan": "https://img.icons8.com/fluency/96/cloud.png",
+        "Berawan Tebal": "https://img.icons8.com/fluency/96/cloud.png",
+        "Udara Kabur": "https://img.icons8.com/fluency/96/fog-day.png",
+        "Asap": "https://img.icons8.com/fluency/96/fog-day.png",
+        "Kabut": "https://img.icons8.com/fluency/96/fog-day.png",
+        "Hujan Ringan": "https://img.icons8.com/fluency/96/rain.png",
+        "Hujan Sedang": "https://img.icons8.com/fluency/96/rain.png",
+        "Hujan Lebat": "https://img.icons8.com/fluency/96/storm.png",
+        "Hujan Lokal": "https://img.icons8.com/fluency/96/rain.png",
+        "Hujan Petir": "https://img.icons8.com/fluency/96/storm.png"
+    };
+    return icons[condition] || "https://img.icons8.com/fluency/96/cloud.png";
+}
+
+// ========== FUNGSI UTAMA ==========
+
+async function getAllSumutWeatherData() {
+    console.log('Memuat data cuaca Sumatera Utara...');
+    
+    try {
+        // Tampilkan loading
+        document.getElementById('weather-loading').style.display = 'block';
+        document.getElementById('weather-error').style.display = 'none';
+        
+        // Reset semua container
+        ['weather-slider-container', 'weather-grid-container', 'weather-legend', 'view-toggle', 'weather-pagination'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+        
+        // Ambil data dari BMKG
+        weatherData = await fetchWeatherDataFromBMKG();
+        
+        // Validasi data
+        if (!weatherData || weatherData.length === 0) {
+            throw new Error('Tidak ada data yang diterima dari API');
+        }
+        
+        // Update UI
+        filteredWeatherData = [...weatherData];
+        updateView();
+        
+        // Tampilkan elemen UI
+        document.getElementById('weather-loading').style.display = 'none';
+        document.getElementById('view-toggle').style.display = 'flex';
+        document.getElementById('weather-legend').style.display = 'flex';
+        
+        // Update waktu
+        updateForecastTime();
+        
+    } catch (error) {
+        console.error('Error loading weather data:', error);
+        showErrorState('Gagal memuat data cuaca. ' + error.message);
+    }
+}
+
+// ========== FUNGSI UI ==========
+
+function updateView() {
+    if (currentView === 'slider') {
+        updateSliderView();
+    } else {
+        updateGridView();
+    }
+    
+    updateWeatherCount();
+}
+
+function updateSliderView() {
+    const track = document.getElementById('weather-slider-track');
+    if (!track || filteredWeatherData.length === 0) return;
+    
+    // Duplicate data untuk infinite scroll
+    const duplicatedData = [...filteredWeatherData, ...filteredWeatherData];
+    
+    // Render cards
+    const cardsHTML = duplicatedData.map((city, index) => {
+        return createWeatherCard(city, index, 'slider');
+    }).join('');
+    
+    track.innerHTML = cardsHTML;
+    
+    // Set active card
+    if (filteredWeatherData.length > 0) {
+        setActiveWeatherCard(0, 'slider');
+    }
+    
+    // Tampilkan slider
+    document.getElementById('weather-slider-container').style.display = 'block';
+    document.getElementById('weather-grid-container').style.display = 'none';
+    
+    // Update animasi
+    const trackElement = document.getElementById('weather-slider-track');
+    const toggleSlider = document.getElementById('toggle-slider');
+    if (trackElement && toggleSlider) {
+        if (isWeatherPlaying && toggleSlider.checked) {
+            trackElement.classList.remove('paused');
+        } else {
+            trackElement.classList.add('paused');
+        }
+    }
+    
+    // Sembunyikan pagination
+    const pagination = document.getElementById('weather-pagination');
+    if (pagination) pagination.style.display = 'none';
+}
+
+function createWeatherCard(city, index, viewType = 'slider') {
+    // Validasi data
+    if (!city) return '';
+    
+    // Tentukan warna suhu
+    let tempColor = 'text-primary';
+    if (city.temp <= 22) tempColor = 'text-info';
+    if (city.temp >= 30) tempColor = 'text-warning';
+    if (city.temp >= 33) tempColor = 'text-danger';
+    
+    // Highlight pencarian
+    const searchInput = document.getElementById('search-weather');
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+    let cityName = city.name || `Kota ${index + 1}`;
+    
+    if (searchTerm && cityName.toLowerCase().includes(searchTerm)) {
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        cityName = cityName.replace(regex, '<span class="highlight">$1</span>');
+    }
+    
+    const cardClass = viewType === 'slider' ? 'weather-mini-card' : 'weather-grid-card';
+    const sourceText = city.source === 'bmkg' ? 'BMKG' : 'Simulasi';
+    
+    return `
+        <div class="${cardClass}" 
+             data-index="${index}"
+             onclick="setActiveWeatherCard(${index}, '${viewType}')">
+            
+            <div class="weather-card-header">
+                <div class="city-name-weather">${cityName}</div>
+                <span class="city-type">${city.type || "Kabupaten"}</span>
+            </div>
+            
+            <div class="weather-icon-temp">
+                <img src="${city.icon || getWeatherIcon('Cerah')}" 
+                     class="weather-icon" 
+                     alt="${city.condition || 'Cerah'}" 
+                     onerror="this.src='https://img.icons8.com/fluency/96/cloud.png'">
+                <div class="temp-display">
+                    <div class="temp-value ${tempColor}">${city.temp || 27}°</div>
+                    <div class="temp-unit">Celsius</div>
+                </div>
+            </div>
+            
+            <div class="weather-desc">
+                <span class="desc-text">${city.condition || "Cerah"}</span>
+            </div>
+            
+            <div class="weather-details">
+                <div class="detail-item">
+                    <div class="detail-label">Kelembapan</div>
+                    <div class="detail-value">${city.humidity || 75}%</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Angin</div>
+                    <div class="detail-value">${Math.round(city.wind || 10)} km/jam</div>
+                </div>
+                ${viewType === 'grid' ? `
+                <div class="detail-item">
+                    <div class="detail-label">Sumber</div>
+                    <div class="detail-value">${sourceText}</div>
+                </div>
+                ` : ''}
+            </div>
+            
+            <div class="weather-card-footer">
+                <div class="update-time-weather">
+                    Update: ${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function updateGridView() {
+    const grid = document.getElementById('weather-grid');
+    if (!grid || filteredWeatherData.length === 0) {
+        document.getElementById('weather-grid-container').style.display = 'none';
+        document.getElementById('weather-pagination').style.display = 'none';
+        return;
+    }
+    
+    // Hitung pagination
+    const totalPages = Math.ceil(filteredWeatherData.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentData = filteredWeatherData.slice(startIndex, endIndex);
+    
+    // Clear grid
+    grid.innerHTML = '';
+    
+    // Render cards
+    currentData.forEach((city, index) => {
+        const col = document.createElement('div');
+        col.className = 'col-md-3 col-sm-6';
+        col.innerHTML = createWeatherCard(city, startIndex + index, 'grid');
+        grid.appendChild(col);
+    });
+    
+    // Tampilkan grid
+    document.getElementById('weather-grid-container').style.display = 'block';
+    document.getElementById('weather-slider-container').style.display = 'none';
+    
+    // Update pagination
+    updatePagination(totalPages);
+}
+
+function setActiveWeatherCard(index, viewType = 'slider') {
+    if (!filteredWeatherData || filteredWeatherData.length === 0) return;
+    
+    currentWeatherActive = index % filteredWeatherData.length;
+    const selector = viewType === 'slider' ? '.weather-mini-card' : '.weather-grid-card';
+    const cards = document.querySelectorAll(selector);
+    
+    cards.forEach(card => {
+        const cardIndex = parseInt(card.dataset.index) % filteredWeatherData.length;
+        card.classList.toggle('active', cardIndex === currentWeatherActive);
+    });
+}
+
+function updateWeatherCount() {
+    const total = weatherData.length;
+    const filtered = filteredWeatherData.length;
+    
+    const totalElement = document.getElementById('total-cities-weather');
+    const filteredElement = document.getElementById('filtered-count-info');
+    
+    if (totalElement) totalElement.textContent = total;
+    
+    if (filtered === total) {
+        if (filteredElement) filteredElement.textContent = '';
+    } else {
+        if (filteredElement) filteredElement.textContent = `Menampilkan: ${filtered} dari ${total}`;
+    }
+}
+
+function updateForecastTime() {
+    const now = new Date();
+    const timeElement = document.getElementById('forecast-update-time');
+    
+    if (timeElement) {
+        timeElement.textContent = now.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }) + ' WIB';
+    }
+}
+
+// ========== FUNGSI BANTUAN LAINNYA ==========
+
+function switchViewMode(mode) {
+    currentView = mode;
+    
+    // Update button states
+    document.querySelectorAll('#view-toggle button').forEach(btn => {
+        if (btn.dataset.view === mode) {
+            btn.classList.remove('btn-outline-primary');
+            btn.classList.add('btn-primary');
+        } else {
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-outline-primary');
+        }
+    });
+    
+    updateView();
+}
+
+function updatePagination(totalPages) {
+    const pagination = document.getElementById('pagination-list');
+    const paginationContainer = document.getElementById('weather-pagination');
+    
+    if (!pagination || !paginationContainer) return;
+    
+    if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+    }
+    
+    paginationContainer.style.display = 'block';
+    
+    let paginationHTML = '';
+    
+    // Previous button
+    paginationHTML += `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="changePage(${currentPage - 1}); return false;">&laquo;</a>
+        </li>
+    `;
+    
+    // Page numbers
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+            <li class="page-item ${currentPage === i ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="changePage(${i}); return false;">${i}</a>
+            </li>
+        `;
+    }
+    
+    // Next button
+    paginationHTML += `
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="changePage(${currentPage + 1}); return false;">&raquo;</a>
+        </li>
+    `;
+    
+    pagination.innerHTML = paginationHTML;
+}
+
+function changePage(page) {
+    if (page < 1 || page > Math.ceil(filteredWeatherData.length / itemsPerPage)) return;
+    currentPage = page;
+    updateGridView();
+}
+
+function filterWeatherData() {
+    const searchInput = document.getElementById('search-weather');
+    const filterType = document.getElementById('filter-type');
+    const filterWeather = document.getElementById('filter-weather');
+    
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+    const typeFilter = filterType ? filterType.value : 'all';
+    const weatherFilter = filterWeather ? filterWeather.value : 'all';
+    
+    filteredWeatherData = weatherData.filter(city => {
+        // Filter berdasarkan pencarian
+        const matchesSearch = city.name.toLowerCase().includes(searchTerm) ||
+                            city.type.toLowerCase().includes(searchTerm) ||
+                            (city.condition && city.condition.toLowerCase().includes(searchTerm));
+        
+        // Filter berdasarkan tipe
+        const matchesType = typeFilter === 'all' || city.type === typeFilter;
+        
+        // Filter berdasarkan kondisi cuaca
+        const matchesWeather = weatherFilter === 'all' ||
+                             (city.condition && city.condition.includes(weatherFilter));
+        
+        return matchesSearch && matchesType && matchesWeather;
+    });
+    
+    currentPage = 1;
+    updateView();
+}
+
+function showErrorState(message) {
+    const errorDiv = document.getElementById('weather-error');
+    const loadingDiv = document.getElementById('weather-loading');
+    
+    if (loadingDiv) loadingDiv.style.display = 'none';
+    
+    if (errorDiv) {
+        document.getElementById('error-message').textContent = message;
+        errorDiv.style.display = 'flex';
+    }
+    
+    // Gunakan data fallback
+    weatherData = sumutCodes.map(city => createFallbackData(city));
+    filteredWeatherData = [...weatherData];
+    updateView();
+    
+    // Tampilkan elemen UI
+    document.getElementById('view-toggle').style.display = 'flex';
+    document.getElementById('weather-legend').style.display = 'flex';
+}
+
+// ========== INITIALIZATION ==========
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing weather app...');
+    
+    // Load data
+    getAllSumutWeatherData();
+    
+    // Setup event listeners
+    const setupEventListener = (id, event, handler) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener(event, handler);
+        }
+    };
+    
+    // Event listeners
+    setupEventListener('refresh-forecast', 'click', () => {
+        console.log('Refresh clicked');
+        getAllSumutWeatherData();
+    });
+    
+    setupEventListener('pause-forecast', 'click', toggleWeatherSlider);
+    setupEventListener('play-forecast', 'click', toggleWeatherSlider);
+    
+    const toggleSlider = document.getElementById('toggle-slider');
+    if (toggleSlider) {
+        toggleSlider.addEventListener('change', function() {
+            const track = document.getElementById('weather-slider-track');
+            if (track) {
+                if (this.checked && isWeatherPlaying) {
+                    track.classList.remove('paused');
+                } else {
+                    track.classList.add('paused');
+                }
+            }
+        });
+    }
+    
+    // Search and filter
+    setupEventListener('search-weather', 'input', filterWeatherData);
+    setupEventListener('filter-type', 'change', filterWeatherData);
+    setupEventListener('filter-weather', 'change', filterWeatherData);
+    
+    const clearSearch = document.getElementById('clear-search');
+    if (clearSearch) {
+        clearSearch.addEventListener('click', function() {
+            const searchInput = document.getElementById('search-weather');
+            if (searchInput) {
+                searchInput.value = '';
+                filterWeatherData();
+            }
+        });
+    }
+    
+    // View toggle
+    document.querySelectorAll('#view-toggle button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            switchViewMode(this.dataset.view);
+        });
+    });
+});
+
+// ========== GLOBAL FUNCTIONS ==========
+
+window.setActiveWeatherCard = setActiveWeatherCard;
+window.changePage = changePage;
+window.switchViewMode = switchViewMode;
+window.filterWeatherData = filterWeatherData;
+
+function toggleWeatherSlider() {
+    const track = document.getElementById('weather-slider-track');
+    const pauseBtn = document.getElementById('pause-forecast');
+    const playBtn = document.getElementById('play-forecast');
+    
+    if (!track || !pauseBtn || !playBtn) return;
+    
+    if (isWeatherPlaying) {
+        track.classList.add('paused');
+        pauseBtn.classList.remove('btn-outline-primary');
+        pauseBtn.classList.add('btn-primary');
+        playBtn.classList.remove('btn-primary');
+        playBtn.classList.add('btn-outline-primary');
+        isWeatherPlaying = false;
+    } else {
+        track.classList.remove('paused');
+        playBtn.classList.remove('btn-outline-primary');
+        playBtn.classList.add('btn-primary');
+        pauseBtn.classList.remove('btn-primary');
+        pauseBtn.classList.add('btn-outline-primary');
+        isWeatherPlaying = true;
+    }
+}
+
+window.toggleWeatherSlider = toggleWeatherSlider;
+
+console.log("Weather app script loaded successfully");
+</script> <!-- SECTION GEMPA TERKINI -->
+<section id="gempa-terkini" class="py-5 section-animate">
+    <div class="container">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 section-heading">
+            <div>
+                <span class="text-uppercase fw-semibold">Informasi</span>
+                <h2 class="fw-bold text-primary mb-0">Gempa Bumi Terkini (BMKG)</h2>
+            </div>
+            <a href="https://www.bmkg.go.id/gempabumi/gempabumi-dirasakan.bmkg" 
+               target="_blank" class="fw-semibold text-decoration-none mt-3 mt-md-0">
+                Lihat Semua
+            </a>
+        </div>
+
+        
+        <!-- CARD HORIZONTAL -->
+        <div class="card shadow-sm border-0 overflow-hidden">
+            <div class="row g-0 align-items-center">
+
+                <!-- BAGIAN GAMBAR -->
+                <div class="col-lg-5">
+                    <img src="https://data.bmkg.go.id/DataMKG/TEWS/20260219140220.mmi.jpg" class="img-fluid w-100" alt="Peta Gempa BMKG" 
+                         style="object-fit: cover; height: 100%;">
+                </div>
+
+                <!-- BAGIAN KETERANGAN -->
+                <div class="col-lg-7">
+                    <div class="card-body">
+
+                        <h4 class="fw-bold text-primary mb-3">Gempa Bumi Terkini</h4>
+
+                        <ul class="list-unstyled mb-3">
+                            <li><strong>Waktu:</strong> 19 Feb 2026 14:02:20 WIB WIB</li>
+                            <li><strong>Magnitudo:</strong> 5.1 SR</li>
+                            <li><strong>Kedalaman:</strong> 67 km</li>
+                            <li><strong>Koordinat:</strong> 5.60 LS, 133.78 BT</li>
+                            <li><strong>Lokasi:</strong> Pusat gempa berada di laut 52 km barat laut Kepulauan Aru</li>
+                        </ul>
+
+                        <div class="alert alert-warning py-2">
+                            ⚠ <small>Gempa ini dirasakan untuk diteruskan pada masyarakat</small>
+                        </div>
+
+                        <a href="https://www.bmkg.go.id/gempabumi/gempabumi-dirasakan.bmkg" 
+                           target="_blank" class="btn btn-primary w-100 mt-2">
+                            Detail Selengkapnya
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        
+    </div>
+</section>
+        <div class="wave-wrapper">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path d="M0,160L60,160C120,160,240,160,360,176C480,192,600,224,720,240C840,256,960,256,1080,229.3C1200,203,1320,149,1380,122.7L1440,96L1440,320L0,320Z"></path>
+            </svg>
+        </div>
+
+<!-- Section Kualitas Udara dengan Card Kecil Auto Slide -->
+<!--section id="kualitas-udara" class="mb-5 section-animate">
+    <div class="section-heading mb-3">
+        <span>Monitoring Real-time</span>
+        <h2 class="fw-bold text-primary mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-wind me-2" viewBox="0 0 16 16">
+                <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 1 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5"/>
+            </svg>
+            Kualitas Udara Medan
+        </h2>
+        <p class="text-muted mt-1 mb-3">Data real-time dari stasiun pemantauan BMKG</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
+            <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
+                <div class="card-body p-4 p-lg-5">
+                   
+                    <div class="text-center mb-4">
+                        <div class="date-display mb-2">
+                            <span class="text-muted" id="currentDate">15 DES 2025, 12.00 WIB</span>
+                        </div>
+                        <div class="pm25-value display-1 fw-bold text-primary mb-2" id="pm25Value">10.6</div>
+                        <div class="pm25-unit h4 text-muted mb-4">µg/m³</div>
+                        
+                      
+                        <div class="category-badge mb-4">
+                            <span class="badge bg-success fs-5 px-4 py-2" id="categoryLabel">
+                                Kategori: Baik
+                            </span>
+                        </div>
+                    </div>
+                    <div class="air-quality-scale mt-4">
+                        <h5 class="fw-bold text-center mb-4">Skala Kualitas Udara (PM2.5)</h5>
+                        
+                        <div class="scale-item baik-item p-3 mb-3 rounded-3" style="background-color: #e8f5e9; border-left: 5px solid #4caf50;">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="scale-range fw-bold">0.0–15.5 µg/m³</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="scale-label fs-5 fw-bold text-success">
+                                        <i class="bi bi-check-circle-fill me-2"></i>Baik
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <span class="current-indicator badge bg-success">Saat ini</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scale-item p-3 mb-3 rounded-3" style="background-color: #fff3cd; border-left: 5px solid #ffc107;">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="scale-range fw-bold">15.6–55.4 µg/m³</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="scale-label fs-5 fw-bold text-warning">
+                                        <i class="bi bi-exclamation-triangle me-2"></i>Sedang
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <span class="distance-indicator text-muted">+4.9 µg/m³ lagi</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scale-item p-3 mb-3 rounded-3" style="background-color: #ffe0b2; border-left: 5px solid #ff9800;">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="scale-range fw-bold">55.5–150.4 µg/m³</div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="scale-label fs-5 fw-bold text-orange">
+                                        <i class="bi bi-exclamation-octagon me-2"></i>Tidak Sehat
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scale-item p-3 mb-3 rounded-3" style="background-color: #f8bbd0; border-left: 5px solid #e91e63;">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="scale-range fw-bold">150.5–250.4 µg/m³</div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="scale-label fs-5 fw-bold text-danger">
+                                        <i class="bi bi-x-octagon-fill me-2"></i>Sangat Tidak Sehat
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="scale-item p-3 rounded-3" style="background-color: #d7ccc8; border-left: 5px solid #795548;">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="scale-range fw-bold">>250.5 µg/m³</div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="scale-label fs-5 fw-bold text-brown">
+                                        <i class="bi bi-skull me-2"></i>Berbahaya
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="additional-info mt-5 pt-4 border-top">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="info-card p-3 rounded-3" style="background-color: #f8f9fa;">
+                                    <h6 class="fw-bold mb-2">
+                                        <i class="bi bi-info-circle me-2 text-primary"></i>Keterangan
+                                    </h6>
+                                    <p class="mb-0 small">
+                                        PM2.5 adalah partikel halus dengan diameter ≤ 2.5 mikrometer yang dapat menembus paru-paru dan masuk ke aliran darah.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-card p-3 rounded-3" style="background-color: #f8f9fa;">
+                                    <h6 class="fw-bold mb-2">
+                                        <i class="bi bi-shield-check me-2 text-primary"></i>Rekomendasi
+                                    </h6>
+                                    <p class="mb-0 small">
+                                        Kondisi udara <span class="fw-bold text-success">baik</span>. Ideal untuk aktivitas luar ruangan.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4 align-items-center">
+                        <div class="col-md-6">
+                            <div class="update-info">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock-history me-1"></i>
+                                    Diperbarui: <span id="updateTime">Setiap 1 jam</span>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-primary" onclick="refreshAirQuality()">
+                                <i class="bi bi-arrow-clockwise me-1"></i>Perbarui Data
+                            </button>
+                            <button class="btn btn-outline-secondary ms-2" onclick="viewDetails()">
+                                <i class="bi bi-graph-up me-1"></i>Detail
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--/section-->
+
+<style>
+.section-animate {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Styling untuk nilai PM2.5 */
+.pm25-value {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    color: #2e7d32;
+}
+
+.pm25-unit {
+    color: #666;
+    font-weight: 500;
+}
+
+/* Styling untuk skala */
+.scale-item {
+    transition: all 0.3s ease;
+    border-left-width: 5px !important;
+}
+
+.scale-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.baik-item {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+/* Warna khusus */
+.text-orange {
+    color: #ff9800 !important;
+}
+
+.text-brown {
+    color: #795548 !important;
+}
+
+/* Indikator */
+.current-indicator {
+    animation: fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.distance-indicator {
+    font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pm25-value {
+        font-size: 3.5rem;
+    }
+    
+    .scale-item .row {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .scale-item .col-md-3,
+    .scale-item .col-md-6,
+    .scale-item .col-md-9 {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .scale-item .text-end {
+        text-align: center !important;
+    }
+    
+    .additional-info .row {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+// Data kualitas udara Medan
+const airQualityData = {
+    current: {
+        pm25: 10.6,
+        date: "15 DES 2025, 12.00 WIB",
+        category: "Baik",
+        categoryClass: "success"
+    },
+    ranges: [
+        { min: 0, max: 15.5, label: "Baik", class: "success" },
+        { min: 15.6, max: 55.4, label: "Sedang", class: "warning" },
+        { min: 55.5, max: 150.4, label: "Tidak Sehat", class: "orange" },
+        { min: 150.5, max: 250.4, label: "Sangat Tidak Sehat", class: "danger" },
+        { min: 250.5, max: Infinity, label: "Berbahaya", class: "brown" }
+    ]
+};
+
+// Fungsi untuk memperbarui tampilan
+function updateDisplay() {
+    document.getElementById('currentDate').textContent = airQualityData.current.date;
+    document.getElementById('pm25Value').textContent = airQualityData.current.pm25.toFixed(1);
+    document.getElementById('categoryLabel').textContent = `Kategori: ${airQualityData.current.category}`;
+    document.getElementById('categoryLabel').className = `badge bg-${airQualityData.current.categoryClass} fs-5 px-4 py-2`;
+    
+    // Update indikator jarak ke kategori berikutnya
+    const currentRange = airQualityData.ranges.find(range => 
+        airQualityData.current.pm25 >= range.min && airQualityData.current.pm25 <= range.max
+    );
+    
+    const nextRangeIndex = airQualityData.ranges.findIndex(range => range === currentRange) + 1;
+    
+    if (nextRangeIndex < airQualityData.ranges.length) {
+        const nextRange = airQualityData.ranges[nextRangeIndex];
+        const distanceToNext = nextRange.min - airQualityData.current.pm25;
+        
+        const distanceIndicator = document.querySelector('.distance-indicator');
+        if (distanceIndicator) {
+            distanceIndicator.textContent = `+${distanceToNext.toFixed(1)} µg/m³ lagi`;
+        }
+    }
+}
+
+// Fungsi untuk refresh data
+function refreshAirQuality() {
+    const refreshBtn = document.querySelector('button[onclick="refreshAirQuality()"]');
+    const originalText = refreshBtn.innerHTML;
+    
+    // Simulasi loading
+    refreshBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Memperbarui...';
+    refreshBtn.disabled = true;
+    
+    // Simulasi pengambilan data baru (dalam real implementation, ini akan call API)
+    setTimeout(() => {
+        // Update dengan data baru (dalam implementasi nyata, ini dari API)
+        const now = new Date();
+        const options = { 
+            day: 'numeric', 
+            month: 'short', 
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'Asia/Jakarta',
+            hour12: false
+        };
+        
+        // Format tanggal: "15 DES 2025, 12.00 WIB"
+        const formattedDate = now.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        }).toUpperCase();
+        
+        const formattedTime = now.toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+        
+        airQualityData.current.date = `${formattedDate}, ${formattedTime} WIB`;
+        
+        // Simulasi perubahan kecil pada PM2.5 (dalam implementasi nyata dari API)
+        const change = (Math.random() * 2 - 1); // -1 to +1
+        airQualityData.current.pm25 = Math.max(0, airQualityData.current.pm25 + change);
+        
+        // Update kategori berdasarkan nilai baru
+        updateCategory();
+        
+        // Update tampilan
+        updateDisplay();
+        
+        // Reset button
+        refreshBtn.innerHTML = originalText;
+        refreshBtn.disabled = false;
+        
+        // Tampilkan pesan sukses
+        showNotification('Data berhasil diperbarui');
+        
+    }, 1500);
+}
+
+// Fungsi untuk update kategori berdasarkan nilai PM2.5
+function updateCategory() {
+    const pm25 = airQualityData.current.pm25;
+    
+    // Temukan kategori yang sesuai
+    const matchingRange = airQualityData.ranges.find(range => 
+        (range.max === Infinity && pm25 >= range.min) || 
+        (pm25 >= range.min && pm25 <= range.max)
+    );
+    
+    if (matchingRange) {
+        airQualityData.current.category = matchingRange.label;
+        airQualityData.current.categoryClass = matchingRange.class;
+    }
+}
+
+// Fungsi untuk menampilkan notifikasi
+function showNotification(message) {
+    // Buat elemen notifikasi
+    const notification = document.createElement('div');
+    notification.className = 'alert alert-success alert-dismissible fade show position-fixed';
+    notification.style.cssText = `
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        min-width: 300px;
+    `;
+    notification.innerHTML = `
+        <i class="bi bi-check-circle-fill me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove setelah 3 detik
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
+}
+
+// Fungsi untuk melihat detail
+function viewDetails() {
+    const detailWindow = window.open('', '_blank', 'width=800,height=600');
+    detailWindow.document.write(`
+        <html>
+            <head>
+                <title>Detail Kualitas Udara Medan</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+                <style>
+                    body { padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+                    .detail-header { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; padding: 2rem; border-radius: 15px; }
+                    .parameter-card { border: 1px solid #dee2e6; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="detail-header text-center mb-4">
+                        <h2 class="fw-bold">Detail Kualitas Udara Medan</h2>
+                        <p class="mb-0">PM2.5: ${airQualityData.current.pm25.toFixed(1)} µg/m³ | ${airQualityData.current.date}</p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="parameter-card">
+                                <h5><i class="bi bi-cloud-fog text-primary me-2"></i>PM2.5</h5>
+                                <p>Partikel halus (≤ 2.5 mikrometer) yang dapat menembus paru-paru dan masuk ke aliran darah.</p>
+                                <div class="fw-bold">Nilai: ${airQualityData.current.pm25.toFixed(1)} µg/m³</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="parameter-card">
+                                <h5><i class="bi bi-wind text-info me-2"></i>PM10</h5>
+                                <p>Partikel kasar (≤ 10 mikrometer) yang dapat terperangkap di saluran pernapasan atas.</p>
+                                <div class="fw-bold">Nilai: 25.3 µg/m³</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h4>Rekomendasi Kesehatan</h4>
+                            <div class="alert alert-success">
+                                <h5><i class="bi bi-check-circle-fill me-2"></i>Kondisi Baik</h5>
+                                <p>Kualitas udara sangat baik untuk semua aktivitas luar ruangan. Tidak ada pembatasan yang diperlukan.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="window.print()">
+                            <i class="bi bi-printer me-2"></i>Cetak Laporan
+                        </button>
+                        <button class="btn btn-outline-secondary ms-2" onclick="window.close()">
+                            <i class="bi bi-x-circle me-2"></i>Tutup
+                        </button>
+                    </div>
+                </div>
+            </body>
+        </html>
+    `);
+    detailWindow.document.close();
+}
+
+// Inisialisasi saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    updateDisplay();
+    
+    // Auto-update setiap 5 menit (300000 ms)
+    setInterval(refreshAirQuality, 300000);
+});
+</script>
+
+        <div class="wave-wrapper">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path d="M0,96L60,85.3C120,75,240,53,360,53.3C480,53,600,75,720,80C840,85,960,75,1080,69.3C1200,64,1320,64,1380,64L1440,64L1440,320L0,320Z"></path>
+            </svg>
+        </div>
+        <section id="highlight-berita" class="mb-5 section-animate">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 section-heading">
+                <div>
+                    <span class="text-uppercase fw-semibold">Berita</span>
+                    <h2 class="fw-bold text-primary mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 1 16 16">
+  <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+  <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+</svg> Highlight Terbaru</h2>
+                </div>
+                <a href="berita.php" class="text-decoration-none fw-semibold mt-3 mt-md-0">Lihat semua</a>
+            </div>
+            <div class="row g-4">
+ <!-- Anggota Tim 1 -->
+                     
+                <div class="col-lg-6">
+                    <div class="p-4 highlight-card h-100">
+                        <span class="badge badge-custom mb-2">
+                       Kegiatan</span>
+                        <h4 class="fw-bold mb-2">Antisipasi Dampak Bencana Hidrometeorologi, BMKG Perkuat Peringatan Dini dan OMC di Aceh, Sumut, dan Sumbar</h4>
+                        <p class="text-muted">
+                          Sibolga, 10 Desember 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) mengungkapkan perkembangan terbaru c...
+                        </p>
+                        <a href="detail.php?i=152" class="fw-semibold text-primary text-decoration-none">Baca selengkapnya →</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="p-4 highlight-card h-100">
+                        <span class="badge badge-custom mb-2">
+                       Kegiatan</span>
+                        <h4 class="fw-bold mb-2">BMKG Paparkan Kesiapsiagaan Cuaca dan Upaya Mitigasi Pada Rakor Tingkat Menteri Jelang Nataru 2025/2026</h4>
+                        <p class="text-muted">
+                          Jakarta, 8 Desember 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memaparkan kondisi cuaca, dinamika atm...
+                        </p>
+                        <a href="detail.php?i=151" class="fw-semibold text-primary text-decoration-none">Baca selengkapnya →</a>
+                    </div>
+                </div>
+               
+            </div>
+        </section>
+        <div class="wave-wrapper">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path d="M0,64L60,74.7C120,85,240,107,360,128C480,149,600,171,720,170.7C840,171,960,149,1080,138.7C1200,128,1320,128,1380,128L1440,128L1440,320L0,320Z"></path>
+            </svg>
+        </div>
+
+
+<style>
+    /* Card produk styling */
+    .card-product {
+        border-radius: 16px;
+        transition: all 0.4s ease;
+        overflow: hidden;
+        border: 1px solid rgba(72, 169, 255, 0.1);
+    }
+    
+    /* Variasi gradient header */
+    .card-header-gradient {
+        height: 5px;
+        width: 100%;
+    }
+    
+    .bg-gradient-1 {
+        background: linear-gradient(90deg, #48a9ff, #7fd1ff);
+    }
+    
+    .bg-gradient-2 {
+        background: linear-gradient(90deg, #7fd1ff, #48a9ff);
+    }
+    
+    .bg-gradient-3 {
+        background: linear-gradient(90deg, #48a9ff, #6ab8e6);
+    }
+    
+    .bg-gradient-4 {
+        background: linear-gradient(90deg, #6ab8e6, #48a9ff);
+    }
+    
+    .bg-gradient-5 {
+        background: linear-gradient(90deg, #48a9ff, #5ab0e0);
+    }
+    
+    /* Efek hover untuk card produk */
+    .card-product:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(72, 169, 255, 0.15) !important;
+        border-color: rgba(72, 169, 255, 0.3);
+    }
+    
+    /* Icon produk */
+    .product-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        background: rgba(72, 169, 255, 0.1);
+        border-radius: 20px;
+        margin: 0 auto 1.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .card-product:hover .product-icon {
+        background: rgba(72, 169, 255, 0.2);
+        transform: scale(1.1) rotate(5deg);
+    }
+    
+    /* Tag produk */
+    .product-tag {
+        display: inline-block;
+        background: linear-gradient(90deg, rgba(72, 169, 255, 0.1), rgba(127, 209, 255, 0.1));
+        color: #48a9ff;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(72, 169, 255, 0.2);
+    }
+    
+    /* Product features badges */
+    .product-features {
+        margin-bottom: 1rem;
+    }
+    
+    .product-features .badge {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+    
+    /* Button gradient */
+    .btn-gradient-blue {
+        background: linear-gradient(120deg, #48a9ff 0%, #7fd1ff 100%);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(72, 169, 255, 0.2);
+    }
+    
+    .btn-gradient-blue:hover {
+        background: linear-gradient(120deg, #3a8fe6 0%, #6ab8e6 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(72, 169, 255, 0.3);
+    }
+    
+    /* Animasi on scroll */
+    .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .animate-on-scroll.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Responsif untuk layout 5 produk */
+    @media (min-width: 992px) {
+        /* Untuk desktop, atur agar produk ke-4 dan ke-5 berada di tengah */
+        .row .col-lg-4:nth-child(4),
+        .row .col-lg-4:nth-child(5) {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .row .col-lg-4:nth-child(4) {
+            margin-right: 1rem;
+        }
+        
+        .row .col-lg-4:nth-child(5) {
+            margin-left: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .card-product {
+            margin-bottom: 20px;
+        }
+        
+        .product-icon {
+            width: 70px;
+            height: 70px;
+        }
+        
+        .btn-gradient-blue {
+            padding: 10px 20px;
+        }
+    }
+</style>
+
+<script>
+    // Animasi on scroll untuk produk
+    document.addEventListener('DOMContentLoaded', function() {
+        const productCards = document.querySelectorAll('.card-product.animate-on-scroll');
+        
+        function checkProductScroll() {
+            productCards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardVisible = 100;
+                
+                if (cardTop < window.innerHeight - cardVisible) {
+                    const delay = card.getAttribute('data-delay') || 0;
+                    
+                    setTimeout(() => {
+                        card.classList.add('animated');
+                    }, parseFloat(delay) * 1000);
+                }
+            });
+        }
+        
+        // Initial check
+        checkProductScroll();
+        
+        // Check on scroll
+        window.addEventListener('scroll', checkProductScroll);
+        
+        // Efek hover untuk icon produk
+        productCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.product-icon');
+                if (icon) {
+                    icon.style.transform = 'scale(1.1) rotate(5deg)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.product-icon');
+                if (icon && this.classList.contains('animated')) {
+                    icon.style.transform = 'scale(1) rotate(0deg)';
+                }
+            });
+        });
+    });
+</script>
+      
+<section id="media" class="py-5 section-animate">
+    <div class="container">
+        <div class="section-heading text-center mb-5">
+            <span class="text-uppercase fw-semibold text-primary">Galeri Media</span>
+            <h2 class="fw-bold text-primary mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-images me-2" viewBox="0 0 16 16">
+                    <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                    <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+                </svg>
+                Galeri Foto & Video
+            </h2>
+            <p class="text-muted">Kumpulan visualisasi data cuaca, aktivitas BMKG, dan informasi meteorologi</p>
+        </div>
+
+        <!-- Filter Kategori -->
+        <div class="gallery-categories" id="gallery-categories"></div>
+
+        <!-- Gallery Slider Container -->
+        <div class="gallery-slider-container position-relative">
+            <!-- Loading State -->
+            <div class="gallery-loading" id="gallery-loading">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <button class="gallery-nav-btn prev-btn" aria-label="Slide sebelumnya">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                </svg>
+            </button>
+            
+            <button class="gallery-nav-btn next-btn" aria-label="Slide berikutnya">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                </svg>
+            </button>
+            
+            <!-- Slider Track -->
+            <div class="gallery-slider-track" id="gallery-slider-track">
+                <!-- Slides akan diisi oleh JavaScript -->
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="slider-progress">
+                <div class="progress-bar" id="slider-progress-bar"></div>
+            </div>
+            
+            <!-- Auto Play Toggle -->
+            <div class="slider-controls">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="auto-slide-toggle" checked>
+                    <label class="form-check-label" for="auto-slide-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle me-1" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445"/>
+                        </svg>
+                        Auto Slide
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Thumbnail Navigation -->
+        <div class="gallery-thumbnails mt-4" id="gallery-thumbnails">
+            <!-- Thumbnails akan diisi oleh JavaScript -->
+        </div>
+        
+        <!-- Empty State -->
+        <div class="text-center py-5 d-none" id="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#6c757d" class="bi bi-image" viewBox="0 0 16 16">
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+            </svg>
+            <h5 class="mt-3 text-muted">Belum ada gambar di galeri</h5>
+            <p class="text-muted">Silakan tambahkan gambar melalui admin panel</p>
+        </div>
+    </div>
+</section>
+
+<!-- Modal untuk Gambar Besar -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="imageModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <img src="" class="img-fluid rounded-bottom" id="modal-image" alt="">
+            </div>
+            <div class="modal-footer border-0 bg-light rounded-bottom">
+                <div class="d-flex justify-content-between w-100">
+                    <div>
+                        <span id="modal-date" class="text-muted"></span>
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="downloadImage()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download me-1" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                            </svg>
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Gallery Section */
+#media {
+    background: linear-gradient(135deg, #f8f9fa00 0%, #e9ecef00 100%);
+    border-radius: 20px;
+    margin: 2rem auto;
+}
+
+/* Gallery Slider Container */
+.gallery-slider-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 60px;
+    min-height: 350px;
+}
+
+/* Slider Track */
+.gallery-slider-track {
+    display: flex;
+    gap: 25px;
+    overflow: hidden;
+    padding: 20px 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    min-height: 320px;
+}
+
+/* Gallery Item */
+.gallery-item {
+    flex: 0 0 calc(33.333% - 20px);
+    scroll-snap-align: start;
+    transition: all 0.4s ease;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    background: white;
+}
+
+@media (max-width: 992px) {
+    .gallery-item {
+        flex: 0 0 calc(50% - 15px);
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-item {
+        flex: 0 0 100%;
+    }
+    
+    .gallery-slider-container {
+        padding: 0 40px;
+    }
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+/* Gallery Image */
+.gallery-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    display: block;
+}
+
+/* Video Icon */
+.video-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(72, 169, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(72, 169, 255, 0.3);
+    z-index: 2;
+}
+
+/* Gallery Overlay */
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 30px 20px 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-caption {
+    margin-bottom: 10px;
+}
+
+.gallery-caption h5 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.gallery-caption p {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Navigation Buttons */
+.gallery-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #48a9ff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.gallery-nav-btn:hover {
+    background: #48a9ff;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(72, 169, 255, 0.3);
+}
+
+.prev-btn {
+    left: 0;
+}
+
+.next-btn {
+    right: 0;
+}
+
+/* Progress Bar */
+.slider-progress {
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #48a9ff, #7fd1ff);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Slider Controls */
+.slider-controls {
+    position: absolute;
+    bottom: -40px;
+    right: 0;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Thumbnails */
+.gallery-thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    min-height: 70px;
+}
+
+.thumbnail-item {
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+}
+
+.thumbnail-item.active {
+    opacity: 1;
+    border-color: #48a9ff;
+    transform: scale(1.1);
+}
+
+.thumbnail-item:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.thumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Category Filter */
+.gallery-categories {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 8px 20px;
+    border: 2px solid #dee2e6;
+    background: white;
+    border-radius: 25px;
+    font-weight: 500;
+    color: #6c757d;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background: #48a9ff;
+    color: white;
+    border-color: #48a9ff;
+    transform: translateY(-2px);
+}
+
+/* Animation untuk slide masuk */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gallery-item {
+    animation: slideIn 0.6s ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .gallery-slider-container {
+        padding: 0 20px;
+    }
+    
+    .gallery-nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .gallery-image {
+        height: 220px;
+    }
+    
+    .thumbnail-item {
+        width: 60px;
+        height: 45px;
+    }
+    
+    .slider-controls {
+        position: relative;
+        bottom: 0;
+        margin-top: 20px;
+        justify-content: center;
+        display: flex;
+    }
+}
+
+/* Loading Animation */
+.gallery-loading {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 40px;
+}
+
+.loading-dot {
+    width: 12px;
+    height: 12px;
+    background: #48a9ff;
+    border-radius: 50%;
+    animation: loading 1.4s infinite ease-in-out;
+}
+
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes loading {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* Error/Empty State */
+#empty-state {
+    animation: slideIn 0.6s ease;
+}
+</style>
+
+
+<script>
+// Data galeri dari PHP
+const galleryData = [{"id":"24","type":"image","title":"Foto Humas","description":"Rapat Bersama Panitia","image":"login\/upload\/humas1.jpg","thumbnail":"login\/upload\/humas1.jpg","category":"galeri","date":"03 Desember 2025"},{"id":"23","type":"image","title":"Gelar Rapat","description":"Rapat Bersama Panitia","image":"login\/upload\/images (1).jpg","thumbnail":"login\/upload\/images (1).jpg","category":"galeri","date":"03 Desember 2025"},{"id":"22","type":"image","title":"Bmkg Gelar Rapat","description":"Rapat Bersama Panitia","image":"login\/upload\/6eb36_bmkg-gelar-berbagai-kegiatan-peringati-hari-meteorologi-klimatologi-dan-geofisika.jpg","thumbnail":"login\/upload\/6eb36_bmkg-gelar-berbagai-kegiatan-peringati-hari-meteorologi-klimatologi-dan-geofisika.jpg","category":"galeri","date":"03 Desember 2025"}];
+console.log('Gallery Data:', galleryData);
+
+// State variables
+let currentSlide = 0;
+let isAutoPlaying = true;
+let autoPlayInterval;
+let currentCategory = 'all';
+let slidesPerView = getSlidesPerView();
+
+// Initialize gallery
+function initGallery() {
+    console.log('Initializing gallery...');
+    
+    // Tampilkan loading
+    document.getElementById('gallery-loading').style.display = 'flex';
+    document.getElementById('gallery-slider-track').innerHTML = '';
+    document.getElementById('gallery-thumbnails').innerHTML = '';
+    
+    // Delay sedikit untuk simulasi loading
+    setTimeout(() => {
+        if (galleryData.length === 0) {
+            showEmptyState();
+        } else {
+            renderCategories();
+            renderGallery();
+            renderThumbnails();
+            updateProgressBar();
+            startAutoPlay();
+            setupEventListeners();
+        }
+        
+        // Sembunyikan loading
+        document.getElementById('gallery-loading').style.display = 'none';
+    }, 500);
+}
+
+// Tampilkan empty state
+function showEmptyState() {
+    document.getElementById('empty-state').classList.remove('d-none');
+    document.getElementById('gallery-slider-track').innerHTML = '';
+    document.getElementById('gallery-thumbnails').innerHTML = '';
+    document.getElementById('gallery-categories').innerHTML = '';
+    document.getElementById('slider-progress-bar').style.width = '0%';
+}
+
+// Get slides per view based on screen size
+function getSlidesPerView() {
+    if (window.innerWidth < 768) return 1;
+    if (window.innerWidth < 992) return 2;
+    return 3;
+}
+
+// Render category filter
+function renderCategories() {
+    const categories = ['all', 'galeri'];
+    const categoryNames = {
+        'all': 'Semua',
+        'galeri': 'Galeri Foto'
+    };
+    
+    const container = document.getElementById('gallery-categories');
+    container.innerHTML = categories.map(category => `
+        <button class="category-btn ${currentCategory === category ? 'active' : ''}" 
+                data-category="${category}"
+                onclick="filterByCategory('${category}')">
+            ${categoryNames[category]}
+        </button>
+    `).join('');
+}
+
+// Filter gallery by category
+function filterByCategory(category = null) {
+    if (category) {
+        currentCategory = category;
+        currentSlide = 0;
+        renderCategories();
+        renderGallery();
+        renderThumbnails();
+        updateProgressBar();
+        resetAutoPlay();
+        return;
+    }
+    
+    if (currentCategory === 'all') {
+        return galleryData;
+    }
+    
+    return galleryData.filter(item => item.category === currentCategory);
+}
+
+// Render gallery items
+function renderGallery() {
+    const track = document.getElementById('gallery-slider-track');
+    const filteredData = currentCategory === 'all' ? galleryData : galleryData.filter(item => item.category === currentCategory);
+    
+    console.log('Rendering gallery with', filteredData.length, 'items');
+    
+    if (filteredData.length === 0) {
+        track.innerHTML = `
+            <div class="text-center py-5 w-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#6c757d" class="bi bi-image" viewBox="0 0 16 16">
+                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                    <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+                </svg>
+                <p class="text-muted mt-3">Tidak ada gambar dalam kategori ini</p>
+            </div>
+        `;
+        document.getElementById('empty-state').classList.add('d-none');
+        return;
+    }
+    
+    // Update empty state
+    document.getElementById('empty-state').classList.add('d-none');
+    
+    // Create gallery items
+    track.innerHTML = filteredData.map((item, index) => {
+        // Fallback untuk gambar error
+        const fallbackImage = 'data:image/svg+xml;utf8';
+        
+        return `
+        <div class="gallery-item" data-index="${index}" onclick="openGalleryItem(${index})">
+            ${item.type === 'video' ? `
+                <div class="video-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+                    </svg>
+                </div>
+            ` : ''}
+            
+            <img src="${item.image}" 
+                 alt="${item.title}" 
+                 class="gallery-image" 
+                 loading="lazy"
+                 onerror="this.onerror=null; this.src='${fallbackImage}';">
+            
+            <div class="gallery-overlay">
+                <div class="gallery-caption">
+                    <h5>${item.title}</h5>
+                    <p>${item.description}</p>
+                </div>
+                <small class="d-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-calendar me-1" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                    </svg>
+                    ${item.date}
+                </small>
+            </div>
+        </div>
+    `}).join('');
+    
+    // Set active slide
+    setActiveSlide(currentSlide);
+    
+    // Scroll ke slide aktif
+    setTimeout(() => {
+        goToSlide(currentSlide);
+    }, 100);
+}
+
+// Render thumbnails
+function renderThumbnails() {
+    const container = document.getElementById('gallery-thumbnails');
+    const filteredData = currentCategory === 'all' ? galleryData : galleryData.filter(item => item.category === currentCategory);
+    
+    if (filteredData.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    container.innerHTML = filteredData.map((item, index) => {
+        const fallbackThumb = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect width="100" height="60" fill="%23f8f9fa"/><text x="50" y="30" font-family="Arial" font-size="10" fill="%236c757d" text-anchor="middle">Thumb</text></svg>';
+        
+        return `
+        <div class="thumbnail-item ${index === currentSlide ? 'active' : ''}" 
+             data-index="${index}"
+             onclick="goToSlide(${index})">
+            <img src="${item.thumbnail}" 
+                 alt="${item.title}" 
+                 class="thumbnail-image"
+                 onerror="this.onerror=null; this.src='${fallbackThumb}';">
+        </div>
+    `}).join('');
+}
+
+// Go to specific slide
+function goToSlide(index) {
+    const track = document.getElementById('gallery-slider-track');
+    const filteredData = currentCategory === 'all' ? galleryData : galleryData.filter(item => item.category === currentCategory);
+    
+    if (filteredData.length === 0) return;
+    
+    if (index < 0) index = filteredData.length - 1;
+    if (index >= filteredData.length) index = 0;
+    
+    currentSlide = index;
+    
+    // Calculate scroll position
+    if (track.children.length > 0) {
+        const itemWidth = track.children[0].offsetWidth + 25; // width + gap
+        track.scrollTo({
+            left: index * itemWidth,
+            behavior: 'smooth'
+        });
+    }
+    
+    // Update UI
+    setActiveSlide(index);
+    updateProgressBar();
+    resetAutoPlay();
+}
+
+// Set active slide
+function setActiveSlide(index) {
+    // Update thumbnails
+    document.querySelectorAll('.thumbnail-item').forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+    });
+}
+
+// Next slide
+function nextSlide() {
+    const filteredData = currentCategory === 'all' ? galleryData : galleryData.filter(item => item.category === currentCategory);
+    if (filteredData.length === 0) return;
+    
+    goToSlide((currentSlide + 1) % filteredData.length);
+}
+
+// Previous slide
+function prevSlide() {
+    const filteredData = currentCategory === 'all' ? galleryData : galleryData.filter(item => item.category === currentCategory);
+    if (filteredData.length === 0) return;
+    
+    goToSlide((currentSlide - 1 + filteredData.length) % filteredData.length);
+}
+
+// Update progress bar
+function updateProgressBar() {
+    const filteredData = currentCategory === 'all' ? galleryData : galleryData.filter(item => item.category === currentCategory);
+    
+    if (filteredData.length === 0) {
+        document.getElementById('slider-progress-bar').style.width = '0%';
+        return;
+    }
+    
+    const progress = ((currentSlide + 1) / filteredData.length) * 100;
+    document.getElementById('slider-progress-bar').style.width = `${progress}%`;
+}
+
+// Start auto play
+function startAutoPlay() {
+    if (isAutoPlaying) {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(nextSlide, 5000);
+    }
+}
+
+// Stop auto play
+function stopAutoPlay() {
+    clearInterval(autoPlayInterval);
+}
+
+// Reset auto play
+function resetAutoPlay() {
+    stopAutoPlay();
+    if (isAutoPlaying) {
+        startAutoPlay();
+    }
+}
+
+// Toggle auto play
+function toggleAutoPlay() {
+    isAutoPlaying = !isAutoPlaying;
+    const toggle = document.getElementById('auto-slide-toggle');
+    if (toggle) {
+        toggle.checked = isAutoPlaying;
+    }
+    
+    if (isAutoPlaying) {
+        startAutoPlay();
+    } else {
+        stopAutoPlay();
+    }
+}
+
+// Open gallery item in modal
+function openGalleryItem(index) {
+    const filteredData = currentCategory === 'all' ? galleryData : galleryData.filter(item => item.category === currentCategory);
+    if (index >= filteredData.length) return;
+    
+    const item = filteredData[index];
+    
+    if (item.type === 'video') {
+        // Open YouTube video
+        window.open(`https://www.youtube.com/watch?v=${item.videoId}`, '_blank');
+    } else {
+        // Open image in modal
+        const modalElement = document.getElementById('imageModal');
+        if (!modalElement) return;
+        
+        document.getElementById('modal-image').src = item.image;
+        document.getElementById('modal-image').alt = item.title;
+        document.getElementById('imageModalLabel').textContent = item.title;
+        document.getElementById('modal-date').textContent = item.date;
+        
+        // Store current item for download
+        window.currentGalleryItem = item;
+        
+        // Show modal using Bootstrap
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
+}
+
+// Download image
+function downloadImage() {
+    if (!window.currentGalleryItem) return;
+    
+    const item = window.currentGalleryItem;
+    const link = document.createElement('a');
+    
+    // Jika gambar dari internet
+    if (item.image.startsWith('http')) {
+        link.href = item.image;
+        link.download = `bmkg-${item.title.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        // Jika gambar lokal
+        fetch(item.image)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                link.href = url;
+                link.download = `bmkg-${item.title.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(link);
+            })
+            .catch(error => {
+                console.error('Download error:', error);
+                alert('Gagal mengunduh gambar. Silakan coba lagi.');
+            });
+    }
+}
+
+// Setup event listeners
+function setupEventListeners() {
+    // Navigation buttons
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
+    
+    // Auto play toggle
+    const autoPlayToggle = document.getElementById('auto-slide-toggle');
+    if (autoPlayToggle) {
+        autoPlayToggle.addEventListener('change', toggleAutoPlay);
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevSlide();
+        }
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            nextSlide();
+        }
+        if (e.key === ' ') {
+            e.preventDefault();
+            toggleAutoPlay();
+        }
+    });
+    
+    // Touch/swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    const track = document.getElementById('gallery-slider-track');
+    if (track) {
+        track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoPlay();
+        });
+        
+        track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            if (isAutoPlaying) {
+                resetAutoPlay();
+            }
+        });
+    }
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        
+        if (touchEndX < touchStartX - swipeThreshold) {
+            nextSlide();
+        }
+        
+        if (touchEndX > touchStartX + swipeThreshold) {
+            prevSlide();
+        }
+    }
+    
+    // Responsive adjustments
+    window.addEventListener('resize', () => {
+        const newSlidesPerView = getSlidesPerView();
+        if (newSlidesPerView !== slidesPerView) {
+            slidesPerView = newSlidesPerView;
+            goToSlide(currentSlide);
+        }
+    });
+    
+    // Pause auto play on hover
+    if (track) {
+        track.addEventListener('mouseenter', () => {
+            if (isAutoPlaying) {
+                clearInterval(autoPlayInterval);
+            }
+        });
+        
+        track.addEventListener('mouseleave', () => {
+            if (isAutoPlaying) {
+                startAutoPlay();
+            }
+        });
+    }
+}
+
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing gallery...');
+    initGallery();
+});
+
+// Public functions untuk digunakan di onclick
+window.filterByCategory = filterByCategory;
+window.goToSlide = goToSlide;
+window.nextSlide = nextSlide;
+window.prevSlide = prevSlide;
+window.openGalleryItem = openGalleryItem;
+window.downloadImage = downloadImage;
+window.toggleAutoPlay = toggleAutoPlay;
+</script>
+    </main>
+
+    <footer id="kontak" class="py-5 text-dark position-relative overflow-hidden">
+    <!-- Background Animation -->
+    <div class="footer-bg-animation">
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+    </div>
+    
+    <div class="container position-relative">
+        <div class="row g-4">
+            <!-- Logo dan Deskripsi -->
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-brand mb-4 animate-on-scroll" data-animation="fade-up">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="footer-logo me-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#ffffff" class="bi bi-cloud-sun-fill" viewBox="0 0 16 16">
+                                <path d="M11.473 11a4.5 4.5 0 0 0-8.72-.99A3 3 0 0 0 3 16h8.5a2.5 2.5 0 0 0 0-5h-.027z"/>
+                                <path d="M10.5 1.5a.5.5 0 0 0-1 0v1a.5.5 0 0 0 1 0v-1zm3.743 1.964a.5.5 0 1 0-.707-.707l-.708.707a.5.5 0 0 0 .708.708l.707-.708zm-7.779-.707a.5.5 0 0 0-.707.707l.707.708a.5.5 0 1 0 .708-.708l-.708-.707zm1.734 3.374a2 2 0 1 1 3.296 2.198q.3.423.516.898a3 3 0 1 0-4.84-3.225q.529.017 1.028.129m4.484 4.074c.6.215 1.125.59 1.522 1.072a.5.5 0 0 0 .039-.742l-.707-.707a.5.5 0 0 0-.854.377M14.5 6.5a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold text-white mb-0">BMKG</h3>
+                            <p class="text-white mb-0 opacity-90">Stasiun Klimatologi</p>
+                        </div>
+                    </div>
+                    <p class="text-dark opacity-90">
+                        Badan Meteorologi, Klimatologi, dan Geofisika Republik Indonesia.
+                        Menyediakan informasi cuaca, iklim, dan gempabumi terpercaya.
+                    </p>
+                    
+                    <!-- Quick Stats -->
+                    <div class="quick-stats mt-4">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="stat-card bg-white bg-opacity-25 rounded-3 p-3 text-center">
+                                    <h4 class="fw-bold text-white mb-1">24/7</h4>
+                                    <small class="text-dark fw-medium">Monitoring</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card bg-white bg-opacity-25 rounded-3 p-3 text-center">
+                                    <h4 class="fw-bold text-white mb-1">33</h4>
+                                    <small class="text-dark fw-medium">Kota/Kabupaten</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kontak & Alamat -->
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-contact animate-on-scroll" data-animation="fade-up" data-delay="100">
+                    <h5 class="fw-semibold mb-4 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone me-2" viewBox="0 0 16 16">
+                            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                        </svg>
+                        Kontak Kami
+                    </h5>
+                    
+                    <!-- Alamat -->
+                    <div class="contact-item d-flex mb-4">
+                        <div class="contact-icon me-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#ffffff" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-1 text-white">Alamat Kantor</h6>
+                            <p class="mb-0 text-dark">
+                                Jl. Meteorologi Raya no.17 Sampali<br>
+                                Deli Serdang 20371, Indonesia
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Telepon -->
+                    <div class="contact-item d-flex mb-4">
+                        <div class="contact-icon me-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#ffffff" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-1 text-white">Telepon</h6>
+                            <p class="mb-0">
+                                <a href="tel:+62214248080" class="text-dark text-decoration-none fw-medium hover-text-white">06166280021</a><br>
+                                <a href="tel:+62214248081" class="text-dark text-decoration-none fw-medium hover-text-white">0813 6106 6183</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="contact-item d-flex mb-4">
+                        <div class="contact-icon me-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#ffffff" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-1 text-white">Email</h6>
+                            <p class="mb-0">
+                                <a href="mailto:staklimspl@gmail.com" class="text-dark text-decoration-none fw-medium hover-text-white">staklimspl@gmail.com</a><br>
+                                
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Jam Operasional -->
+                    <div class="op-hours mt-4 p-3 bg-white bg-opacity-25 rounded-3">
+                        <h6 class="fw-semibold mb-2 text-white">Jam Operasional</h6>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-dark">Senin - Jumat</span>
+                            <span class="text-dark fw-medium">08:00 - 16:00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-dark">Sabtu</span>
+                            <span class="text-dark fw-medium">08:00 - 14:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Media Sosial & Peta -->
+            <div class="col-lg-4">
+                <!-- Media Sosial -->
+                <div class="footer-social mb-4 animate-on-scroll" data-animation="fade-up" data-delay="200">
+                    <h5 class="fw-semibold mb-4 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-share me-2" viewBox="0 0 16 16">
+                            <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/>
+                        </svg>
+                        Media Sosial
+                    </h5>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="https://facebook.com/staklimdsd" target="_blank" class="social-btn facebook" aria-label="Facebook BMKG">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                            </svg>
+                            <span>Facebook</span>
+                        </a>
+                        
+                        <a href="https://twitter.com/infoiklimsumut" target="_blank" class="social-btn twitter" aria-label="Twitter BMKG">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                                <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                            </svg>
+                            <span>Twitter/X</span>
+                        </a>
+                        
+                        <a href="https://instagram.com/infoiklimsumut" target="_blank" class="social-btn instagram" aria-label="Instagram BMKG">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                            </svg>
+                            <span>Instagram</span>
+                        </a>
+                        
+                        <a href="https://youtube.com/user/BMKGtv" target="_blank" class="social-btn youtube" aria-label="YouTube BMKG">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+                                <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.13.005.085.001.05v.07c0 .03.004.058.008.116.005.057.018.1.024.13a6 6 0 0 0 .45 1.51c.138.328.295.668.526 1.07.31.619.484 1.096.525 1.357.045.283.073.564.08.814.007.287-.012.553-.037.793-.045.349-.14.679-.28.947a2 2 0 0 1-1.438.911c-.42.051-.831.072-1.239.072-.408 0-.818-.02-1.238-.072a2 2 0 0 1-1.438-.911c-.14-.268-.235-.598-.28-.947-.025-.24-.044-.506-.037-.793.007-.25.035-.531.08-.814.04-.261.216-.738.525-1.357.23-.402.388-.742.526-1.07a6 6 0 0 0 .45-1.51c.006-.03.019-.073.024-.13.004-.058.008-.086.008-.116v-.07c0-.017-.001-.034-.005-.05a4 4 0 0 0-.022-.261l-.01-.104c-.048-.519-.119-1.023-.22-1.402a2.01 2.01 0 0 1-1.415-1.42c-.113-.278-.609-.332-1.39-.336h-.143c-.82 0-1.316.067-1.447.287-.164.415-.166 1.195-.106 1.807l.021.154c.28.25.044.5.038.75-.005.277-.023.57-.05.877-.063.613-.184 1.261-.417 1.858-.183.466-.442.924-.798 1.36-.357.437-.745.827-1.211 1.145-.465.318-.945.6-1.48.817-.561.226-1.063.39-1.496.534-.353.124-.65.214-.847.273l-.153.044-.16.039c-.336.084-.61.164-.858.237-.322.093-.526.146-.658.17l-.095.018-.089.026c-.146.04-.195.083-.213.128-.04.11-.037.215.027.343.064.128.195.257.417.386.222.13.5.242.83.337.33.095.695.169 1.08.22.387.051.77.08 1.123.08.353 0 .736-.029 1.123-.08.385-.051.75-.125 1.08-.22.33-.095.608-.207.83-.337.222-.13.353-.258.417-.386.064-.128.067-.233.027-.343-.018-.045-.067-.088-.213-.128l-.089-.026-.095-.018c-.132-.024-.336-.077-.658-.17-.248-.073-.522-.153-.858-.237l-.16-.04-.153-.044c-.197-.06-.494-.15-.847-.273-.433-.144-.935-.308-1.496-.534-.535-.217-1.015-.5-1.48-.817-.466-.318-.854-.708-1.211-1.145-.356-.436-.615-.894-.798-1.36-.233-.597-.354-1.245-.417-1.858a26 26 0 0 1-.05-.877c-.006-.25.01-.5.038-.75l.021-.154c.06-.612.058-1.392-.106-1.807-.13-.22-.626-.287-1.447-.287h-.143z"/>
+                            </svg>
+                            <span>YouTube</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Peta Lokasi -->
+                <div class="footer-map animate-on-scroll" data-animation="fade-up" data-delay="300">
+                    <h5 class="fw-semibold mb-3 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-map me-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+                        </svg>
+                        Lokasi Kami
+                    </h5>
+                    <div class="map-container position-relative rounded-4 overflow-hidden shadow-lg border border-white border-2">
+                        <!-- Google Maps Embed -->
+                        <div class="ratio ratio-16x9">
+                           
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.8511521342225!2d98.71232717497325!3d3.6214738963525996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x303133d7b3ce5a43%3A0xac00215bdd42dc31!2sStasiun%20Klimatologi%20Sumatera%20Utara!5e0!3m2!1sid!2sid!4v1764729365471!5m2!1sid!2sid" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+                                                   </div>
+                        <div class="map-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                            <button class="btn btn-light btn-sm shadow-sm fw-medium" onclick="openFullMap()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen me-1" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
+                                </svg>
+                                Buka Peta
+                            </button>
+                        </div>
+                    </div>
+                    <small class="text-dark opacity-90 mt-2 d-block fw-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-geo-alt me-1" viewBox="0 0 16 16">
+                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                        </svg>
+                        Stasiun Klimatologi Kelas 1 Sumatera Utara.
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright & Links -->
+        <div class="row mt-5 pt-4 border-top border-white border-opacity-25">
+            <div class="col-md-6">
+                <div class="footer-links d-flex flex-wrap gap-3">
+                    <a href="#" class="text-dark text-decoration-none fw-medium hover-text-white">Kebijakan Privasi</a>
+                    <a href="#" class="text-dark text-decoration-none fw-medium hover-text-white">Syarat & Ketentuan</a>
+                    <a href="#" class="text-dark text-decoration-none fw-medium hover-text-white">FAQ</a>
+                    <a href="#" class="text-dark text-decoration-none fw-medium hover-text-white">Karir</a>
+                    <a href="#" class="text-dark text-decoration-none fw-medium hover-text-white">Sitemap</a>
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0 text-dark opacity-90">
+                    © 2025 Badan Meteorologi, Klimatologi, dan Geofisika (BMKG)<br>
+                    Republik Indonesia. Semua Hak Dilindungi.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Live Time -->
+        <div class="text-center mt-3">
+            <small class="text-dark fw-medium">
+             Powered by Staklim Sumatera Utara
+            </small>
+        </div>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn btn-light back-to-top shadow-lg" aria-label="Kembali ke atas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#48a9ff" class="bi bi-chevron-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+        </svg>
+    </button>
+</footer>
+
+<!-- Modal untuk Peta Fullscreen -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content bg-dark">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white" id="mapModalLabel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt-fill me-2" viewBox="0 0 16 16">
+                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                    </svg>
+                    Lokasi Kantor BMKG Jakarta
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8455619!3d-6.1945812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f539f037a5a7%3A0x1c0f6e6e6b6b6b6b!2sBMKG%20(Badan%20Meteorologi%2C%20Klimatologi%2C%20dan%20Geofisika)!5e0!3m2!1sid!2sid!4v1621234567890!5m2!1sid!2sid"
+                    style="width: 100%; height: 100%; border: none;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS untuk Footer -->
+<style>
+/* Background Gradient */
+#kontak {
+    background: linear-gradient(120deg, #48a9ff 0%, #7fd1ff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Animation */
+.footer-bg-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* Wave Animation */
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.2' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: 1440px 100px;
+}
+
+.wave-1 {
+    animation: wave-animation 25s linear infinite;
+    opacity: 0.8;
+}
+
+.wave-2 {
+    animation: wave-animation 20s linear infinite;
+    opacity: 0.5;
+    background-position-x: 200px;
+}
+
+.wave-3 {
+    animation: wave-animation 15s linear infinite reverse;
+    opacity: 0.3;
+    background-position-x: 400px;
+}
+
+@keyframes wave-animation {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 1440px; }
+}
+
+/* Cloud Animation */
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    filter: blur(20px);
+}
+
+.cloud-1 {
+    width: 200px;
+    height: 60px;
+    top: 20%;
+    left: 10%;
+    animation: float-cloud 30s linear infinite;
+}
+
+.cloud-2 {
+    width: 150px;
+    height: 45px;
+    top: 40%;
+    right: 15%;
+    animation: float-cloud 25s linear infinite reverse;
+}
+
+.cloud-3 {
+    width: 180px;
+    height: 54px;
+    bottom: 30%;
+    left: 20%;
+    animation: float-cloud 35s linear infinite;
+}
+
+@keyframes float-cloud {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(100px); }
+    100% { transform: translateX(0); }
+}
+
+/* Logo Animation */
+.footer-logo {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Contact Items */
+.contact-item {
+    transition: transform 0.3s ease;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.contact-item:hover {
+    transform: translateX(10px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-icon {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Social Media Buttons */
+.social-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.social-btn.facebook {
+    color: #1877f2;
+}
+
+.social-btn.twitter {
+    color: #000;
+}
+
+.social-btn.instagram {
+    color: #e1306c;
+}
+
+.social-btn.youtube {
+    color: #ff0000;
+}
+
+.social-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background: white;
+}
+
+.social-btn:hover svg {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
+}
+
+/* Map Container */
+.map-container {
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.map-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.map-overlay {
+    background: linear-gradient(to bottom, rgba(72, 169, 255, 0.3), rgba(127, 209, 255, 0.2));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.map-container:hover .map-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: 2px solid #48a9ff;
+    background: white;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(72, 169, 255, 0.3);
+    background: #48a9ff;
+    border-color: white;
+}
+
+.back-to-top:hover svg {
+    fill: white;
+}
+
+/* Text Hover Effects */
+.hover-text-white {
+    transition: color 0.3s ease;
+}
+
+.hover-text-white:hover {
+    color: white !important;
+}
+
+/* Footer Links */
+.footer-links a {
+    position: relative;
+    padding: 5px 0;
+}
+
+.footer-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+}
+
+.footer-links a:hover::after {
+    width: 100%;
+}
+
+/* Stat Cards */
+.stat-card {
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Animation Classes */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .social-btn span {
+        display: none;
+    }
+    
+    .social-btn {
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        justify-content: center;
+    }
+    
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+    
+    .contact-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .footer-logo {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .wave {
+        height: 50px;
+    }
+}
+
+@media (max-width: 576px) {
+    #kontak {
+        padding: 2rem 0 !important;
+    }
+    
+    .footer-links {
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+    
+    .col-md-6.text-md-end {
+        text-align: center !important;
+    }
+}
+</style>
+
+<script>
+// Intersection Observer untuk animasi footer
+document.addEventListener('DOMContentLoaded', function() {
+    // Observer untuk animasi on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = entry.target.dataset.delay || 0;
+                setTimeout(() => {
+                    entry.target.classList.add('animated');
+                }, delay);
+            }
+        });
+    }, observerOptions);
+    
+    // Observe semua elemen dengan class animate-on-scroll
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+    
+    backToTop.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Open Full Map Modal
+    window.openFullMap = function() {
+        const mapModal = new bootstrap.Modal(document.getElementById('mapModal'));
+        mapModal.show();
+    };
+    
+    // Live waktu saat ini di footer
+    function updateFooterTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        const dateString = now.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        const timeElement = document.getElementById('footer-time');
+        if (timeElement) {
+            timeElement.textContent = `${dateString} | ${timeString} WIB`;
+        }
+    }
+    
+    updateFooterTime();
+    setInterval(updateFooterTime, 1000);
+    
+    // Interactive hover effects
+    const contactItems = document.querySelectorAll('.contact-item');
+    contactItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(10px) scale(1.02)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateX(0) scale(1)';
+        });
+    });
+    
+    // Social media button hover effect
+    const socialButtons = document.querySelectorAll('.social-btn');
+    socialButtons.forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('svg');
+            icon.style.transform = 'scale(1.3) rotate(5deg)';
+            icon.style.transition = 'transform 0.3s ease';
+        });
+        
+        btn.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('svg');
+            icon.style.transform = 'scale(1) rotate(0)';
+        });
+    });
+    
+    // Floating clouds animation
+    const clouds = document.querySelectorAll('.cloud');
+    clouds.forEach((cloud, index) => {
+        cloud.style.animationDuration = `${20 + (index * 5)}s`;
+        cloud.style.animationDelay = `${index * 2}s`;
+    });
+    
+    // Wave animation speed based on scroll
+    let lastScroll = 0;
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const scrollDiff = scrolled - lastScroll;
+        const waves = document.querySelectorAll('.wave');
+        
+        waves.forEach((wave, index) => {
+            const baseSpeed = 25 - (index * 5);
+            const adjustedSpeed = Math.max(10, Math.min(40, baseSpeed + (scrollDiff * 0.1)));
+            wave.style.animationDuration = `${adjustedSpeed}s`;
+        });
+        
+        lastScroll = scrolled;
+    });
+    
+    // Parallax effect untuk background
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector('.footer-bg-animation');
+        
+        if (parallax) {
+            parallax.style.transform = `translateY(${scrolled * 0.05}px)`;
+        }
+    });
+});
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Intersection Observer untuk animasi tiap section
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15
+        });
+
+        document.querySelectorAll('.section-animate').forEach(sec => observer.observe(sec));
+    </script>
+</body>
+</html>
+

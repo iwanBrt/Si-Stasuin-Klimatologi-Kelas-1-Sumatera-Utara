@@ -1,0 +1,167 @@
+[
+  {
+    "nama": "Kota Medan",
+    "tipe": "Kota",
+    "adm4": "12.71.03.1001"
+  },
+  {
+    "nama": "Kota Binjai",
+    "tipe": "Kota",
+    "adm4": "12.75.01.1001"
+  },
+  {
+    "nama": "Kota Tebing Tinggi",
+    "tipe": "Kota",
+    "adm4": "12.76.01.1001"
+  },
+  {
+    "nama": "Kota Pematangsiantar",
+    "tipe": "Kota",
+    "adm4": "12.72.01.1001"
+  },
+  {
+    "nama": "Kota Tanjunbalai",
+    "tipe": "Kota",
+    "adm4": "12.74.01.1001"
+  },
+  {
+    "nama": "Kota Sibolga",
+    "tipe": "Kota",
+    "adm4": "12.73.02.1001"
+  },
+  {
+    "nama": "Kota Padangsidimpuan",
+    "tipe": "Kota",
+    "adm4": "12.77.01.1001"
+  },
+  {
+    "nama": "Kota Gunungsitoli",
+    "tipe": "Kota",
+    "adm4": "12.78.01.2001"
+  },
+  {
+    "nama": "Kab. Deli Serdang",
+    "tipe": "Kabupaten",
+    "adm4": "12.07.01.2001"
+  },
+  {
+    "nama": "Kab. Langkat",
+    "tipe": "Kabupaten",
+    "adm4": "12.05.01.1001"
+  },
+  {
+    "nama": "Kab. Karo",
+    "tipe": "Kabupaten",
+    "adm4": "12.06.01.2001"
+  },
+  {
+    "nama": "Kab. Simalungun",
+    "tipe": "Kabupaten",
+    "adm4": "12.08.01.2001"
+  },
+  {
+    "nama": "Kab. Serdang Bedagai",
+    "tipe": "Kabupaten",
+    "adm4": "12.18.01.2001"
+  },
+  {
+    "nama": "Kab. Batu Bara",
+    "tipe": "Kabupaten",
+    "adm4": "12.19.01.1001"
+  },
+  {
+    "nama": "Kab. Asahan",
+    "tipe": "Kabupaten",
+    "adm4": "12.09.08.2002"
+  },
+  {
+    "nama": "Kab. Labuhanbatu",
+    "tipe": "Kabupaten",
+    "adm4": "12.10.01.1001"
+  },
+  {
+    "nama": "Kab. Labuhanbatu Utara",
+    "tipe": "Kabupaten",
+    "adm4": "12.23.01.1001"
+  },
+  {
+    "nama": "Kab. Labuhanbatu Selatan",
+    "tipe": "Kabupaten",
+    "adm4": "12.22.01.1001"
+  },
+  {
+    "nama": "Kab. Dairi",
+    "tipe": "Kabupaten",
+    "adm4": "12.11.02.2001"
+  },
+  {
+    "nama": "Kab. Pakpak Bharat",
+    "tipe": "Kabupaten",
+    "adm4": "12.15.01.2001"
+  },
+  {
+    "nama": "Kab. Samosir",
+    "tipe": "Kabupaten",
+    "adm4": "12.17.01.2001"
+  },
+  {
+    "nama": "Kab. Toba",
+    "tipe": "Kabupaten",
+    "adm4": "12.12.01.2003"
+  },
+  {
+    "nama": "Kab. Humbang Hasundutan",
+    "tipe": "Kabupaten",
+    "adm4": "12.16.01.2002"
+  },
+  {
+    "nama": "Kab. Tapanuli Utara",
+    "tipe": "Kabupaten",
+    "adm4": "12.02.01.1001"
+  },
+  {
+    "nama": "Kab. Tapanuli Tengah",
+    "tipe": "Kabupaten",
+    "adm4": "12.01.01.1001"
+  },
+  {
+    "nama": "Kab. Tapanuli Selatan",
+    "tipe": "Kabupaten",
+    "adm4": "12.03.01.1001"
+  },
+  {
+    "nama": "Kab. Padang Lawas Utara",
+    "tipe": "Kabupaten",
+    "adm4": "12.20.01.2001"
+  },
+  {
+    "nama": "Kab. Padang Lawas",
+    "tipe": "Kabupaten",
+    "adm4": "12.21.01.2001"
+  },
+  {
+    "nama": "Kab. Mandailing Natal",
+    "tipe": "Kabupaten",
+    "adm4": "12.13.01.2001"
+  },
+  {
+    "nama": "Kab. Nias",
+    "tipe": "Kabupaten",
+    "adm4": "12.04.05.2001"
+  },
+  {
+    "nama": "Kab. Nias Utara",
+    "tipe": "Kabupaten",
+    "adm4": "12.24.01.2001"
+  },
+  {
+    "nama": "Kab. Nias Barat",
+    "tipe": "Kabupaten",
+    "adm4": "12.25.01.2001"
+  },
+  {
+    "nama": "Kab. Nias Selatan",
+    "tipe": "Kabupaten",
+    "adm4": "12.14.01.2002"
+  }
+]

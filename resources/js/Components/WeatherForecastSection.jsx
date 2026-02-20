@@ -15,21 +15,33 @@ export default function WeatherForecastSection() {
         const fetchWeather = async () => {
             try {
                 const response = await fetch('/api/weather');
-                if (!response.ok) throw new Error('Failed to fetch weather data');
+                if (!response.ok) throw new Error(`HTTP ${response.status}: gagal mengambil data cuaca`);
                 const data = await response.json();
 
-                if (Array.isArray(data)) {
-                    // Filter: Hanya tampilkan data yang online/valid
-                    const validCities = data.filter(city =>
-                        city.temp !== '-' &&
-                        city.weather_name !== 'Offline' &&
-                        city.temp !== null
-                    );
-                    setCities(validCities);
-                    setFilteredCities(validCities);
+                console.log('[WeatherForecastSection] Raw API response:', data);
+
+                if (!Array.isArray(data)) {
+                    console.warn('[WeatherForecastSection] API Success but No Data — bukan array');
+                    setError(true);
+                    return;
                 }
+
+                if (data.length === 0) {
+                    console.warn('[WeatherForecastSection] API Success but No Data — array kosong');
+                }
+
+                // Filter: hanya tampilkan data valid (suhu > 0)
+                const validCities = data.filter(city =>
+                    city &&
+                    city.temp !== null &&
+                    city.temp !== undefined &&
+                    city.temp !== '-' &&
+                    city.weather_name !== 'Offline'
+                );
+                setCities(validCities);
+                setFilteredCities(validCities);
             } catch (err) {
-                console.error(err);
+                console.error('[WeatherForecastSection] Fetch error:', err);
                 setError(true);
             } finally {
                 setLoading(false);
@@ -40,12 +52,23 @@ export default function WeatherForecastSection() {
     }, []);
 
     useEffect(() => {
+        if (!Array.isArray(cities)) return;
+
+        const lowerQuery = searchQuery.toLowerCase().trim();
+
+        if (!lowerQuery) {
+            setFilteredCities(cities);
+            setActiveIndex(0);
+            return;
+        }
+
         const filtered = cities.filter(city =>
-            city.name.toLowerCase().includes(searchQuery.toLowerCase())
+            (city?.name ?? '').toLowerCase().includes(lowerQuery)
         );
         setFilteredCities(filtered);
         setActiveIndex(0);
     }, [searchQuery, cities]);
+
 
     useEffect(() => {
         let interval;
@@ -148,8 +171,8 @@ export default function WeatherForecastSection() {
                         <button
                             onClick={() => setIsAutoSliding(!isAutoSliding)}
                             className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-lg ${isAutoSliding
-                                    ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-xl hover:-translate-y-0.5'
-                                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                                ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-xl hover:-translate-y-0.5'
+                                : 'bg-white text-gray-700 hover:bg-gray-50'
                                 }`}
                         >
                             {isAutoSliding ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}

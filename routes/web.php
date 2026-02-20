@@ -32,7 +32,7 @@ Route::get('/', function () {
 
 // Public News Detail Route
 Route::get('/berita/{slug}', [App\Http\Controllers\NewsController::class, 'show'])->name('news.show');
-Route::get('/api/weather', [App\Http\Controllers\WeatherController::class, 'getCurrentWeather'])->name('api.weather');
+Route::get('/api/weather', [App\Http\Controllers\WeatherController::class, 'getWeatherForSection'])->name('api.weather');
 Route::get('/api/weather/warning', [App\Http\Controllers\WeatherController::class, 'getEarlyWarning'])->name('api.weather.warning');
 Route::get('/api/prakiraan-cuaca/sumut', [App\Http\Controllers\WeatherController::class, 'getSumutWeatherJSON'])->name('api.weather.sumut.json');
 Route::get('/api/earthquake', [App\Http\Controllers\EarthquakeController::class, 'getLatestEarthquake'])->name('api.earthquake');
