@@ -46,11 +46,35 @@ Route::get('/profil/staklim-sumut', [App\Http\Controllers\ProfileController::cla
 Route::get('/profil/tim-kami', [App\Http\Controllers\ProfileController::class, 'timKami'])->name('profile.tim-kami');
 Route::get('/layanan', [App\Http\Controllers\ProfileController::class, 'layanan'])->name('layanan');
 Route::get('/layanan/permintaan-data', [App\Http\Controllers\ProfileController::class, 'permintaanData'])->name('layanan.permintaan-data');
+Route::get('/layanan/magang-pkl', [App\Http\Controllers\ProfileController::class, 'magangPKL'])->name('layanan.magang-pkl');
+Route::get('/informasi-iklim/curah-hujan-harian', [App\Http\Controllers\InformasiIklimController::class, 'curahHujanHarian'])->name('informasi-iklim.curah-hujan-harian');
+
+// Dasarian
+Route::get('/informasi-iklim/prospek-iklim-dasarian', [App\Http\Controllers\InformasiIklimController::class, 'prospekIklimDasarian'])->name('informasi-iklim.prospek-iklim-dasarian');
+Route::get('/informasi-iklim/analisis-hari-tanpa-hujan', [App\Http\Controllers\InformasiIklimController::class, 'analisisHariTanpaHujan'])->name('informasi-iklim.analisis-hari-tanpa-hujan');
+Route::get('/informasi-iklim/analisis-curah-hujan-dasarian', [App\Http\Controllers\InformasiIklimController::class, 'analisisCurahHujanDasarian'])->name('informasi-iklim.analisis-curah-hujan-dasarian');
+Route::get('/informasi-iklim/prakiraan-curah-hujan-dasarian', [App\Http\Controllers\InformasiIklimController::class, 'prakiraanCurahHujanDasarian'])->name('informasi-iklim.prakiraan-curah-hujan-dasarian');
+Route::get('/informasi-iklim/probabilitas-curah-hujan-dasarian', [App\Http\Controllers\InformasiIklimController::class, 'probabilitasCurahHujanDasarian'])->name('informasi-iklim.probabilitas-curah-hujan-dasarian');
+Route::get('/informasi-iklim/prakiraan-rawan-banjir-dasarian', [App\Http\Controllers\InformasiIklimController::class, 'prakiraanRawanBanjirDasarian'])->name('informasi-iklim.prakiraan-rawan-banjir-dasarian');
+Route::get('/informasi-iklim/analisis-hujan-bulanan', [App\Http\Controllers\InformasiIklimController::class, 'analisisHujanBulanan'])->name('informasi-iklim.analisis-hujan-bulanan');
+Route::get('/informasi-iklim/prakiraan-hujan-bulanan', [App\Http\Controllers\InformasiIklimController::class, 'prakiraanHujanBulanan'])->name('informasi-iklim.prakiraan-hujan-bulanan');
+Route::get('/informasi-iklim/prakiraan-ketersediaan-air', [App\Http\Controllers\InformasiIklimController::class, 'prakiraanKetersediaanAir'])->name('informasi-iklim.prakiraan-ketersediaan-air');
+Route::get('/informasi-iklim/spi', [App\Http\Controllers\InformasiIklimController::class, 'spi'])->name('informasi-iklim.spi');
 Route::get('/kualitas-udara/pm25', [App\Http\Controllers\KualitasUdaraController::class, 'pm25'])->name('kualitas-udara.pm25');
 Route::get('/kualitas-udara/kimia-air-hujan', [App\Http\Controllers\KualitasUdaraController::class, 'kimiaAirHujan'])->name('kualitas-udara.kimia-air-hujan');
+Route::get('/kualitas-udara/gas-rumah-kaca', [App\Http\Controllers\KualitasUdaraController::class, 'gasRumahKaca'])->name('kualitas-udara.gas-rumah-kaca');
+
+// Publikasi
+Route::get('/publikasi/buletin-prakiraan-musim', [App\Http\Controllers\PublikasiController::class, 'buletinMusim'])->name('publikasi.buletin-musim');
+Route::get('/publikasi/buletin-info-iklim', [App\Http\Controllers\PublikasiController::class, 'buletinBulanan'])->name('publikasi.buletin-bulanan');
+Route::get('/publikasi/buku-saku-mkkug', [App\Http\Controllers\PublikasiController::class, 'bukuSaku'])->name('publikasi.buku-saku');
+
 Route::get('/normal-iklim/normal-hujan-bulanan', [App\Http\Controllers\NormalIklimController::class, 'normalHujanBulanan'])->name('normal-iklim.normal-hujan-bulanan');
 Route::get('/normal-iklim/peta-zona-musim', [App\Http\Controllers\NormalIklimController::class, 'petaZonaMusim'])->name('normal-iklim.peta-zona-musim');
-Route::get('/normal-iklim/download-folder', [App\Http\Controllers\NormalIklimController::class, 'downloadFolder'])->name('normal-iklim.download-folder');
+Route::get('/normal-iklim/peta-iklim-schmidt-fergusson', [App\Http\Controllers\NormalIklimController::class, 'schmidtFergusson'])->name('normal-iklim.schmidt-fergusson');
+Route::get('/normal-iklim/peta-iklim-oldeman', [App\Http\Controllers\NormalIklimController::class, 'oldeman'])->name('normal-iklim.oldeman');
+Route::get('/normal-iklim/normal-suhu-maksimum', [App\Http\Controllers\NormalIklimController::class, 'suhuMaksimum'])->name('normal-iklim.suhu-maksimum');
+Route::get('/normal-iklim/normal-suhu-minimum', [App\Http\Controllers\NormalIklimController::class, 'suhuMinimum'])->name('normal-iklim.suhu-minimum');
 Route::get('/kebakaran-hutan/ffmc', [App\Http\Controllers\KebakaranHutanController::class, 'ffmc'])->name('kebakaran-hutan.ffmc');
 Route::get('/kebakaran-hutan/fwi', [App\Http\Controllers\KebakaranHutanController::class, 'fwi'])->name('kebakaran-hutan.fwi');
 Route::get('/kebakaran-hutan/hotspot', [App\Http\Controllers\KebakaranHutanController::class, 'hotspot'])->name('kebakaran-hutan.hotspot');

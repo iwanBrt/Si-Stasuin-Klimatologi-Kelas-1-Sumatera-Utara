@@ -1,38 +1,16 @@
 ﻿import { Head, Link } from '@inertiajs/react';
-import { Users, Calendar, BookOpen, Award, Clock, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
+import { Calendar, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
 
 import EarthquakeSection from '@/Components/EarthquakeSection';
 import WeatherWarningSection from '@/Components/WeatherWarningSection';
 import WeatherCardGrid from '@/Components/WeatherCardGrid';
 
 export default function Welcome({ auth, latestNews = [] }) {
-    const features = [
-        {
-            icon: BookOpen,
-            title: 'Pembelajaran Praktis',
-            description: 'Dapatkan pengalaman langsung dalam bidang klimatologi dan meteorologi'
-        },
-        {
-            icon: Users,
-            title: 'Pembimbing Ahli',
-            description: 'Dibimbing oleh tenaga profesional bersertifikat BMKG'
-        },
-        {
-            icon: Award,
-            title: 'Sertifikat Resmi',
-            description: 'Raih sertifikat resmi dari UPT Stasiun Klimatologi'
-        },
-        {
-            icon: Clock,
-            title: 'Durasi Fleksibel',
-            description: 'Program magang dengan durasi 3-6 bulan sesuai kebutuhan'
-        },
-    ];
 
     return (
         <>
             <Head title="Stasiun Klimatologi Sumatera Utara">
-                <meta name="description" content="Sistem Informasi UPT Stasiun Klimatologi Sumatera Utara - BMKG. Layanan permohonan data meteorologi, klimatologi, dan informasi cuaca terkini." />
+                <meta name="description" content=" UPT Stasiun Klimatologi Sumatera Utara - BMKG. Layanan permohonan data meteorologi, klimatologi, dan informasi cuaca terkini." />
             </Head>
 
             <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
@@ -63,6 +41,10 @@ export default function Welcome({ auth, latestNews = [] }) {
                                     </button>
                                     <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
                                         <div className="p-2 flex flex-col gap-1">
+                                            {/* Harian */}
+                                            <Link href={route('informasi-iklim.curah-hujan-harian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                Harian
+                                            </Link>
                                             {/* Dasarian - Nested Dropdown */}
                                             <div className="relative group/dasarian">
                                                 <button className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
@@ -72,24 +54,24 @@ export default function Welcome({ auth, latestNews = [] }) {
                                                 {/* Dasarian Submenu */}
                                                 <div className="absolute left-full top-0 ml-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover/dasarian:opacity-100 group-hover/dasarian:visible transition-all duration-200 z-50">
                                                     <div className="p-2 flex flex-col gap-1">
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                        <Link href={route('informasi-iklim.prospek-iklim-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                             Prospek Iklim Dasarian
-                                                        </a>
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                        </Link>
+                                                        <Link href={route('informasi-iklim.analisis-hari-tanpa-hujan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                             Analisis Hari Tanpa Hujan
-                                                        </a>
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                        </Link>
+                                                        <Link href={route('informasi-iklim.analisis-curah-hujan-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                             Analisis Curah Hujan
-                                                        </a>
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                        </Link>
+                                                        <Link href={route('informasi-iklim.prakiraan-curah-hujan-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                             Prakiraan Curah Hujan
-                                                        </a>
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                        </Link>
+                                                        <Link href={route('informasi-iklim.probabilitas-curah-hujan-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                             Probabilitas Curah Hujan
-                                                        </a>
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                        </Link>
+                                                        <Link href={route('informasi-iklim.prakiraan-rawan-banjir-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                             Prakiraan Daerah Potensi Rawan Banjir
-                                                        </a>
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,17 +83,20 @@ export default function Welcome({ auth, latestNews = [] }) {
                                                     <ChevronDown className="h-3 w-3 -rotate-90" />
                                                 </button>
                                                 {/* Bulanan Submenu */}
-                                                <div className="absolute left-full top-0 ml-1 w-56 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover/bulanan:opacity-100 group-hover/bulanan:visible transition-all duration-200 z-50">
+                                                <div className="absolute left-full top-0 ml-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover/bulanan:opacity-100 group-hover/bulanan:visible transition-all duration-200 z-50">
                                                     <div className="p-2 flex flex-col gap-1">
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                                            Prakiraan Maret 2026
-                                                        </a>
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                                            Prakiraan April 2026
-                                                        </a>
-                                                        <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                                            Prakiraan Mei 2026
-                                                        </a>
+                                                        <Link href={route('informasi-iklim.analisis-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                            Analisis Hujan Bulanan
+                                                        </Link>
+                                                        <Link href={route('informasi-iklim.prakiraan-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                            Prakiraan Hujan Bulanan
+                                                        </Link>
+                                                        <Link href={route('informasi-iklim.prakiraan-ketersediaan-air')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                            Prakiraan Ketersediaan Air Tawar
+                                                        </Link>
+                                                        <Link href={route('informasi-iklim.spi')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                            SPI (Standardized Precipitation Index)
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -154,9 +139,9 @@ export default function Welcome({ auth, latestNews = [] }) {
                                             <Link href={route('kualitas-udara.pm25')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Kualitas Udara (PM 2.5)
                                             </Link>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                                Indeks Kenyamanan
-                                            </a>
+                                            <Link href={route('kualitas-udara.gas-rumah-kaca')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                                Gas Rumah Kaca
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -175,18 +160,18 @@ export default function Welcome({ auth, latestNews = [] }) {
                                             <Link href={route('normal-iklim.peta-zona-musim')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Peta Zona Musim (ZOM)
                                             </Link>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            <Link href={route('normal-iklim.schmidt-fergusson')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Peta Iklim Schmidt Fergusson
-                                            </a>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            </Link>
+                                            <Link href={route('normal-iklim.oldeman')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Peta Iklim Oldeman
-                                            </a>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            </Link>
+                                            <Link href={route('normal-iklim.suhu-maksimum')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Normal Suhu Maksimum
-                                            </a>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            </Link>
+                                            <Link href={route('normal-iklim.suhu-minimum')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Normal Suhu Minimum
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -212,23 +197,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                                     </div>
                                 </div>
 
-                                {/* Iklim Ekstrim Dropdown */}
-                                <div className="relative group">
-                                    <button className="flex items-center gap-1 text-xs xl:text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2 whitespace-nowrap">
-                                        Iklim Ekstrim
-                                        <ChevronDown className="h-3 w-3 xl:h-4 xl:w-4 transition-transform group-hover:rotate-180" />
-                                    </button>
-                                    <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
-                                        <div className="p-2 flex flex-col gap-1">
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                                Peta Curah Hujan Harian
-                                            </a>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                                Hujan Ekstrim
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+
 
                                 {/* Publikasi Dropdown */}
                                 <div className="relative group">
@@ -238,15 +207,15 @@ export default function Welcome({ auth, latestNews = [] }) {
                                     </button>
                                     <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
                                         <div className="p-2 flex flex-col gap-1">
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            <Link href={route('publikasi.buletin-musim')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Buletin Prakiraan Musim
-                                            </a>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            </Link>
+                                            <Link href={route('publikasi.buletin-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Buletin Info Iklim Bulanan
-                                            </a>
-                                            <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            </Link>
+                                            <Link href={route('publikasi.buku-saku')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                 Buku Saku MKKuG
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -283,7 +252,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                 </nav >
 
                 {/* Hero Section */}
-                <section className="relative overflow-hidden py-20" aria-labelledby="hero-heading">
+                <section className="relative overflow-hidden py-28 md:py-36 min-h-[480px] md:min-h-[540px] flex items-center" aria-labelledby="hero-heading">
                     {/* Background Image */}
                     <div
                         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -295,26 +264,16 @@ export default function Welcome({ auth, latestNews = [] }) {
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/70 to-indigo-900/80" />
                     <div className="absolute inset-0 bg-grid-white/10 bg-[size:20px_20px]" />
 
-                    <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
                         <div className="text-center">
-                            {/* Badge */}
-                            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 backdrop-blur-sm">
-                                <Calendar className="h-5 w-5 text-yellow-300" aria-hidden="true" />
-                                <span className="text-sm font-semibold text-white">
-                                    Pendaftaran Dibuka - Tahun 2026
-                                </span>
-                            </div>
-
-                            <h1 id="hero-heading" className="mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-                                Sistem Informasi
-                                <span className="mt-2 block bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-200 bg-clip-text text-transparent">
-                                    UPT Stasiun Klimatologi Sumatera Utara
+                            <h1 id="hero-heading" className="mb-8 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                                <span className="block bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-200 bg-clip-text text-transparent">
+                                     Stasiun Klimatologi Sumatera Utara
                                 </span>
                             </h1>
 
-                            <p className="mx-auto mb-10 max-w-3xl text-lg leading-relaxed text-blue-100 sm:text-xl">
-                                Bergabunglah dengan program magang profesional di bidang klimatologi dan meteorologi.
-                                Kembangkan kompetensi Anda bersama tenaga ahli BMKG.
+                            <p className="mx-auto mb-12 max-w-3xl text-lg leading-relaxed text-blue-100 sm:text-xl">
+                                Berisi informasi mengenai visi, misi, dan tujuan Stasiun Klimatologi Sumatera Utara dalam memberikan layanan pengamatan, analisis, dan informasi iklim yang akurat untuk mendukung pembangunan dan keselamatan masyarakat.
                             </p>
 
                             {/* CTA Buttons */}
@@ -355,25 +314,12 @@ export default function Welcome({ auth, latestNews = [] }) {
                                     </>
                                 )}
                             </div>
-
-                            {/* Stats */}
-                            <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
-                                <div className="rounded-2xl bg-white/10 p-6 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20">
-                                    <div className="text-4xl font-bold text-yellow-300">500+</div>
-                                    <div className="mt-2 text-sm text-blue-100">Alumni Peserta</div>
-                                </div>
-                                <div className="rounded-2xl bg-white/10 p-6 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20">
-                                    <div className="text-4xl font-bold text-yellow-300">3-6</div>
-                                    <div className="mt-2 text-sm text-blue-100">Bulan Program</div>
-                                </div>
-                                <div className="rounded-2xl bg-white/10 p-6 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20">
-                                    <div className="text-4xl font-bold text-yellow-300">15+</div>
-                                    <div className="mt-2 text-sm text-blue-100">Pembimbing Ahli</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </section>
+
+                {/* Earthquake Section */}
+                <EarthquakeSection />
 
                 <WeatherWarningSection />
 
@@ -381,41 +327,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                     <WeatherCardGrid />
                 </div>
 
-                {/* Features Section */}
-                < section className="py-20" >
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="mb-12 text-center">
-                            <h2 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">
-                                Mengapa Memilih Program Kami?
-                            </h2>
-                            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                                Dapatkan pengalaman berkualitas dengan fasilitas dan bimbingan terbaik
-                            </p>
-                        </div>
 
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-                            {features.map((feature, index) => {
-                                const IconComponent = feature.icon;
-                                return (
-                                    <div
-                                        key={index}
-                                        className="group rounded-2xl border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-2xl"
-                                    >
-                                        <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg transition-transform duration-300 group-hover:scale-110">
-                                            <IconComponent className="h-7 w-7 text-white" />
-                                        </div>
-                                        <h3 className="mb-3 text-xl font-bold text-gray-900">
-                                            {feature.title}
-                                        </h3>
-                                        <p className="text-sm leading-relaxed text-gray-600">
-                                            {feature.description}
-                                        </p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </section >
 
                 {/* News Section */}
                 {/* Creative News Section */}
@@ -435,7 +347,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                                             <span className="text-sm font-bold">Kabar Terkini</span>
                                         </div>
                                         <h2 className="text-4xl font-black leading-tight text-gray-900 md:text-5xl">
-                                            Wawasan & <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Informasi</span>
+                                            Berita & <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Informasi</span>
                                         </h2>
                                         <div className="mt-4 h-1.5 w-24 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600" />
                                     </div>
@@ -538,8 +450,7 @@ export default function Welcome({ auth, latestNews = [] }) {
 
 
 
-                {/* Earthquake Section */}
-                <EarthquakeSection />
+
                 {/* Contact Section */}
                 <section className="py-20">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

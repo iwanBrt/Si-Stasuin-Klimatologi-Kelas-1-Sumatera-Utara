@@ -1,19 +1,19 @@
 import { Head } from '@inertiajs/react';
+import { CloudRain, Calendar } from 'lucide-react';
 import Navbar from '@/Components/Navbar';
-import { Info, Wind, MapPin, Wind as AirIcon, Calendar } from 'lucide-react';
 
-export default function PM25({ auth, contents = [] }) {
+export default function CurahHujanHarian({ auth, contents = [] }) {
     return (
         <div className="min-h-screen bg-white">
-            <Head title="Kualitas Udara PM 2.5 - Stasiun Klimatologi Sumatera Utara">
-                <meta name="description" content="Informasi kualitas udara PM 2.5 UPT Stasiun Klimatologi Sumatera Utara - BMKG" />
+            <Head title="Curah Hujan Harian - Stasiun Klimatologi Sumatera Utara">
+                <meta name="description" content="Informasi curah hujan harian UPT Stasiun Klimatologi Sumatera Utara - BMKG" />
             </Head>
 
             <Navbar auth={auth} />
 
             {/* Hero Section */}
             <section className="relative overflow-hidden py-16 md:py-20">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-teal-700 to-blue-800" />
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800" />
                 <div className="absolute inset-0 bg-grid-white/10 bg-[size:20px_20px]" />
                 <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
                 <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
@@ -21,14 +21,14 @@ export default function PM25({ auth, contents = [] }) {
                 <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 backdrop-blur-sm">
-                            <AirIcon className="h-5 w-5 text-yellow-300" />
-                            <span className="text-sm font-semibold text-white">Monitoring Lingkungan</span>
+                            <CloudRain className="h-5 w-5 text-yellow-300" />
+                            <span className="text-sm font-semibold text-white">Informasi Iklim Harian</span>
                         </div>
                         <h1 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-                            Kualitas Udara PM 2.5
+                            Curah Hujan Harian
                         </h1>
                         <p className="mx-auto max-w-2xl text-lg leading-relaxed text-blue-100">
-                            Informasi dan visualisasi konsentrasi PM 2.5 di wilayah Sumatera Utara yang dipublikasikan oleh Stasiun Klimatologi BMKG
+                            Data dan visualisasi curah hujan harian wilayah Sumatera Utara yang dipublikasikan oleh Stasiun Klimatologi BMKG
                         </p>
                     </div>
                 </div>
@@ -39,12 +39,12 @@ export default function PM25({ auth, contents = [] }) {
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {contents.length === 0 ? (
                         <div className="text-center py-20">
-                            <div className="mx-auto w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mb-6">
-                                <AirIcon className="h-10 w-10 text-emerald-400" />
+                            <div className="mx-auto w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center mb-6">
+                                <CloudRain className="h-10 w-10 text-blue-400" />
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-2">Belum Ada Data</h3>
                             <p className="text-gray-500 max-w-md mx-auto">
-                                Data kualitas udara PM 2.5 belum tersedia saat ini. Silakan cek kembali nanti.
+                                Data curah hujan harian belum tersedia saat ini. Silakan cek kembali nanti.
                             </p>
                         </div>
                     ) : (
@@ -69,8 +69,8 @@ export default function PM25({ auth, contents = [] }) {
                                     <div className="p-6 md:p-8">
                                         <div className="flex flex-wrap items-center gap-3 mb-4">
                                             {item.category && (
-                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">
-                                                    <Wind className="h-3.5 w-3.5" />
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
+                                                    <CloudRain className="h-3.5 w-3.5" />
                                                     {item.category}
                                                 </span>
                                             )}
@@ -96,24 +96,6 @@ export default function PM25({ auth, contents = [] }) {
                             ))}
                         </div>
                     )}
-
-                    {/* Info Section */}
-                    <div className="mt-16 rounded-2xl bg-emerald-50 p-6 sm:p-8 shadow-sm border border-emerald-100">
-                        <div className="flex items-start gap-4">
-                            <div className="rounded-full bg-emerald-100 p-2 text-emerald-600 flex-shrink-0">
-                                <Info className="h-6 w-6" />
-                            </div>
-                            <div className="space-y-4">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-gray-900">Apa itu Particulate Matter (PM2.5)?</h3>
-                                    <p className="mt-2 text-gray-700 leading-relaxed">
-                                        Particulate Matter (PM2.5) adalah partikel udara yang berukuran lebih kecil dari atau sama dengan 2,5 µm (mikrometer).
-                                        Partikel ini sangat kecil sehingga dapat masuk ke dalam sistem pernapasan manusia dan menyebabkan gangguan kesehatan.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
 

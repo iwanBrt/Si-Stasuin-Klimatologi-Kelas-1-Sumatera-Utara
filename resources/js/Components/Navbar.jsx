@@ -31,6 +31,10 @@ export default function Navbar({ auth }) {
                             </button>
                             <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
                                 <div className="p-2 flex flex-col gap-1">
+                                    {/* Harian */}
+                                    <Link href={route('informasi-iklim.curah-hujan-harian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                        Harian
+                                    </Link>
                                     {/* Dasarian - Nested Dropdown */}
                                     <div className="relative group/dasarian">
                                         <button className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
@@ -39,12 +43,12 @@ export default function Navbar({ auth }) {
                                         </button>
                                         <div className="absolute left-full top-0 ml-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover/dasarian:opacity-100 group-hover/dasarian:visible transition-all duration-200 z-50">
                                             <div className="p-2 flex flex-col gap-1">
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prospek Iklim Dasarian</a>
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Analisis Hari Tanpa Hujan</a>
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Analisis Curah Hujan</a>
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Curah Hujan</a>
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Probabilitas Curah Hujan</a>
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Daerah Potensi Rawan Banjir</a>
+                                                <Link href={route('informasi-iklim.prospek-iklim-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prospek Iklim Dasarian</Link>
+                                                <Link href={route('informasi-iklim.analisis-hari-tanpa-hujan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Analisis Hari Tanpa Hujan</Link>
+                                                <Link href={route('informasi-iklim.analisis-curah-hujan-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Analisis Curah Hujan</Link>
+                                                <Link href={route('informasi-iklim.prakiraan-curah-hujan-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Curah Hujan</Link>
+                                                <Link href={route('informasi-iklim.probabilitas-curah-hujan-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Probabilitas Curah Hujan</Link>
+                                                <Link href={route('informasi-iklim.prakiraan-rawan-banjir-dasarian')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Daerah Potensi Rawan Banjir</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -54,11 +58,12 @@ export default function Navbar({ auth }) {
                                             Bulanan
                                             <ChevronDown className="h-3 w-3 -rotate-90" />
                                         </button>
-                                        <div className="absolute left-full top-0 ml-1 w-56 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover/bulanan:opacity-100 group-hover/bulanan:visible transition-all duration-200 z-50">
+                                        <div className="absolute left-full top-0 ml-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover/bulanan:opacity-100 group-hover/bulanan:visible transition-all duration-200 z-50">
                                             <div className="p-2 flex flex-col gap-1">
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Maret 2026</a>
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan April 2026</a>
-                                                <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Mei 2026</a>
+                                                <Link href={route('informasi-iklim.analisis-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Analisis Hujan Bulanan</Link>
+                                                <Link href={route('informasi-iklim.prakiraan-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Hujan Bulanan</Link>
+                                                <Link href={route('informasi-iklim.prakiraan-ketersediaan-air')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Ketersediaan Air Tawar</Link>
+                                                <Link href={route('informasi-iklim.spi')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">SPI (Standardized Precipitation Index)</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -98,7 +103,7 @@ export default function Navbar({ auth }) {
                                 <div className="p-2 flex flex-col gap-1">
                                     <Link href={route('kualitas-udara.kimia-air-hujan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Kimia Air Hujan</Link>
                                     <Link href={route('kualitas-udara.pm25')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Kualitas Udara (PM 2.5)</Link>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Indeks Kenyamanan</a>
+                                    <Link href={route('kualitas-udara.gas-rumah-kaca')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Gas Rumah Kaca</Link>
                                 </div>
                             </div>
                         </div>
@@ -113,10 +118,10 @@ export default function Navbar({ auth }) {
                                 <div className="p-2 flex flex-col gap-1">
                                     <Link href={route('normal-iklim.normal-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Normal Hujan Bulanan</Link>
                                     <Link href={route('normal-iklim.peta-zona-musim')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Zona Musim (ZOM)</Link>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Iklim Schmidt Fergusson</a>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Iklim Oldeman</a>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Normal Suhu Maksimum</a>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Normal Suhu Minimum</a>
+                                    <Link href={route('normal-iklim.schmidt-fergusson')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Iklim Schmidt Fergusson</Link>
+                                    <Link href={route('normal-iklim.oldeman')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Iklim Oldeman</Link>
+                                    <Link href={route('normal-iklim.suhu-maksimum')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Normal Suhu Maksimum</Link>
+                                    <Link href={route('normal-iklim.suhu-minimum')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Normal Suhu Minimum</Link>
                                 </div>
                             </div>
                         </div>
@@ -136,19 +141,7 @@ export default function Navbar({ auth }) {
                             </div>
                         </div>
 
-                        {/* Iklim Ekstrim Dropdown */}
-                        <div className="relative group">
-                            <button className="flex items-center gap-1 text-xs xl:text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2 whitespace-nowrap">
-                                Iklim Ekstrim
-                                <ChevronDown className="h-3 w-3 xl:h-4 xl:w-4 transition-transform group-hover:rotate-180" />
-                            </button>
-                            <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
-                                <div className="p-2 flex flex-col gap-1">
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Peta Curah Hujan Harian</a>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Hujan Ekstrim</a>
-                                </div>
-                            </div>
-                        </div>
+
 
                         {/* Publikasi Dropdown */}
                         <div className="relative group">
@@ -158,9 +151,9 @@ export default function Navbar({ auth }) {
                             </button>
                             <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left z-50">
                                 <div className="p-2 flex flex-col gap-1">
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Buletin Prakiraan Musim</a>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Buletin Info Iklim Bulanan</a>
-                                    <a href="#" className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Buku Saku MKKuG</a>
+                                    <Link href={route('publikasi.buletin-musim')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Buletin Prakiraan Musim</Link>
+                                    <Link href={route('publikasi.buletin-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Buletin Info Iklim Bulanan</Link>
+                                    <Link href={route('publikasi.buku-saku')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Buku Saku MKKuG</Link>
                                 </div>
                             </div>
                         </div>

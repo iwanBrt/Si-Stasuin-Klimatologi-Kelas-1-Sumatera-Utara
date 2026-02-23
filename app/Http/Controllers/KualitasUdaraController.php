@@ -12,36 +12,21 @@ class KualitasUdaraController extends Controller
 {
     public function pm25()
     {
-        $weatherData = null;
-        $error = null;
-
-        try {
-            $apiKey = env('IQAIR_API_KEY');
-            $apiUrl = env('IQAIR_API_URL', 'http://api.airvisual.com/v2');
-            
-            $response = Http::get("{$apiUrl}/city", [
-                'city' => 'Medan',
-                'state' => 'North Sumatra',
-                'country' => 'Indonesia',
-                'key' => $apiKey,
-            ]);
-
-            if ($response->successful()) {
-                $weatherData = $response->json()['data'];
-            } else {
-                Log::error('IQAir API Error: ' . $response->body());
-                $error = 'Gagal mengambil data kualitas udara.';
-            }
-        } catch (\Exception $e) {
-            Log::error('IQAir Connection Error: ' . $e->getMessage());
-            $error = 'Terjadi kesalahan koneksi.';
-        }
+        $contents = \App\Models\Content::where('section', 'kualitas-udara-pm25')
+            ->where('is_active', true)
+            ->orderBy('sort_order', 'desc')
+            ->get()
+            ->map(function ($content) {
+                if ($content->file_path && !str_starts_with($content->file_path, 'http') && !str_starts_with($content->file_path, '/storage')) {
+                    $content->file_url = \Illuminate\Support\Facades\Storage::url($content->file_path);
+                } else {
+                    $content->file_url = $content->file_path;
+                }
+                return $content;
+            });
 
         return Inertia::render('KualitasUdara/PM25', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'airQualityData' => $weatherData,
-            'error' => $error,
+            'contents' => $contents,
         ]);
     }
 
@@ -50,6 +35,26 @@ class KualitasUdaraController extends Controller
         return Inertia::render('KualitasUdara/KimiaAirHujan', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
+        ]);
+    }
+
+    public function gasRumahKaca()
+    {
+        $contents = \App\Models\Content::where('section', 'kualitas-udara-grk')
+            ->where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get()
+            ->map(function ($content) {
+                if ($content->file_path && !str_starts_with($content->file_path, 'http') && !str_starts_with($content->file_path, '/storage')) {
+                    $content->file_url = \Illuminate\Support\Facades\Storage::url($content->file_path);
+                } else {
+                    $content->file_url = $content->file_path;
+                }
+                return $content;
+            });
+
+        return Inertia::render('KualitasUdara/GasRumahKaca', [
+            'contents' => $contents,
         ]);
     }
 }

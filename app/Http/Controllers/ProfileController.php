@@ -60,6 +60,11 @@ class ProfileController extends Controller
         return Inertia::render('Layanan/PermintaanData');
     }
 
+    public function magangPKL()
+    {
+        return Inertia::render('Layanan/MagangPKL');
+    }
+
     // User Profile Management
     public function edit(Request $request)
     {

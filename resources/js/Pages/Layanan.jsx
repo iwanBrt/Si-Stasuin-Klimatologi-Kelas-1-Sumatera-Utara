@@ -35,7 +35,7 @@ export default function Layanan({ auth }) {
                         </div>
 
                         {/* Layanan 2 */}
-                        <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 group">
+                        <Link href={route('layanan.magang-pkl')} className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 group block">
                             <div className="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform">
                                 <GraduationCap className="w-7 h-7" />
                             </div>
@@ -43,10 +43,10 @@ export default function Layanan({ auth }) {
                             <p className="text-gray-600 mb-6 leading-relaxed">
                                 Program praktik kerja lapangan bagi siswa dan mahasiswa untuk belajar langsung dari para ahli.
                             </p>
-                            <Link href={route('register')} className="inline-flex items-center text-indigo-600 font-semibold hover:text-indigo-800">
-                                Daftar Sekarang <ArrowRight className="w-4 h-4 ml-2" />
-                            </Link>
-                        </div>
+                            <span className="inline-flex items-center text-indigo-600 font-semibold group-hover:text-indigo-800">
+                                Lihat Selengkapnya <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                            </span>
+                        </Link>
 
                         {/* Layanan 3 */}
                         <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 group">

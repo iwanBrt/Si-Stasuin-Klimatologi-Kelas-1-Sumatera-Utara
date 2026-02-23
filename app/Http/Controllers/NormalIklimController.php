@@ -2,156 +2,88 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Models\Content;
 use Illuminate\Support\Facades\Storage;
-use ZipArchive;
-use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class NormalIklimController extends Controller
 {
+    /**
+     * Helper to get content by section and render the appropriate view.
+     */
+    private function getContentBySection(string $section)
+    {
+        return Content::where('section', $section)
+            ->where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get()
+            ->map(function ($content) {
+                if ($content->file_path && !str_starts_with($content->file_path, 'http') && !str_starts_with($content->file_path, '/storage')) {
+                    $content->file_url = Storage::url($content->file_path);
+                } else {
+                    $content->file_url = $content->file_path;
+                }
+                return $content;
+            });
+    }
+
     public function normalHujanBulanan()
     {
-        // Fetch from Database
-        $contents = \App\Models\Content::where('section', 'normal-hujan-bulanan')
-            ->orderBy('sort_order', 'asc')
-            ->get();
-            
-        // Split by category
-        // If content is managed via DB, 'category' likely stores 'peta' or 'grafik'
-        // We map to expected format: { name, url }
-        
-        if ($contents->isNotEmpty()) {
-            $petaFiles = $contents->where('category', 'peta')->map(function ($item) {
-                return [
-                    'name' => $item->title,
-                    'url' => \Illuminate\Support\Facades\Storage::url($item->file_path),
-                ];
-            })->values();
-
-            $grafikFiles = $contents->where('category', 'grafik')->map(function ($item) {
-                return [
-                    'name' => $item->title,
-                    'url' => \Illuminate\Support\Facades\Storage::url($item->file_path),
-                ];
-            })->values();
-        } else {
-             // Fallback to file scanning if contents table is empty for this section
-             $petaFiles = $this->getFiles('normal-iklim/normal-hujan-bulanan/peta-normal');
-             $grafikFiles = $this->getFiles('normal-iklim/normal-hujan-bulanan/grafik-normal');
-        }
-
-        return Inertia::render('NormalIklim/NormalHujanBulanan', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'petaFiles' => $petaFiles,
-            'grafikFiles' => $grafikFiles,
+        return Inertia::render('NormalIklim/NormalIklimContent', [
+            'contents' => $this->getContentBySection('normal-hujan-bulanan'),
+            'section' => 'normal-hujan-bulanan',
+            'title' => 'Normal Hujan Bulanan',
+            'subtitle' => 'Data rata-rata curah hujan bulanan wilayah Sumatera Utara periode standar BMKG.',
         ]);
     }
 
     public function petaZonaMusim()
     {
-        $content = \App\Models\Content::where('section', 'zom')
-            ->orderBy('created_at', 'desc')
-            ->first();
-
-        $mapUrl = $content && $content->file_path ? \Illuminate\Support\Facades\Storage::url($content->file_path) : '/assets/petaZonaMusim.jpeg';
-
-        return Inertia::render('NormalIklim/PetaZonaMusim', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'mapUrl' => $mapUrl,
+        return Inertia::render('NormalIklim/NormalIklimContent', [
+            'contents' => $this->getContentBySection('normal-peta-zom'),
+            'section' => 'normal-peta-zom',
+            'title' => 'Peta Zona Musim (ZOM)',
+            'subtitle' => 'Pembagian wilayah berdasarkan pola curah hujan yang memiliki perbedaan jelas antara periode musim kemarau dan musim hujan.',
         ]);
     }
 
-    private function getFiles($directory)
+    public function schmidtFergusson()
     {
-        $files = Storage::disk('public')->files($directory);
-        return collect($files)->filter(function ($file) {
-            // Hanya ambil file gambar (jpg, jpeg, png) dan abaikan file txt
-            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            return in_array($extension, ['jpg', 'jpeg', 'png']);
-        })->map(function ($file) {
-            return [
-                'name' => basename($file),
-                'url' => Storage::url($file), // This automatically handles the /storage prefix if configured correctly
-                'path' => $file,
-            ];
-        })->sort(function ($a, $b) {
-            return $this->sortFiles($a['name'], $b['name']);
-        })->values()->all();
+        return Inertia::render('NormalIklim/NormalIklimContent', [
+            'contents' => $this->getContentBySection('normal-schmidt-fergusson'),
+            'section' => 'normal-schmidt-fergusson',
+            'title' => 'Peta Iklim Schmidt Fergusson',
+            'subtitle' => 'Klasifikasi tipe iklim berdasarkan perbandingan rata-rata bulan kering dan bulan basah.',
+        ]);
     }
 
-    private function sortFiles($nameA, $nameB)
+    public function oldeman()
     {
-        // Ekstrak angka dari nama file untuk sorting
-        // Format peta: 1_JAN.jpg, 2_FEB.jpg, dst
-        // Format grafik: SUMUT 1.jpg, SUMUT 2.jpg, dst
-        
-        // Cek apakah file peta bulanan (format: angka_BULAN)
-        if (preg_match('/^(\d+)_/', $nameA, $matchA) && preg_match('/^(\d+)_/', $nameB, $matchB)) {
-            return (int)$matchA[1] <=> (int)$matchB[1];
-        }
-        
-        // Cek apakah file grafik ZOM (format: SUMUT angka atau text angka)
-        if (preg_match('/(\d+)/', $nameA, $matchA) && preg_match('/(\d+)/', $nameB, $matchB)) {
-            return (int)$matchA[1] <=> (int)$matchB[1];
-        }
-        
-        // Default: sorting alfabetis
-        return strcasecmp($nameA, $nameB);
+        return Inertia::render('NormalIklim/NormalIklimContent', [
+            'contents' => $this->getContentBySection('normal-oldeman'),
+            'section' => 'normal-oldeman',
+            'title' => 'Peta Iklim Oldeman',
+            'subtitle' => 'Klasifikasi iklim yang dikhususkan untuk kebutuhan sektor pertanian tanaman pangan.',
+        ]);
     }
 
-    public function downloadFolder(Request $request)
+    public function suhuMaksimum()
     {
-        $type = $request->input('type'); // 'peta' or 'grafik'
-        if (!in_array($type, ['peta', 'grafik'])) {
-            abort(404);
-        }
+        return Inertia::render('NormalIklim/NormalIklimContent', [
+            'contents' => $this->getContentBySection('normal-suhu-maksimum'),
+            'section' => 'normal-suhu-maksimum',
+            'title' => 'Normal Suhu Maksimum',
+            'subtitle' => 'Rata-rata suhu tertinggi yang tercatat di wilayah Sumatera Utara dalam periode standar.',
+        ]);
+    }
 
-        $folderName = $type === 'peta' ? 'peta-normal' : 'grafik-normal';
-        $directory = "normal-iklim/normal-hujan-bulanan/{$folderName}";
-        
-        $files = Storage::disk('public')->files($directory);
-
-        // Filter hanya file gambar
-        $files = collect($files)->filter(function ($file) {
-            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            return in_array($extension, ['jpg', 'jpeg', 'png']);
-        })->all();
-
-        if (empty($files)) {
-            return back()->with('error', 'Tidak ada file untuk diunduh.');
-        }
-
-        $zipFileName = "normal-hujan-bulanan-{$type}.zip";
-        // Ensure the temp directory exists within public disk path
-        $tempPath = storage_path('app/public/temp');
-        if (!file_exists($tempPath)) {
-            mkdir($tempPath, 0755, true);
-        }
-        
-        $zipFilePath = "{$tempPath}/{$zipFileName}";
-
-        $zip = new ZipArchive;
-        if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
-            foreach ($files as $file) {
-                $fullPath = Storage::disk('public')->path($file);
-                if (file_exists($fullPath)) {
-                    $relativeName = basename($file);
-                    $zip->addFile($fullPath, $relativeName);
-                }
-            }
-            $zip->close();
-        } else {
-             return back()->with('error', 'Gagal membuat file zip.');
-        }
-
-        if (file_exists($zipFilePath)) {
-            return response()->download($zipFilePath)->deleteFileAfterSend(true);
-        }
-
-        return back()->with('error', 'File zip tidak ditemukan.');
+    public function suhuMinimum()
+    {
+        return Inertia::render('NormalIklim/NormalIklimContent', [
+            'contents' => $this->getContentBySection('normal-suhu-minimum'),
+            'section' => 'normal-suhu-minimum',
+            'title' => 'Normal Suhu Minimum',
+            'subtitle' => 'Rata-rata suhu terendah yang tercatat di wilayah Sumatera Utara dalam periode standar.',
+        ]);
     }
 }
