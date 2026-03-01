@@ -1,8 +1,14 @@
 *.log
 .DS_Store
+
+# Environment files (JANGAN pernah di-upload!)
 .env
 .env.backup
 .env.production
+.env.testing
+.env.local
+
+# IDE & Editor
 .phpactor.json
 .phpunit.result.cache
 /.fleet
@@ -12,13 +18,23 @@
 /.vscode
 /.zed
 /auth.json
+
+# Dependencies (di-install ulang di server)
 /node_modules
+/vendor
+
+# Laravel Build & Cache
 /public/build
 /public/hot
 /public/storage
+/bootstrap/cache/*.php
 /storage/*.key
 /storage/pail
-/vendor
+/storage/logs/*.log
+
+# OS files
 Homestead.json
 Homestead.yaml
 Thumbs.db
+npm-debug.log*
+yarn-error.log
