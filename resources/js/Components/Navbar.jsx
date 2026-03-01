@@ -184,6 +184,12 @@ export default function Navbar({ auth }) {
                                 </Link>
                             </>
                         )}
+                        {/* Logo Ahlak */}
+                        <img
+                            src="/assets/ahlak.jpeg"
+                            alt="Logo Ahlak BMKG"
+                            className="h-10 w-auto object-contain flex-shrink-0"
+                        />
                     </div>
                 </div>
             </div>

@@ -246,6 +246,12 @@ export default function Welcome({ auth, latestNews = [] }) {
                                         </Link>
                                     </>
                                 )}
+                                {/* Logo Ahlak */}
+                                <img
+                                    src="/assets/ahlak.jpeg"
+                                    alt="Logo Ahlak BMKG"
+                                    className="h-10 w-auto object-contain flex-shrink-0"
+                                />
                             </div>
                         </div>
                     </div>
@@ -268,7 +274,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                         <div className="text-center">
                             <h1 id="hero-heading" className="mb-8 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                                 <span className="block bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-200 bg-clip-text text-transparent">
-                                     Stasiun Klimatologi Sumatera Utara
+                                    Stasiun Klimatologi Sumatera Utara
                                 </span>
                             </h1>
 

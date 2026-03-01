@@ -15,12 +15,21 @@ export default function AuthenticatedLayout({ header, children }) {
                 <div className="flex h-full flex-col">
                     {/* Logo/Brand */}
                     <div className="border-b border-gray-200 p-6">
-                        <div className="text-xl font-bold text-gray-900">
-                            SI Klimatologi
+                        <div className="flex items-center gap-3">
+                            <img
+                                src="/assets/logo-bmkg.png"
+                                alt="Logo BMKG"
+                                className="h-10 w-auto object-contain flex-shrink-0"
+                            />
+                            <div>
+                                <div className="text-base font-bold text-gray-900 leading-tight">
+                                    SI Klimatologi
+                                </div>
+                                <p className="text-xs font-semibold text-blue-600">
+                                    {user.role === 'admin' ? 'Admin Panel' : user.role === 'media' ? 'Panel Media' : 'Portal Pemohon'}
+                                </p>
+                            </div>
                         </div>
-                        <p className="text-sm font-semibold text-gray-700">
-                            {user.role === 'admin' ? 'Admin Panel' : user.role === 'media' ? 'Panel Media' : 'Portal Pemohon'}
-                        </p>
                     </div>
 
                     {/* Navigation */}
