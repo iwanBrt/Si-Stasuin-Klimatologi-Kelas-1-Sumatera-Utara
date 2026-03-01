@@ -61,8 +61,8 @@ class ApplicationController extends Controller
             'position' => 'nullable|string|max:255',
             
             // Period fields (not required for permohonan_data)
-            'start_date' => 'required_unless:application_type,permohonan_data|nullable|date|after_or_equal:today',
-            'end_date' => 'required_unless:application_type,permohonan_data|nullable|date|after:start_date',
+            'start_date' => 'required_unless:application_type,permohonan_data|nullable|date',
+            'end_date' => 'required_unless:application_type,permohonan_data|nullable|date|after_or_equal:start_date',
             
             // Research-specific fields
             'research_field' => 'nullable|string|max:255',
@@ -77,18 +77,50 @@ class ApplicationController extends Controller
             'additional_notes' => 'nullable|string',
             
             // File uploads
-            'proposal' => 'required_if:applicant_type,student|nullable|file|mimes:pdf,doc,docx|max:5120',
+            // Proposal: wajib hanya untuk penelitian & tugas_akhir
+            'proposal' => [
+                'nullable',
+                'file',
+                'mimes:pdf,doc,docx',
+                'max:5120',
+                function ($attribute, $value, $fail) use ($request) {
+                    $researchTypes = ['penelitian', 'tugas_akhir'];
+                    if (in_array($request->input('application_type'), $researchTypes) && !$value) {
+                        $fail('Proposal wajib diunggah untuk permohonan penelitian/tugas akhir.');
+                    }
+                },
+            ],
             'recommendation_letter' => 'required|file|mimes:pdf|max:5120',
-            'zero_fee_letter' => 'required_if:applicant_type,student|nullable|file|mimes:pdf|max:5120', // Surat Permohonan Rp.0
-            'cv' => 'required_if:applicant_type,student|nullable|file|mimes:pdf|max:5120',
+            // zero_fee_letter: wajib hanya untuk permohonan_data dengan applicant student
+            'zero_fee_letter' => [
+                'nullable',
+                'file',
+                'mimes:pdf',
+                'max:5120',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->input('application_type') === 'permohonan_data'
+                        && $request->input('applicant_type') === 'student'
+                        && !$value) {
+                        $fail('Surat permohonan Rp.0 wajib diunggah untuk pemohon mahasiswa permohonan data.');
+                    }
+                },
+            ],
+            'cv' => 'required_if:applicant_type,student|nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'transcript' => 'nullable|file|mimes:pdf|max:5120',
             'identity_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ], [
-            'start_date.after_or_equal' => 'Tanggal mulai tidak boleh kurang dari hari ini.',
-            'end_date.after' => 'Tanggal selesai harus setelah tanggal mulai.',
+            'start_date.required_unless' => 'Tanggal mulai wajib diisi.',
+            'start_date.date' => 'Format tanggal mulai tidak valid.',
+            'end_date.required_unless' => 'Tanggal selesai wajib diisi.',
+            'end_date.after_or_equal' => 'Tanggal selesai harus sama atau setelah tanggal mulai.',
             'data_period_end.after' => 'Tanggal akhir periode data harus setelah tanggal awal.',
-            'recommendation_letter.required' => 'Surat pengantar wajib diunggah.',
+            'recommendation_letter.required' => 'Surat pengantar/permohonan wajib diunggah.',
+            'proposal.required_if' => 'Proposal wajib diunggah untuk pemohon mahasiswa/siswa.',
+            'cv.required_if' => 'CV wajib diunggah untuk pemohon mahasiswa/siswa.',
+            'zero_fee_letter.required_if' => 'Surat permohonan Rp.0 wajib diunggah untuk pemohon mahasiswa/siswa.',
+            'identity_card.required' => 'KTP/Kartu identitas wajib diunggah.',
             '*.max' => 'Ukuran file maksimal 5MB.',
+            '*.mimes' => 'Format file tidak sesuai.',
         ]);
 
         // Handle file uploads

@@ -967,11 +967,16 @@ export default function CreateApplication() {
                             </>
                         ) : (
                             <>
-                                {/* For Other Application Types - Original Logic */}
-                                {/* Proposal */}
+                                {/* For Other Application Types (magang, pkl, penelitian, etc.) */}
+
+                                {/* 1. Proposal - Wajib untuk penelitian/tugas_akhir, opsional untuk lainnya */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Proposal {data.application_type === 'penelitian' ? <span className="text-red-500">*</span> : '(Opsional)'}
+                                        Proposal{' '}
+                                        {['penelitian', 'tugas_akhir'].includes(data.application_type)
+                                            ? <span className="text-red-500">*</span>
+                                            : <span className="text-gray-400">(Opsional)</span>
+                                        }
                                     </label>
                                     {!data.proposal ? (
                                         <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
@@ -995,19 +1000,11 @@ export default function CreateApplication() {
                                             <div className="flex items-center gap-3">
                                                 <FileText className="h-5 w-5 text-green-600" />
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900">
-                                                        {data.proposal.name}
-                                                    </p>
-                                                    <p className="text-xs text-gray-600">
-                                                        {getFileSize(data.proposal.size)}
-                                                    </p>
+                                                    <p className="text-sm font-medium text-gray-900">{data.proposal.name}</p>
+                                                    <p className="text-xs text-gray-600">{getFileSize(data.proposal.size)}</p>
                                                 </div>
                                             </div>
-                                            <button
-                                                type="button"
-                                                onClick={() => removeFile('proposal')}
-                                                className="rounded-lg p-1 text-red-600 hover:bg-red-100"
-                                            >
+                                            <button type="button" onClick={() => removeFile('proposal')} className="rounded-lg p-1 text-red-600 hover:bg-red-100">
                                                 <X className="h-5 w-5" />
                                             </button>
                                         </div>
@@ -1015,18 +1012,16 @@ export default function CreateApplication() {
                                     {errors.proposal && <p className="mt-1 text-sm text-red-600">{errors.proposal}</p>}
                                 </div>
 
-                                {/* Surat Pengantar */}
+                                {/* 2. Surat Pengantar - WAJIB untuk semua */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Surat Pengantar <span className="text-red-500">*</span>
+                                        Surat Pengantar dari Institusi <span className="text-red-500">*</span>
                                     </label>
                                     {!data.recommendation_letter ? (
                                         <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
                                             <Upload className="h-5 w-5 text-gray-400" />
                                             <div>
-                                                <p className="text-sm font-medium text-gray-700">
-                                                    Klik untuk upload surat pengantar
-                                                </p>
+                                                <p className="text-sm font-medium text-gray-700">Klik untuk upload surat pengantar</p>
                                                 <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
                                             </div>
                                             <input
@@ -1042,19 +1037,11 @@ export default function CreateApplication() {
                                             <div className="flex items-center gap-3">
                                                 <FileText className="h-5 w-5 text-green-600" />
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900">
-                                                        {data.recommendation_letter.name}
-                                                    </p>
-                                                    <p className="text-xs text-gray-600">
-                                                        {getFileSize(data.recommendation_letter.size)}
-                                                    </p>
+                                                    <p className="text-sm font-medium text-gray-900">{data.recommendation_letter.name}</p>
+                                                    <p className="text-xs text-gray-600">{getFileSize(data.recommendation_letter.size)}</p>
                                                 </div>
                                             </div>
-                                            <button
-                                                type="button"
-                                                onClick={() => removeFile('recommendation_letter')}
-                                                className="rounded-lg p-1 text-red-600 hover:bg-red-100"
-                                            >
+                                            <button type="button" onClick={() => removeFile('recommendation_letter')} className="rounded-lg p-1 text-red-600 hover:bg-red-100">
                                                 <X className="h-5 w-5" />
                                             </button>
                                         </div>
@@ -1062,23 +1049,23 @@ export default function CreateApplication() {
                                     {errors.recommendation_letter && <p className="mt-1 text-sm text-red-600">{errors.recommendation_letter}</p>}
                                 </div>
 
-                                {/* CV (Optional) */}
+                                {/* 3. KTP / Kartu Identitas - WAJIB untuk semua */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Curriculum Vitae (Opsional)
+                                        KTP / Kartu Identitas <span className="text-red-500">*</span>
                                     </label>
-                                    {!data.cv ? (
+                                    {!data.identity_card ? (
                                         <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
                                             <Upload className="h-5 w-5 text-gray-400" />
                                             <div>
-                                                <p className="text-sm font-medium text-gray-700">Klik untuk upload CV</p>
-                                                <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
+                                                <p className="text-sm font-medium text-gray-700">Klik untuk upload KTP</p>
+                                                <p className="text-xs text-gray-500">PDF, JPG, PNG (Max 5MB)</p>
                                             </div>
                                             <input
-                                                id="cv"
+                                                id="identity_card"
                                                 type="file"
-                                                accept=".pdf"
-                                                onChange={(e) => handleFileChange('cv', e)}
+                                                accept=".pdf,.jpg,.jpeg,.png"
+                                                onChange={(e) => handleFileChange('identity_card', e)}
                                                 className="sr-only"
                                             />
                                         </label>
@@ -1087,25 +1074,95 @@ export default function CreateApplication() {
                                             <div className="flex items-center gap-3">
                                                 <FileText className="h-5 w-5 text-green-600" />
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900">
-                                                        {data.cv.name}
-                                                    </p>
-                                                    <p className="text-xs text-gray-600">
-                                                        {getFileSize(data.cv.size)}
-                                                    </p>
+                                                    <p className="text-sm font-medium text-gray-900">{data.identity_card.name}</p>
+                                                    <p className="text-xs text-gray-600">{getFileSize(data.identity_card.size)}</p>
                                                 </div>
                                             </div>
-                                            <button
-                                                type="button"
-                                                onClick={() => removeFile('cv')}
-                                                className="rounded-lg p-1 text-red-600 hover:bg-red-100"
-                                            >
+                                            <button type="button" onClick={() => removeFile('identity_card')} className="rounded-lg p-1 text-red-600 hover:bg-red-100">
                                                 <X className="h-5 w-5" />
                                             </button>
                                         </div>
                                     )}
-                                    {errors.cv && <p className="mt-1 text-sm text-red-600">{errors.cv}</p>}
+                                    {errors.identity_card && <p className="mt-1 text-sm text-red-600">{errors.identity_card}</p>}
                                 </div>
+
+                                {/* 4. CV / KTM - Wajib untuk mahasiswa */}
+                                {data.applicant_type === 'student' && (
+                                    <div>
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            CV / Kartu Tanda Mahasiswa (KTM) <span className="text-red-500">*</span>
+                                        </label>
+                                        {!data.cv ? (
+                                            <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                                <Upload className="h-5 w-5 text-gray-400" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-700">Klik untuk upload CV / KTM</p>
+                                                    <p className="text-xs text-gray-500">PDF, JPG, PNG (Max 5MB)</p>
+                                                </div>
+                                                <input
+                                                    id="cv"
+                                                    type="file"
+                                                    accept=".pdf,.jpg,.jpeg,.png"
+                                                    onChange={(e) => handleFileChange('cv', e)}
+                                                    className="sr-only"
+                                                />
+                                            </label>
+                                        ) : (
+                                            <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                                <div className="flex items-center gap-3">
+                                                    <FileText className="h-5 w-5 text-green-600" />
+                                                    <div>
+                                                        <p className="text-sm font-medium text-gray-900">{data.cv.name}</p>
+                                                        <p className="text-xs text-gray-600">{getFileSize(data.cv.size)}</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button" onClick={() => removeFile('cv')} className="rounded-lg p-1 text-red-600 hover:bg-red-100">
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            </div>
+                                        )}
+                                        {errors.cv && <p className="mt-1 text-sm text-red-600">{errors.cv}</p>}
+                                    </div>
+                                )}
+
+                                {/* 5. Transcript (Opsional) */}
+                                {data.applicant_type === 'student' && (
+                                    <div>
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            Transkrip Nilai <span className="text-gray-400">(Opsional)</span>
+                                        </label>
+                                        {!data.transcript ? (
+                                            <label className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition hover:border-blue-500 hover:bg-blue-50">
+                                                <Upload className="h-5 w-5 text-gray-400" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-700">Klik untuk upload transkrip</p>
+                                                    <p className="text-xs text-gray-500">PDF (Max 5MB)</p>
+                                                </div>
+                                                <input
+                                                    id="transcript"
+                                                    type="file"
+                                                    accept=".pdf"
+                                                    onChange={(e) => handleFileChange('transcript', e)}
+                                                    className="sr-only"
+                                                />
+                                            </label>
+                                        ) : (
+                                            <div className="flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-3">
+                                                <div className="flex items-center gap-3">
+                                                    <FileText className="h-5 w-5 text-green-600" />
+                                                    <div>
+                                                        <p className="text-sm font-medium text-gray-900">{data.transcript.name}</p>
+                                                        <p className="text-xs text-gray-600">{getFileSize(data.transcript.size)}</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button" onClick={() => removeFile('transcript')} className="rounded-lg p-1 text-red-600 hover:bg-red-100">
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            </div>
+                                        )}
+                                        {errors.transcript && <p className="mt-1 text-sm text-red-600">{errors.transcript}</p>}
+                                    </div>
+                                )}
                             </>
                         )}
                     </div>
