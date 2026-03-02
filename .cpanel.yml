@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/iklj4148/repositories/Si-Stasuin-Klimatologi-Kelas-1-Sumatera-Utara/
+    - /bin/cp -R * $DEPLOYPATH
