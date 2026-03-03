@@ -92,7 +92,7 @@ export default function Welcome({ auth, latestNews = [] }) {
                                                             Prakiraan Hujan Bulanan
                                                         </Link>
                                                         <Link href={route('informasi-iklim.prakiraan-ketersediaan-air')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                                            Prakiraan Ketersediaan Air Tawar
+                                                            Ketersediaan Air Bagi Tanaman
                                                         </Link>
                                                         <Link href={route('informasi-iklim.spi')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">
                                                             SPI (Standardized Precipitation Index)

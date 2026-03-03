@@ -131,8 +131,8 @@ class InformasiIklimController extends Controller
         return Inertia::render('InformasiIklim/ClimateInfoContent', [
             'contents' => $this->getContentBySection('prakiraan-ketersediaan-air'),
             'section' => 'prakiraan-ketersediaan-air',
-            'title' => 'Prakiraan Ketersediaan Air Tawar',
-            'subtitle' => 'Prakiraan ketersediaan air tawar berdasarkan kondisi curah hujan dan iklim wilayah Sumatera Utara.',
+            'title' => 'Ketersediaan Air Bagi Tanaman',
+            'subtitle' => 'Ketersediaan air bagi tanaman berdasarkan kondisi curah hujan dan iklim wilayah Sumatera Utara.',
             'infoType' => 'Bulanan',
         ]);
     }

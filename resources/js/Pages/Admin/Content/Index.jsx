@@ -27,7 +27,7 @@ export default function ContentIndex({ auth, section, contents }) {
         { id: 'prakiraan-rawan-banjir-dasarian', label: 'Rawan Banjir (Dasarian)' },
         { id: 'analisis-hujan-bulanan', label: 'Analisis Hujan Bulanan' },
         { id: 'prakiraan-hujan-bulanan', label: 'Prakiraan Hujan Bulanan' },
-        { id: 'prakiraan-ketersediaan-air', label: 'Ketersediaan Air Tawar' },
+        { id: 'prakiraan-ketersediaan-air', label: 'Ketersediaan Air Bagi Tanaman' },
         { id: 'spi', label: 'SPI' },
         { id: 'kualitas-udara-pm25', label: 'Kualitas Udara PM 2.5' },
         { id: 'kualitas-udara-grk', label: 'Gas Rumah Kaca' },

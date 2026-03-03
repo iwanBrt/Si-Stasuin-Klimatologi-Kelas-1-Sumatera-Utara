@@ -62,7 +62,7 @@ export default function Navbar({ auth }) {
                                             <div className="p-2 flex flex-col gap-1">
                                                 <Link href={route('informasi-iklim.analisis-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Analisis Hujan Bulanan</Link>
                                                 <Link href={route('informasi-iklim.prakiraan-hujan-bulanan')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Hujan Bulanan</Link>
-                                                <Link href={route('informasi-iklim.prakiraan-ketersediaan-air')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Prakiraan Ketersediaan Air Tawar</Link>
+                                                <Link href={route('informasi-iklim.prakiraan-ketersediaan-air')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Ketersediaan Air Bagi Tanaman</Link>
                                                 <Link href={route('informasi-iklim.spi')} className="block px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">SPI (Standardized Precipitation Index)</Link>
                                             </div>
                                         </div>
