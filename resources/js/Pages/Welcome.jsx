@@ -1,11 +1,22 @@
-﻿import { Head, Link } from '@inertiajs/react';
-import { Calendar, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
+import { Head, Link } from '@inertiajs/react';
+import { Calendar, Mail, MapPin, Phone, Newspaper, ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from 'lucide-react';
 
 import EarthquakeSection from '@/Components/EarthquakeSection';
 import WeatherWarningSection from '@/Components/WeatherWarningSection';
 import WeatherCardGrid from '@/Components/WeatherCardGrid';
 
 export default function Welcome({ auth, latestNews = [] }) {
+    const [showingMobileMenu, setShowingMobileMenu] = useState(false);
+    const [expandedMenu, setExpandedMenu] = useState(null);
+
+    const toggleSubMenu = (menuName) => {
+        if (expandedMenu === menuName) {
+            setExpandedMenu(null);
+        } else {
+            setExpandedMenu(menuName);
+        }
+    };
 
     return (
         <>
@@ -221,8 +232,8 @@ export default function Welcome({ auth, latestNews = [] }) {
                                 </div>
                             </div>
 
-                            {/* Auth Buttons - Adjusted positioning */}
-                            <div className="flex items-center gap-2 flex-shrink-0">
+                            {/* Auth Buttons & Logo (Desktop) */}
+                            <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
                                 {auth.user ? (
                                     <Link
                                         href={route('dashboard')}
@@ -253,9 +264,191 @@ export default function Welcome({ auth, latestNews = [] }) {
                                     className="h-10 w-auto object-contain flex-shrink-0"
                                 />
                             </div>
+
+                            {/* Mobile Logo Ahlak & Menu Button */}
+                            <div className="flex lg:hidden flex-shrink-0 ml-2 items-center gap-2">
+                                <img
+                                    src="/assets/ahlak.jpeg"
+                                    alt="Logo Ahlak BMKG"
+                                    className="h-8 w-auto object-contain"
+                                />
+                                <button
+                                    onClick={() => setShowingMobileMenu(!showingMobileMenu)}
+                                    className="p-2 text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors"
+                                >
+                                    {showingMobileMenu ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                                </button>
+                            </div>
                         </div>
+
+                        {/* Mobile Navigation Menu */}
+                        {showingMobileMenu && (
+                            <div className="lg:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-200 shadow-xl overflow-y-auto max-h-[calc(100vh-5rem)]">
+                                <div className="px-4 py-6 flex flex-col gap-4 max-w-sm mx-auto">
+                                    {/* Informasi Iklim (Mobile) */}
+                                    <div className="flex flex-col border-b border-gray-100 pb-2">
+                                        <button 
+                                            onClick={() => toggleSubMenu('informasi-iklim')}
+                                            className="flex items-center justify-between font-semibold text-gray-800 py-2 hover:text-blue-600 transition-colors"
+                                        >
+                                            Informasi Iklim
+                                            <ChevronDown className={`h-4 w-4 transition-transform ${expandedMenu === 'informasi-iklim' ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {expandedMenu === 'informasi-iklim' && (
+                                            <div className="flex flex-col pl-4 gap-2 mt-2">
+                                                <Link href={route('informasi-iklim.curah-hujan-harian')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Harian</Link>
+                                                <div className="font-medium text-gray-700 mt-2 mb-1">Dasarian</div>
+                                                <div className="flex flex-col pl-4 gap-2 border-l-2 border-gray-100">
+                                                    <Link href={route('informasi-iklim.prospek-iklim-dasarian')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Prospek Iklim Dasarian</Link>
+                                                    <Link href={route('informasi-iklim.analisis-hari-tanpa-hujan')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Analisis Hari Tanpa Hujan</Link>
+                                                    <Link href={route('informasi-iklim.analisis-curah-hujan-dasarian')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Analisis Curah Hujan</Link>
+                                                    <Link href={route('informasi-iklim.prakiraan-curah-hujan-dasarian')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Prakiraan Curah Hujan</Link>
+                                                    <Link href={route('informasi-iklim.probabilitas-curah-hujan-dasarian')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Probabilitas Curah Hujan</Link>
+                                                    <Link href={route('informasi-iklim.prakiraan-rawan-banjir-dasarian')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Prakiraan Daerah Potensi Rawan Banjir</Link>
+                                                </div>
+                                                <div className="font-medium text-gray-700 mt-2 mb-1">Bulanan</div>
+                                                <div className="flex flex-col pl-4 gap-2 border-l-2 border-gray-100">
+                                                    <Link href={route('informasi-iklim.analisis-hujan-bulanan')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Analisis Hujan Bulanan</Link>
+                                                    <Link href={route('informasi-iklim.prakiraan-hujan-bulanan')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Prakiraan Hujan Bulanan</Link>
+                                                    <Link href={route('informasi-iklim.prakiraan-ketersediaan-air')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Ketersediaan Air Bagi Tanaman</Link>
+                                                    <Link href={route('informasi-iklim.spi')} className="text-sm text-gray-600 hover:text-blue-600 py-1">SPI (Standardized Precipitation Index)</Link>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Profil (Mobile) */}
+                                    <div className="flex flex-col border-b border-gray-100 pb-2">
+                                        <button 
+                                            onClick={() => toggleSubMenu('profil')}
+                                            className="flex items-center justify-between font-semibold text-gray-800 py-2 hover:text-blue-600 transition-colors"
+                                        >
+                                            Profil
+                                            <ChevronDown className={`h-4 w-4 transition-transform ${expandedMenu === 'profil' ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {expandedMenu === 'profil' && (
+                                            <div className="flex flex-col pl-4 gap-2 mt-2">
+                                                <Link href={route('profile.tentang-kami')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Tentang Kami</Link>
+                                                <Link href={route('profile.sejarah-visi-misi')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Sejarah, Visi & Misi</Link>
+                                                <Link href={route('profile.staklim-sumut')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Staklim Sumut</Link>
+                                                <Link href={route('profile.tim-kami')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Tim Kami</Link>
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    {/* Layanan (Mobile) */}
+                                    <div className="border-b border-gray-100 pb-2">
+                                        <Link href={route('layanan')} className="block font-semibold text-gray-800 py-2 hover:text-blue-600 transition-colors">
+                                            Layanan
+                                        </Link>
+                                    </div>
+
+                                    {/* Kualitas Udara (Mobile) */}
+                                    <div className="flex flex-col border-b border-gray-100 pb-2">
+                                        <button 
+                                            onClick={() => toggleSubMenu('kualitas-udara')}
+                                            className="flex items-center justify-between font-semibold text-gray-800 py-2 hover:text-blue-600 transition-colors"
+                                        >
+                                            Kualitas Udara
+                                            <ChevronDown className={`h-4 w-4 transition-transform ${expandedMenu === 'kualitas-udara' ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {expandedMenu === 'kualitas-udara' && (
+                                            <div className="flex flex-col pl-4 gap-2 mt-2">
+                                                <Link href={route('kualitas-udara.kimia-air-hujan')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Kimia Air Hujan</Link>
+                                                <Link href={route('kualitas-udara.pm25')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Kualitas Udara (PM 2.5)</Link>
+                                                <Link href={route('kualitas-udara.gas-rumah-kaca')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Gas Rumah Kaca</Link>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Normal Iklim (Mobile) */}
+                                    <div className="flex flex-col border-b border-gray-100 pb-2">
+                                        <button 
+                                            onClick={() => toggleSubMenu('normal-iklim')}
+                                            className="flex items-center justify-between font-semibold text-gray-800 py-2 hover:text-blue-600 transition-colors"
+                                        >
+                                            Normal Iklim
+                                            <ChevronDown className={`h-4 w-4 transition-transform ${expandedMenu === 'normal-iklim' ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {expandedMenu === 'normal-iklim' && (
+                                            <div className="flex flex-col pl-4 gap-2 mt-2">
+                                                <Link href={route('normal-iklim.normal-hujan-bulanan')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Normal Hujan Bulanan</Link>
+                                                <Link href={route('normal-iklim.peta-zona-musim')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Peta Zona Musim (ZOM)</Link>
+                                                <Link href={route('normal-iklim.schmidt-fergusson')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Peta Iklim Schmidt Fergusson</Link>
+                                                <Link href={route('normal-iklim.oldeman')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Peta Iklim Oldeman</Link>
+                                                <Link href={route('normal-iklim.suhu-maksimum')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Normal Suhu Maksimum</Link>
+                                                <Link href={route('normal-iklim.suhu-minimum')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Normal Suhu Minimum</Link>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Kebakaran Hutan (Mobile) */}
+                                    <div className="flex flex-col border-b border-gray-100 pb-2">
+                                        <button 
+                                            onClick={() => toggleSubMenu('kebakaran-hutan')}
+                                            className="flex items-center justify-between font-semibold text-gray-800 py-2 hover:text-blue-600 transition-colors"
+                                        >
+                                            Kebakaran Hutan
+                                            <ChevronDown className={`h-4 w-4 transition-transform ${expandedMenu === 'kebakaran-hutan' ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {expandedMenu === 'kebakaran-hutan' && (
+                                            <div className="flex flex-col pl-4 gap-2 mt-2">
+                                                <Link href={route('kebakaran-hutan.fwi')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Fire Weather Index</Link>
+                                                <Link href={route('kebakaran-hutan.ffmc')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Fine Fuel Moisture Code</Link>
+                                                <Link href={route('kebakaran-hutan.hotspot')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Sebaran Titik Panas</Link>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Publikasi (Mobile) */}
+                                    <div className="flex flex-col border-b border-gray-100 pb-2">
+                                        <button 
+                                            onClick={() => toggleSubMenu('publikasi')}
+                                            className="flex items-center justify-between font-semibold text-gray-800 py-2 hover:text-blue-600 transition-colors"
+                                        >
+                                            Publikasi
+                                            <ChevronDown className={`h-4 w-4 transition-transform ${expandedMenu === 'publikasi' ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {expandedMenu === 'publikasi' && (
+                                            <div className="flex flex-col pl-4 gap-2 mt-2">
+                                                <Link href={route('publikasi.buletin-musim')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Buletin Prakiraan Musim</Link>
+                                                <Link href={route('publikasi.buletin-bulanan')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Buletin Info Iklim Bulanan</Link>
+                                                <Link href={route('publikasi.buku-saku')} className="text-sm text-gray-600 hover:text-blue-600 py-1">Buku Saku MKKuG</Link>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Mobile Auth Buttons */}
+                                    <div className="mt-4 flex flex-col gap-3">
+                                        {auth.user ? (
+                                            <Link
+                                                href={route('dashboard')}
+                                                className="w-full text-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg"
+                                            >
+                                                Dashboard
+                                            </Link>
+                                        ) : (
+                                            <>
+                                                <Link
+                                                    href={route('login')}
+                                                    className="w-full text-center rounded-xl border-2 border-blue-600 px-4 py-2.5 text-sm font-semibold text-blue-600 transition-all hover:bg-blue-50"
+                                                >
+                                                    Masuk
+                                                </Link>
+                                                <Link
+                                                    href={route('register')}
+                                                    className="w-full text-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg"
+                                                >
+                                                    Daftar
+                                                </Link>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                </nav >
+                </nav>
 
                 {/* Hero Section */}
                 <section className="relative overflow-hidden py-28 md:py-36 min-h-[480px] md:min-h-[540px] flex items-center" aria-labelledby="hero-heading">
